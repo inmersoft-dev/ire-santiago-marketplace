@@ -1,0 +1,206 @@
+{
+  "es": {
+    "Title": "Lista de Menús",
+    "Tooltips": {
+      "ToLogin": "Iniciar sesión",
+      "ToSettings": "Ajustes",
+      "ToLogout": "Cerrar sesión",
+      "ToTop": "Ir arriba",
+      "RegisterNewUser": "Registrar nuevo usuario"
+    },
+    "NotFound": {
+      "Title": "404 No encontrado",
+      "Description": "La página que buscas no se encuentra o ha sido eliminada",
+      "Link": "Retornar al inicio"
+    },
+    "Errors": {
+      "NotConnected": "No tienes conexión con el servidor",
+      "NoProducts": "No hay productos",
+      "NoMenu": "No hay catálogos",
+      "UsernameTaken": "Nombre de usuario en uso",
+      "MenuNameTaken": "Nombre de menú en uso",
+      "InvalidMenuName": "Nombre del menú inválido, solo se permiten letras y números",
+      "SomeWrong": "Ha ocurrido un error",
+      "Wrong": "Usuario o contraseña incorrecta",
+      "NameRequired": "Debes introducir un nombre",
+      "PriceRequired": "Debes introducir un precio",
+      "TypeRequired": "Debes introducir una categoría",
+      "DescriptionRequired": "Debes introducir una descripción",
+      "PasswordLengthValidation": "La contraseña debe tener al menos 8 caracteres y no debe pasar de 12 caracteres",
+      "PasswordCharacterValidation": "La contraseña debe tener al menos una letra mayúscula, una minúscula y un número",
+      "PasswordNameValidation": "La contraseña no debe contener el nombre de usuario",
+      "NoEmptyPassword": "La contraseña no puede estar vacía",
+      "DifferentPassword": "Las contraseñas no coinciden"
+    },
+    "Messages": {
+      "LoginSuccessful": "Inicio de sesión correctamente",
+      "RegisterSuccessful": "Usuario creado correctamente",
+      "SaveSuccessful": "Guardado correctamente"
+    },
+    "Register": {
+      "Title": "Registro"
+    },
+    "Settings": {
+      "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
+      "Title": "Ajustes",
+      "Qr": "Código Qr del menú",
+      "ShowLogoOnQr": "Mostrar logo en el qr",
+      "Inputs": {
+        "CenterTypes": {
+          "Label": "Tipo de negocio",
+          "Placeholder": "Bar",
+          "Types": [
+            {
+              "id": 2,
+              "name": "Casa Antigua"
+            },
+            {
+              "id": 3,
+              "name": "Restaurante"
+            },
+            {
+              "id": 4,
+              "name": "Casa de Renta"
+            },
+            {
+              "id": 5,
+              "name": "Bar"
+            },
+            {
+              "id": 7,
+              "name": "Cafetería"
+            },
+            {
+              "id": 9,
+              "name": "Gimnasios"
+            },
+            {
+              "id": 10,
+              "name": "Arte"
+            },
+            {
+              "id": 11,
+              "name": "Museo"
+            },
+            {
+              "id": 12,
+              "name": "Biblioteca"
+            },
+            {
+              "id": 13,
+              "name": "Vida nocturna"
+            },
+            {
+              "id": 14,
+              "name": "Supermercado"
+            },
+            {
+              "id": 15,
+              "name": "Centro comercial"
+            },
+            {
+              "id": 16,
+              "name": "Belleza"
+            },
+            {
+              "id": 17,
+              "name": "Electrónica"
+            },
+            {
+              "id": 18,
+              "name": "Ropa"
+            },
+            {
+              "id": 19,
+              "name": "Hotel"
+            },
+            {
+              "id": 20,
+              "name": "Gasolinera"
+            },
+            {
+              "id": 21,
+              "name": "Alquiler de coches"
+            }
+          ]
+        },
+        "Menu": {
+          "Label": "Nombre del centro",
+          "Placeholder": "ej: El Rincón dulce"
+        },
+        "Description": {
+          "Label": "Descripción del centro",
+          "Placeholder": "Alguna descripción"
+        }
+      }
+    },
+    "Insert": {
+      "Title": "Crea tu menú",
+      "Categories": "Crea nuevos productos para filtrar por categorías",
+      "Inputs": {
+        "Product": {
+          "Label": "Nombre del producto",
+          "Placeholder": "ej: Vino rojo"
+        },
+        "Description": {
+          "Label": "Descripción del producto",
+          "Placeholder": "Alguna descripción"
+        },
+        "Price": {
+          "Label": "Precio",
+          "Placeholder": "ej 100"
+        },
+        "Type": {
+          "Add": "Añadir",
+          "Label": "Categoría",
+          "Placeholder": "ej: Bebidas"
+        }
+      },
+      "Buttons": {
+        "Retry": "Recargar",
+        "Insert": "Nuevo Producto",
+        "Save": "Guardar",
+        "Edit": "Editar mi menú"
+      }
+    },
+    "Login": {
+      "Title": "Iniciar sesión",
+      "Inputs": {
+        "User": {
+          "Label": "Usuario",
+          "Placeholder": "ej: tusuario"
+        },
+        "Password": {
+          "Label": "Contraseña",
+          "Placeholder": "ej: *********"
+        },
+        "RPassword": {
+          "Label": "Confirmar contraseña",
+          "Placeholder": "ej: *********"
+        }
+      },
+      "Remember": "Recordarme",
+      "Buttons": {
+        "Login": "Iniciar sesión",
+        "Register": "Registrar"
+      }
+    },
+    "Inputs": [
+      {
+        "id": "title",
+        "type": "text",
+        "label": "Título",
+        "placeholder": "ej: Mi nota"
+      },
+      {
+        "id": "content",
+        "type": "text",
+        "label": "Contenido",
+        "placeholder": "Escribe aquí...",
+        "multiline": true,
+        "minRows": 4,
+        "maxRows": 4
+      }
+    ]
+  }
+}
