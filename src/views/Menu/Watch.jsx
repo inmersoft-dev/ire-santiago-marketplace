@@ -5,10 +5,43 @@ import { useLocation } from "react-router-dom";
 import inViewport from "in-viewport";
 
 // @mui components
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Tooltip,
+  IconButton,
+  Typography,
+  Link as MUILink,
+} from "@mui/material";
 
 // @mui/icons-material
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+// url
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import PublicIcon from "@mui/icons-material/Public";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import PinterestIcon from "@mui/icons-material/Pinterest";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+// places
+import BalconyIcon from "@mui/icons-material/Balcony"; // old house
+import RestaurantIcon from "@mui/icons-material/Restaurant"; // restaurant
+import BedroomParentIcon from "@mui/icons-material/BedroomParent"; // rent house
+import LocalBarIcon from "@mui/icons-material/LocalBar"; // bar
+import DiningIcon from "@mui/icons-material/Dining"; // cafeteria
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"; // gym
+import ColorLensIcon from "@mui/icons-material/ColorLens"; // art
+import MuseumIcon from "@mui/icons-material/Museum"; // museum
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary"; // library
+import NightlifeIcon from "@mui/icons-material/Nightlife"; // night life
+import LocalMallIcon from "@mui/icons-material/LocalMall"; // mall
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore"; // shop
+import UmbrellaIcon from "@mui/icons-material/Umbrella"; // beauty
+import BoltIcon from "@mui/icons-material/Bolt"; // electronic
+import CheckroomIcon from "@mui/icons-material/Checkroom"; // cloth
+import HotelIcon from "@mui/icons-material/Hotel"; // hotel
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"; // fuel
+import CarRentalIcon from "@mui/icons-material/CarRental"; // car rental
 
 // sito components
 import SitoContainer from "sito-container";
@@ -28,6 +61,7 @@ import InViewComponent from "../../components/InViewComponent/InViewComponent";
 import { fetchMenu } from "../../services/menu.js";
 
 // contexts
+import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // components
@@ -54,9 +88,41 @@ import {
   mainWindow,
 } from "../../assets/styles/styles";
 
+const socialMediaIcons = {
+  any: <PublicIcon fontSize="large" />,
+  facebook: <FacebookIcon fontSize="large" />,
+  instagram: <InstagramIcon fontSize="large" />,
+  twitter: <TwitterIcon fontSize="large" />,
+  linkedIn: <LinkedInIcon fontSize="large" />,
+  pinterest: <PinterestIcon fontSize="large" />,
+  youtube: <YouTubeIcon fontSize="large" />,
+};
+
+const placeTypeIcons = {
+  oldHouse: <BalconyIcon fontSize="small" />,
+  restaurant: <RestaurantIcon fontSize="small" />,
+  rentHouse: <BedroomParentIcon fontSize="small" />,
+  bar: <LocalBarIcon fontSize="small" />,
+  cafeteria: <DiningIcon fontSize="small" />,
+  gym: <FitnessCenterIcon fontSize="small" />,
+  art: <ColorLensIcon fontSize="small" />,
+  museum: <MuseumIcon fontSize="small" />,
+  library: <LocalLibraryIcon fontSize="small" />,
+  nightLife: <NightlifeIcon fontSize="small" />,
+  mall: <LocalMallIcon fontSize="small" />,
+  shop: <LocalGroceryStoreIcon fontSize="small" />,
+  beauty: <UmbrellaIcon fontSize="small" />,
+  electronic: <BoltIcon fontSize="small" />,
+  cloth: <CheckroomIcon fontSize="small" />,
+  hotel: <HotelIcon fontSize="small" />,
+  fuel: <LocalGasStationIcon fontSize="small" />,
+  carRental: <CarRentalIcon fontSize="small" />,
+};
+
 const Watch = () => {
   const location = useLocation();
 
+  const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
   const typesReducer = (typesStates, action) => {
@@ -112,6 +178,9 @@ const Watch = () => {
   const [error, setError] = useState(false);
   const [currentMenu, setCurrentMenu] = useState("");
   const [menu, setMenu] = useState("");
+  const [phone, setPhone] = useState("");
+  const [socialMedia, setSocialMedia] = useState([]);
+  const [business, setBusiness] = useState([]);
   const [photo, setPhoto] = useState("");
   const [description, setDescription] = useState("");
 
@@ -124,8 +193,12 @@ const Watch = () => {
       const data = await response.data;
       if (data) {
         if (data.photo) setPhoto(data.photo.url);
+        console.log(data);
         setMenu(data.menu);
         setDescription(data.description);
+        setPhone(data.phone);
+        setBusiness(data.business);
+        setSocialMedia(data.socialMedia);
         setProductTypes({
           type: "set",
           newArray: data.types
@@ -247,13 +320,86 @@ const Watch = () => {
             </Box>
             <Typography
               variant="h3"
-              sx={{ fontWeight: "bold", fontSize: "1.5rem", margin: "10px 0" }}
+              sx={{ fontWeight: "bold", fontSize: "1.5rem", marginTop: "10px" }}
             >
               {menu}
             </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              {business.map((item) => (
+                <Tooltip key={item.url} title={item.name}>
+                  <MUILink
+                    href={`${process.env.PUBLIC_URL}/?type=${item.id}`}
+                    rel="noopener"
+                    target="_blank"
+                  >
+                    <IconButton color="primary">
+                      {
+                        placeTypeIcons[
+                          languageState.texts.Settings.Inputs.CenterTypes.Types.find(
+                            (jtem) => jtem.id === item.id
+                          ).icon
+                        ]
+                      }
+                    </IconButton>
+                  </MUILink>
+                </Tooltip>
+              ))}
+            </Box>
             <Typography variant="body1" sx={{ textAlign: "center" }}>
               {description}
             </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              {phone.length > 0 ? (
+                <InViewComponent delay="0.1s">
+                  <Tooltip
+                    title={
+                      languageState.texts.Settings.Inputs.Contact.SocialMedia
+                        .WhatsApp
+                    }
+                  >
+                    <MUILink
+                      href={`https://wa.me/${phone}`}
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      <IconButton color="primary">
+                        <WhatsAppIcon fontSize="large" />
+                      </IconButton>
+                    </MUILink>
+                  </Tooltip>
+                </InViewComponent>
+              ) : null}
+              {socialMedia.map((item, i) => (
+                <InViewComponent delay={`0.${2 + i * 2}s`} key={item.url}>
+                  <Tooltip
+                    title={
+                      languageState.texts.Settings.Inputs.Contact.SocialMedia
+                        .Icons[item.icon]
+                    }
+                  >
+                    <MUILink href={item.url} rel="noopener" target="_blank">
+                      <IconButton color="primary">
+                        {socialMediaIcons[item.icon]}
+                      </IconButton>
+                    </MUILink>
+                  </Tooltip>
+                </InViewComponent>
+              ))}
+            </Box>
           </Box>
           <TabView
             value={tab}

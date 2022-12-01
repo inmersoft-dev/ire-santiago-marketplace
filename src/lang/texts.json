@@ -66,75 +66,93 @@
           "Types": [
             {
               "id": 2,
-              "name": "Casa Antigua"
+              "name": "Casa Antigua",
+              "icon": "oldHouse"
             },
             {
               "id": 3,
-              "name": "Restaurante"
+              "name": "Restaurante",
+              "icon": "restaurant"
             },
             {
               "id": 4,
-              "name": "Casa de Renta"
+              "name": "Casa de Renta",
+              "icon": "rentHouse"
             },
             {
               "id": 5,
-              "name": "Bar"
+              "name": "Bar",
+              "icon": "bar"
             },
             {
               "id": 7,
-              "name": "Cafetería"
+              "name": "Cafetería",
+              "icon": "cafeteria"
             },
             {
               "id": 9,
-              "name": "Gimnasios"
+              "name": "Gimnasios",
+              "icon": "gym"
             },
             {
               "id": 10,
-              "name": "Arte"
+              "name": "Arte",
+              "icon": "art"
             },
             {
               "id": 11,
-              "name": "Museo"
+              "name": "Museo",
+              "icon": "museum"
             },
             {
               "id": 12,
-              "name": "Biblioteca"
+              "name": "Biblioteca",
+              "icon": "library"
             },
             {
               "id": 13,
-              "name": "Vida nocturna"
+              "name": "Vida nocturna",
+              "icon": "nightLife"
             },
             {
               "id": 14,
-              "name": "Supermercado"
+              "name": "Supermercado",
+              "icon": "mall"
             },
             {
               "id": 15,
-              "name": "Centro comercial"
+              "name": "Centro comercial",
+              "icon": "shop"
             },
             {
               "id": 16,
-              "name": "Belleza"
+              "name": "Belleza",
+              "icon": "beauty"
             },
             {
               "id": 17,
-              "name": "Electrónica"
+              "name": "Electrónica",
+              "icon": "electronic"
             },
             {
               "id": 18,
-              "name": "Ropa"
+              "name": "Ropa",
+              "icon": "cloth"
             },
             {
               "id": 19,
-              "name": "Hotel"
+              "name": "Hotel",
+              "icon": "hotel"
             },
             {
               "id": 20,
-              "name": "Gasolinera"
+              "name": "Gasolinera",
+              "icon": "fuel"
             },
             {
               "id": 21,
-              "name": "Alquiler de coches"
+              "name": "Alquiler de coches",
+              "icon": "carRental"
             }
           ]
         },
@@ -146,6 +164,7 @@
           "SocialMedia": {
             "Label": "Redes sociales",
             "Placeholder": "https://mi-red-social.com",
+            "WhatsApp": "Whatsapp",
             "Icons": {
               "any": "Sitio web",
               "facebook": "Facebook",
