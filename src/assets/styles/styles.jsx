@@ -5,7 +5,12 @@ export const loadingPhotoSpinner = {
   boxShadow: "1px 1px 15px -4px",
 };
 
-export const mainWindow = { width: "100vw", height: "100vh", padding: "25px" };
+export const mainWindow = {
+  width: { md: "800px", sm: "630px", xs: "100%" },
+  display: "flex",
+  minHeight: "100vh",
+  padding: "25px",
+};
 
 export const modal = {
   position: "fixed",

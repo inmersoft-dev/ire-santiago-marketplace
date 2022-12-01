@@ -1,7 +1,16 @@
 {
   "es": {
     "Navbar": {
-      "Search": "Buscar..."
+      "Search": "Buscar...",
+      "Filters": {
+        "Products": "Productos",
+        "Categories": "Categorias",
+        "Menus": "Catálogos"
+      },
+      "Models": {
+        "menus": "Lugares",
+        "products": "Productos"
+      }
     },
     "Title": "Lista de Menús",
     "Tooltips": {
@@ -19,6 +28,7 @@
     "Errors": {
       "NotConnected": "No tienes conexión con el servidor",
       "NoProducts": "No hay productos",
+      "NoResults": "No hay resultados",
       "NoMenu": "No hay catálogos",
       "UsernameTaken": "Nombre de usuario en uso",
       "MenuNameTaken": "Nombre de menú en uso",

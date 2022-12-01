@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import inViewport from "in-viewport";
 
 // @mui components
-import { useTheme, Paper, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -27,6 +27,9 @@ import { fetchMenu } from "../../services/menu.js";
 // contexts
 import { useNotification } from "../../context/NotificationProvider";
 
+// components
+import ProductCard from "../../components/ProductCard/ProductCard";
+
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
@@ -41,8 +44,6 @@ import {
   typeBoxCss,
   productImageBox,
   productImage,
-  productContentBox,
-  productDescriptionBox,
   headerBox,
   productList,
   mainContent,
@@ -50,7 +51,6 @@ import {
 } from "../../assets/styles/styles";
 
 const Watch = () => {
-  const theme = useTheme();
   const location = useLocation();
 
   const { setNotificationState } = useNotification();
@@ -270,66 +270,12 @@ const Watch = () => {
                               width: "100%",
                             }}
                           >
-                            <Paper
-                              id={`obj-${jtem.id}`}
-                              elevation={1}
-                              sx={{
-                                position: "relative",
-                                marginTop: "20px",
-                                width: { md: "800px", sm: "630px", xs: "100%" },
-                                padding: "1rem",
-                                borderRadius: "1rem",
-                                background: theme.palette.background.paper,
-                                alignItems: "center",
+                            <ProductCard
+                              onClick={() => {
+                                setVisible(true);
+                                setSelected(jtem);
                               }}
-                            >
-                              <Box
-                                sx={{ cursor: "pointer", display: "flex" }}
-                                onClick={() => {
-                                  setVisible(true);
-                                  setSelected(jtem);
-                                }}
-                              >
-                                <SitoContainer sx={{ marginRight: "20px" }}>
-                                  <Box sx={productImageBox}>
-                                    <SitoImage
-                                      src={
-                                        jtem.photo && jtem.photo.url !== ""
-                                          ? jtem.photo.url
-                                          : noProduct
-                                      }
-                                      alt={jtem.name}
-                                      sx={productImage}
-                                    />
-                                  </Box>
-                                </SitoContainer>
-                                <Box sx={productContentBox}>
-                                  <Typography
-                                    variant="h3"
-                                    sx={{
-                                      fontWeight: "bold",
-                                      fontSize: "1rem",
-                                    }}
-                                  >
-                                    {jtem.name}
-                                  </Typography>
-                                  <Box sx={productDescriptionBox}>
-                                    <Typography
-                                      variant="body1"
-                                      sx={{ textAlign: "justify" }}
-                                    >
-                                      {jtem.description}
-                                    </Typography>
-                                  </Box>
-                                  <Typography
-                                    variant="body2"
-                                    sx={{ fontWeight: "bold", width: "75%" }}
-                                  >
-                                    {jtem.price} CUP
-                                  </Typography>
-                                </Box>
-                              </Box>
-                            </Paper>
+                            />
                           </InViewComponent>
                         ))}
                     </Box>
