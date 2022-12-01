@@ -43,7 +43,9 @@ const App = () => {
   }, []);
 
   const fetch = async () => {
+    console.log("hola");
     const value = await validateBasicKey();
+
     if (!value) {
       logoutUser();
       setTimeout(() => {

@@ -17,6 +17,8 @@ export const saveProfile = async (
   user,
   oldName,
   menuName,
+  phone,
+  socialMedia,
   menuDescription,
   photo,
   business
@@ -24,7 +26,16 @@ export const saveProfile = async (
   const response = await axios.post(
     // @ts-ignore
     `${config.apiUrl}user/save`,
-    { user, oldName, menuName, menuDescription, photo, business },
+    {
+      user,
+      oldName,
+      menuName,
+      phone,
+      socialMedia,
+      menuDescription,
+      photo,
+      business,
+    },
     {
       headers: {
         ...getAuth,

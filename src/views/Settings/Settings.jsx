@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useReducer } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { QRCode } from "react-qrcode-logo";
@@ -21,19 +21,34 @@ import RegisterNewUser from "../../components/RegisterNewUser/RegisterNewUser";
 import { css } from "@emotion/css";
 
 // @mui icons
+import AddIcon from "@mui/icons-material/Add";
 import DownloadIcon from "@mui/icons-material/Download";
+import PublicIcon from "@mui/icons-material/Public";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import PinterestIcon from "@mui/icons-material/Pinterest";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 // @mui components
 import {
   useTheme,
-  Switch,
-  Paper,
   Box,
+  Chip,
+  Paper,
+  Switch,
   Button,
+  Select,
+  MenuItem,
   TextField,
   Typography,
-  FormControlLabel,
+  InputLabel,
+  FormControl,
   Autocomplete,
+  OutlinedInput,
+  InputAdornment,
+  FormControlLabel,
 } from "@mui/material";
 
 // contexts
@@ -60,11 +75,65 @@ const Settings = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const icons = {
+    any: <PublicIcon sx={{ marginRight: "5px" }} />,
+    facebook: <FacebookIcon sx={{ marginRight: "5px" }} />,
+    instagram: <InstagramIcon sx={{ marginRight: "5px" }} />,
+    twitter: <TwitterIcon sx={{ marginRight: "5px" }} />,
+    linkedIn: <LinkedInIcon sx={{ marginRight: "5px" }} />,
+    pinterest: <PinterestIcon sx={{ marginRight: "5px" }} />,
+    youtube: <YouTubeIcon sx={{ marginRight: "5px" }} />,
+  };
+
+  const preventDefault = (event) => event.preventDefault();
+
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
   const [oldName, setOldName] = useState("");
   const [menuNameError, setMenuNameError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+
+  const socialMediaReducer = (socialMediaState, action) => {
+    const { type } = action;
+    switch (type) {
+      case "set": {
+        const { newArray } = action;
+        return newArray;
+      }
+      case "add": {
+        const { newSocialMedia } = action;
+        return [...socialMediaState, newSocialMedia];
+      }
+      case "remove": {
+        const { index } = action;
+        const newArray = [...socialMediaState];
+        newArray.splice(index, 1);
+        return newArray;
+      }
+      default:
+        return [];
+    }
+  };
+
+  const [socialMedia, setSocialMedia] = useReducer(socialMediaReducer, []);
+
+  const [inputCurrentSocialMedia, setInputCurrentSocialMedia] = useState("");
+  const handleInputCurrentSocialMedia = (e) =>
+    setInputCurrentSocialMedia(e.target.value);
+
+  const [currentSocialMedia, setCurrentSocialMedia] = useState("any");
+  const handleSelectSocialMedia = (e) => setCurrentSocialMedia(e.target.value);
+
+  const addSocialMedia = useCallback(() => {
+    const newSocialMedia = {
+      url: inputCurrentSocialMedia,
+      icon: currentSocialMedia,
+    };
+    setInputCurrentSocialMedia("");
+    setCurrentSocialMedia("any");
+    setSocialMedia({ type: "add", newSocialMedia });
+  }, [currentSocialMedia, inputCurrentSocialMedia]);
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
@@ -108,7 +177,7 @@ const Settings = () => {
           setPhoto(data.photo);
           setPreview(data.photo.url);
         }
-        if (data.business) setTypes(data.types);
+        if (data.business) setTypes(data.business);
         setOldName(data.menu);
         reset({ menu: data.menu, description: data.description });
       }
@@ -133,6 +202,12 @@ const Settings = () => {
       e.target.focus();
       setOk(false);
       switch (id) {
+        case "phone":
+          setPhoneError(true);
+          return showNotification(
+            "error",
+            languageState.texts.Errors.PhoneRequired
+          );
         default:
           setMenuNameError(true);
           return showNotification(
@@ -145,13 +220,16 @@ const Settings = () => {
 
   const onSubmit = async (data) => {
     setMenuNameError(false);
+    setPhoneError(false);
     setLoading(true);
-    const { menu, description } = data;
+    const { menu, phone, description } = data;
     try {
       const response = await saveProfile(
         getUserName(),
         oldName,
         menu,
+        phone || "",
+        socialMedia || [],
         description || "",
         photo || "",
         types || []
@@ -164,6 +242,7 @@ const Settings = () => {
         setLoading(false);
         return true;
       } else {
+        console.log(response);
         const { error } = response.data;
         if (error.indexOf("menu") > -1) {
           setMenuNameError(true);
@@ -279,6 +358,7 @@ const Settings = () => {
             <Typography variant="h3">
               {languageState.texts.Settings.Title}
             </Typography>
+            {/* Image */}
             <SitoContainer
               sx={{ width: "100%", marginTop: "10px", flexWrap: "wrap" }}
               justifyContent="center"
@@ -337,6 +417,7 @@ const Settings = () => {
                 {languageState.texts.Settings.ImageSuggestion}
               </Typography>
             </SitoContainer>
+            {/* Menu name */}
             <SitoContainer sx={{ marginTop: "10px" }}>
               <Controller
                 name="menu"
@@ -359,6 +440,131 @@ const Settings = () => {
                 )}
               />
             </SitoContainer>
+            {/* Phone */}
+            <SitoContainer sx={{ marginTop: "10px" }}>
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    color={phoneError ? "error" : "primary"}
+                    sx={{ width: "100%", marginTop: "10px" }}
+                    id="phone"
+                    required
+                    type="phone"
+                    onInput={validate}
+                    onInvalid={invalidate}
+                    label={
+                      languageState.texts.Settings.Inputs.Contact.Phone.Label
+                    }
+                    placeholder={
+                      languageState.texts.Settings.Inputs.Contact.Phone
+                        .Placeholder
+                    }
+                    variant="outlined"
+                    {...field}
+                  />
+                )}
+              />
+            </SitoContainer>
+            <Box
+              sx={{
+                width: "100%",
+                marginTop: "20px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <FormControl sx={{ width: "180px" }}>
+                <InputLabel>
+                  {
+                    languageState.texts.Settings.Inputs.Contact.SocialMedia
+                      .Label
+                  }
+                </InputLabel>
+                <Select
+                  value={currentSocialMedia}
+                  label={
+                    languageState.texts.Settings.Inputs.Contact.SocialMedia
+                      .Label
+                  }
+                  sx={{ div: { display: "flex" } }}
+                  onChange={handleSelectSocialMedia}
+                >
+                  {Object.keys(icons).map((item) => (
+                    <MenuItem
+                      key={item}
+                      value={item}
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      {icons[item]} -{" "}
+                      {
+                        languageState.texts.Settings.Inputs.Contact.SocialMedia
+                          .Icons[item]
+                      }
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                sx={{
+                  flex: 1,
+                }}
+                variant="outlined"
+              >
+                <OutlinedInput
+                  id="search"
+                  value={inputCurrentSocialMedia}
+                  placeholder={
+                    languageState.texts.Settings.Inputs.Contact.SocialMedia
+                      .Placeholder
+                  }
+                  onChange={handleInputCurrentSocialMedia}
+                  type="url"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        aria-label="add social media"
+                        onClick={addSocialMedia}
+                        onMouseDown={preventDefault}
+                        edge="end"
+                        sx={{
+                          borderRadius: "100%",
+                          minWidth: 0,
+                          minHeight: 0,
+                          width: "30px",
+                        }}
+                      >
+                        <AddIcon fontSize="small" />
+                      </Button>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+                marginTop: "10px",
+                gap: "5px",
+              }}
+            >
+              {socialMedia.map((item, i) => (
+                <Chip
+                  sx={{ svg: { borderRadius: "100%" } }}
+                  key={item.url}
+                  avatar={icons[item.icon]}
+                  label={item.url}
+                  color="primary"
+                  onDelete={() => setSocialMedia({ type: "remove", index: i })}
+                />
+              ))}
+            </Box>
+            {/* Business */}
             <SitoContainer sx={{ width: "100%" }}>
               <Autocomplete
                 sx={{ marginTop: "20px", width: "100%" }}
@@ -379,13 +585,16 @@ const Settings = () => {
                       languageState.texts.Settings.Inputs.CenterTypes.Label
                     }
                     placeholder={
-                      languageState.texts.Settings.Inputs.CenterTypes
-                        .Placeholder
+                      types.length === 0
+                        ? languageState.texts.Settings.Inputs.CenterTypes
+                            .Placeholder
+                        : ""
                     }
                   />
                 )}
               />
             </SitoContainer>
+            {/* Description */}
             <SitoContainer sx={{ marginTop: "10px" }}>
               <Controller
                 name="description"

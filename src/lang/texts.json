@@ -37,6 +37,7 @@
       "Wrong": "Usuario o contraseña incorrecta",
       "NameRequired": "Debes introducir un nombre",
       "PriceRequired": "Debes introducir un precio",
+      "PhoneRequired": "Debes introducir un número celular",
       "TypeRequired": "Debes introducir una categoría",
       "DescriptionRequired": "Debes introducir una descripción",
       "PasswordLengthValidation": "La contraseña debe tener al menos 8 caracteres y no debe pasar de 12 caracteres",
@@ -136,6 +137,25 @@
               "name": "Alquiler de coches"
             }
           ]
+        },
+        "Contact": {
+          "Phone": {
+            "Label": "Teléfono",
+            "Placeholder": "ej: +53 56174215"
+          },
+          "SocialMedia": {
+            "Label": "Redes sociales",
+            "Placeholder": "https://mi-red-social.com",
+            "Icons": {
+              "any": "Sitio web",
+              "facebook": "Facebook",
+              "instagram": "Instagram",
+              "twitter": "Twitter",
+              "linkedIn": "LinkekIn",
+              "pinterest": "Pinterest",
+              "youtube": "Youtube"
+            }
+          }
         },
         "Menu": {
           "Label": "Nombre del centro",

@@ -7,6 +7,9 @@ import inViewport from "in-viewport";
 // @mui components
 import { Box, Typography } from "@mui/material";
 
+// @mui/icons-material
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+
 // sito components
 import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
