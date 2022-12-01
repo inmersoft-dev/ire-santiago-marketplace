@@ -37,7 +37,8 @@ import noProduct from "../../assets/images/no-product.webp";
 import { dashesToSpace } from "../../utils/functions";
 
 // utils
-import { scrollTo } from "../../utils/functions";
+import { parserAccents } from "../../utils/parser";
+import { scrollTo, spaceToDashes } from "../../utils/functions";
 
 // styles
 import {
@@ -194,6 +195,18 @@ const Watch = () => {
         else setNotFound(true);
       } else setNotFound(true);
     }
+    if (location.search) {
+      const queryParams = location.search.substring(1);
+      const [paramName, paramValue] = queryParams.split("=");
+      if (paramName && paramValue) {
+        setTimeout(() => {
+          console.log("hola");
+          const product = document.getElementById(`obj-${paramValue}`);
+          console.log(product);
+          if (product !== null) scrollTo(product.offsetTop);
+        }, 1000);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMenu, location]);
 
@@ -263,6 +276,9 @@ const Watch = () => {
                         .map((jtem) => (
                           <InViewComponent
                             key={jtem.id}
+                            id={`obj-${spaceToDashes(
+                              parserAccents(jtem.name)
+                            )}`}
                             delay={`0.${1 * (jtem.index + 1)}s`}
                             sx={{
                               display: "flex",
@@ -271,6 +287,7 @@ const Watch = () => {
                             }}
                           >
                             <ProductCard
+                              item={jtem}
                               onClick={() => {
                                 setVisible(true);
                                 setSelected(jtem);

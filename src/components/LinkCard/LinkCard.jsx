@@ -46,12 +46,33 @@ const LinkCard = (props) => {
         }}
       >
         <SitoContainer sx={{ marginRight: "20px" }}>
-          <Box sx={productImageBox}>
+          <Box sx={{ ...productImageBox, position: "relative" }}>
             <SitoImage
               src={item.photo && item.photo !== "" ? item.photo.url : noProduct}
               alt={item.menu}
               sx={productImage}
             />
+            {item.name && item.menu ? (
+              <Box
+                sx={{
+                  width: "50px",
+                  height: "50px",
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                }}
+              >
+                <SitoImage
+                  src={
+                    item.ownerPhoto && item.ownerPhoto !== ""
+                      ? item.ownerPhoto.url
+                      : noProduct
+                  }
+                  alt={item.menu}
+                  sx={productImage}
+                />
+              </Box>
+            ) : null}
           </Box>
         </SitoContainer>
         <Box sx={productContentBox}>
@@ -59,7 +80,8 @@ const LinkCard = (props) => {
             variant="h3"
             sx={{ fontWeight: "bold", fontSize: "1rem" }}
           >
-            {item.name}
+            {item.name || item.menu}{" "}
+            {item.name && item.menu ? `- ${item.menu}` : null}
           </Typography>
           <Box sx={productDescriptionBox}>
             <Typography variant="body1" sx={{ textAlign: "justify" }}>

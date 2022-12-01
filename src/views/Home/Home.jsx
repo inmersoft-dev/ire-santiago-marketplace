@@ -39,6 +39,7 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // utils
+import { parserAccents } from "../../utils/parser";
 import { spaceToDashes } from "../../utils/functions";
 import { getUserName, userLogged } from "../../utils/auth";
 
@@ -178,7 +179,7 @@ const Home = () => {
     } else {
       if (userLogged() && item.user === getUserName()) return "/menu/edit";
       return `/menu/${spaceToDashes(item.menu)}?product=${spaceToDashes(
-        item.name
+        parserAccents(item.name)
       )}`;
     }
   };

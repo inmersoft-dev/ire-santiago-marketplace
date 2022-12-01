@@ -21,11 +21,11 @@ import noProduct from "../../assets/images/no-product.webp";
 const ProductCard = (props) => {
   const theme = useTheme();
 
-  const { onClick, jtem } = props;
+  const { onClick, item } = props;
 
   return (
     <Paper
-      id={`obj-${jtem.id}`}
+      id={`obj-${item.id}`}
       elevation={1}
       sx={{
         position: "relative",
@@ -42,9 +42,9 @@ const ProductCard = (props) => {
           <Box sx={productImageBox}>
             <SitoImage
               src={
-                jtem.photo && jtem.photo.url !== "" ? jtem.photo.url : noProduct
+                item.photo && item.photo.url !== "" ? item.photo.url : noProduct
               }
-              alt={jtem.name}
+              alt={item.name}
               sx={productImage}
             />
           </Box>
@@ -57,15 +57,15 @@ const ProductCard = (props) => {
               fontSize: "1rem",
             }}
           >
-            {jtem.name}
+            {item.name}
           </Typography>
           <Box sx={productDescriptionBox}>
             <Typography variant="body1" sx={{ textAlign: "justify" }}>
-              {jtem.description}
+              {item.description}
             </Typography>
           </Box>
           <Typography variant="body2" sx={{ fontWeight: "bold", width: "75%" }}>
-            {jtem.price} CUP
+            {item.price} CUP
           </Typography>
         </Box>
       </Box>
@@ -75,7 +75,7 @@ const ProductCard = (props) => {
 
 ProductCard.propTypes = {
   onClick: PropTypes.func.isRequired,
-  jtem: PropTypes.shape({
+  item: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
     description: PropTypes.string,
