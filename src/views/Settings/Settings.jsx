@@ -549,7 +549,7 @@ const Settings = () => {
                 display: "flex",
                 alignItems: "center",
                 flexWrap: "wrap",
-                marginTop: "10px",
+                marginTop: socialMedia.length > 0 ? "10px" : 0,
                 gap: "5px",
               }}
             >
