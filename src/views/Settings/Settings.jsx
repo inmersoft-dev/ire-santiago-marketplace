@@ -778,7 +778,7 @@ const Settings = () => {
                   <QRCode
                     value={`${config.url}menu/${spaceToDashes(
                       getValues("menu")
-                    )}`} // here you should keep the link/value(string) for which you are generation promocode
+                    )}?visited=qr`} // here you should keep the link/value(string) for which you are generation promocode
                     size={256} // the dimension of the QR code (number)
                     logoImage={showLogoOnQr ? preview : ""} // URL of the logo you want to use, make sure it is a dynamic url
                     logoHeight={60}

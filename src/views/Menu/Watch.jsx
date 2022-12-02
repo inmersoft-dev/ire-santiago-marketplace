@@ -62,6 +62,11 @@ import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
+import {
+  sendQrCookie,
+  sendVisitCookie,
+  sendDescriptionCookie,
+} from "../../services/analytics";
 
 // contexts
 import { useMode } from "../../context/ModeProvider";
@@ -178,6 +183,11 @@ const Watch = () => {
 
   const [selected, setSelected] = useState({});
 
+  useEffect(() => {
+    console.log(selected);
+    sendDescriptionCookie(currentMenu, selected);
+  }, [selected]);
+
   const [visible, setVisible] = useState(false);
 
   const onModalClose = () => setVisible(false);
@@ -269,27 +279,49 @@ const Watch = () => {
     setLoading(-1);
   }, [notFound]);
 
+  const [qr, setQr] = useState(-1);
+
   useEffect(() => {
+    let menuName = "";
+    let thereIsQr = -1;
     if (location.pathname) {
       const splitPath = location.pathname.split("/");
       if (splitPath.length > 2) {
-        const menuName = location.pathname.split("/")[2];
+        menuName = location.pathname.split("/")[2];
         if (menuName) setCurrentMenu(menuName);
         else setNotFound(true);
       } else setNotFound(true);
     }
     if (location.search) {
       const queryParams = location.search.substring(1);
-      const [paramName, paramValue] = queryParams.split("=");
-      if (paramName && paramValue) {
-        setTimeout(() => {
-          const product = document.getElementById(`obj-${paramValue}`);
-          if (product !== null) scrollTo(product.offsetTop);
-        }, 1000);
-      }
+      const params = queryParams.split("&");
+      params.forEach((item) => {
+        const [paramName, paramValue] = item.split("=");
+        if (paramValue)
+          switch (paramName) {
+            case "visited":
+              if (menuName.length) {
+                sendQrCookie(menuName);
+                thereIsQr = 1;
+              }
+              break;
+            default:
+              setTimeout(() => {
+                const product = document.getElementById(`obj-${paramValue}`);
+                if (product !== null) scrollTo(product.offsetTop);
+              }, 1000);
+              break;
+          }
+      });
     }
+    if (thereIsQr === -1) thereIsQr = 0;
+    setQr(thereIsQr);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMenu, location]);
+
+  useEffect(() => {
+    if (qr === 0) sendVisitCookie(currentMenu);
+  }, [qr, currentMenu]);
 
   const [tab, setTab] = useState(0);
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -9,7 +10,7 @@ import ToTop from "./components/ToTop/ToTop";
 import Notification from "./components/Notification/Notification";
 
 // @mui
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import { useMediaQuery, ThemeProvider, CssBaseline } from "@mui/material";
 
 // themes
 import dark from "./assets/theme/dark";
@@ -33,9 +34,11 @@ import { useMode } from "./context/ModeProvider";
 
 // services
 import { validateBasicKey } from "./services/auth";
+import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 
 const App = () => {
   const { modeState } = useMode();
+  const biggerThanMD = useMediaQuery("(min-width:900px)");
 
   useEffect(() => {
     document.body.style.overflowX = "hidden";
@@ -54,6 +57,11 @@ const App = () => {
 
   useEffect(() => {
     if (userLogged()) fetch();
+  }, []);
+
+  useEffect(() => {
+    if (biggerThanMD) sendPcCookie();
+    else sendMobileCookie();
   }, []);
 
   return (
