@@ -57,8 +57,15 @@ const TabView = (props) => {
         zIndex: 15,
       }}
     >
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          width: "100%",
+        }}
+      >
         <Tabs
+          sx={{ width: "calc(100% - 40px)" }}
           textColor="primary"
           indicatorColor="primary"
           value={value}

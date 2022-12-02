@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 
 // @mui/icons-material
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 // url
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PublicIcon from "@mui/icons-material/Public";
@@ -61,6 +63,7 @@ import InViewComponent from "../../components/InViewComponent/InViewComponent";
 import { fetchMenu } from "../../services/menu.js";
 
 // contexts
+import { useMode } from "../../context/ModeProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
@@ -122,8 +125,11 @@ const placeTypeIcons = {
 const Watch = () => {
   const location = useLocation();
 
+  const { modeState, setModeState } = useMode();
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
+
+  const toggleMode = () => setModeState({ type: "toggle" });
 
   const typesReducer = (typesStates, action) => {
     const { type } = action;
@@ -401,12 +407,31 @@ const Watch = () => {
               ))}
             </Box>
           </Box>
-          <TabView
-            value={tab}
-            onChange={changeTab}
-            tabs={productTypes.map((item, i) => item.name)}
-            content={[]}
-          />
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <TabView
+              value={tab}
+              onChange={changeTab}
+              tabs={productTypes.map((item, i) => item.name)}
+              content={[]}
+            />
+            <IconButton
+              color="inherit"
+              sx={{ position: "absolute", top: "3px", right: 0, zIndex: 40 }}
+              onClick={toggleMode}
+            >
+              {modeState.mode === "light" ? (
+                <DarkModeIcon />
+              ) : (
+                <LightModeIcon />
+              )}
+            </IconButton>
+          </Box>
           {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (
