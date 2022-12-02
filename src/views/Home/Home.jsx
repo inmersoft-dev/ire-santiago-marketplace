@@ -154,7 +154,6 @@ const Home = () => {
           searchingMenus,
         });
         const data = await response.list;
-        console.log("toSearch", data);
         setSearchResult({ type: "set", newArray: data });
         setLoading(0);
       }

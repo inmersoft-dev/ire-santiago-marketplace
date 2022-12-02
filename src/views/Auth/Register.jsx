@@ -97,8 +97,8 @@ const Register = () => {
           showNotification("error", message);
         }
       } catch (err) {
-        console.log(err);
-        showNotification("error", languageState.texts.Errors.SomeWrong);
+        console.error(err);
+        showNotification("error", String(err));
       }
     } else
       showNotification("error", languageState.texts.Errors.DifferentPassword);

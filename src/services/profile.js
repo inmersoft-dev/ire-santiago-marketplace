@@ -2,6 +2,8 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 
+import md5 from "md5";
+
 // functions
 import { getCookie } from "../utils/auth";
 
@@ -35,6 +37,30 @@ export const saveProfile = async (
       menuDescription,
       photo,
       business,
+    },
+    {
+      headers: {
+        ...getAuth,
+        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+      },
+    }
+  );
+  const data = await response.data;
+  return data;
+};
+
+/**
+ *
+ * @param {string} user
+ * @param {string} password
+ */
+export const changePassword = async (user, password) => {
+  const response = await axios.post(
+    // @ts-ignore
+    `${config.apiUrl}user/change-password`,
+    {
+      user,
+      password: md5(password),
     },
     {
       headers: {

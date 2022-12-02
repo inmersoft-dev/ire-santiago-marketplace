@@ -56,7 +56,8 @@
     },
     "Settings": {
       "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
-      "Title": "Ajustes",
+      "Tabs": ["Generales", "Seguridad"],
+      "PasswordTitle": "Cambiar contraseña",
       "Qr": "Código Qr del menú",
       "ShowLogoOnQr": "Mostrar logo en el qr",
       "Inputs": {

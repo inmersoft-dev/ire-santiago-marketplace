@@ -107,11 +107,11 @@ const Login = () => {
         setLoading(false);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setNotificationState({
         type: "set",
         ntype: "error",
-        message: languageState.texts.Errors.SomeWrong,
+        message: String(err),
       });
       setLoading(false);
     }
@@ -221,7 +221,7 @@ const Login = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label={languageState.texts.Login.Inputs.Password.Label}
                 {...field}
               />
             </FormControl>

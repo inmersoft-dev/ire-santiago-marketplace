@@ -8,6 +8,7 @@ import inViewport from "in-viewport";
 import {
   Box,
   Tooltip,
+  useTheme,
   IconButton,
   Typography,
   Link as MUILink,
@@ -123,6 +124,7 @@ const placeTypeIcons = {
 };
 
 const Watch = () => {
+  const theme = useTheme();
   const location = useLocation();
 
   const { modeState, setModeState } = useMode();
@@ -199,7 +201,6 @@ const Watch = () => {
       const data = await response.data;
       if (data) {
         if (data.photo) setPhoto(data.photo.url);
-        console.log(data);
         setMenu(data.menu);
         setDescription(data.description);
         setPhone(data.phone);
@@ -282,9 +283,7 @@ const Watch = () => {
       const [paramName, paramValue] = queryParams.split("=");
       if (paramName && paramValue) {
         setTimeout(() => {
-          console.log("hola");
           const product = document.getElementById(`obj-${paramValue}`);
-          console.log(product);
           if (product !== null) scrollTo(product.offsetTop);
         }, 1000);
       }
@@ -415,6 +414,15 @@ const Watch = () => {
             }}
           >
             <TabView
+              sx={{
+                width: "100%",
+                position: "fixed",
+                top: 0,
+                left: 0,
+                background: theme.palette.background.paper,
+                zIndex: 15,
+              }}
+              tabsContainerSx={{ width: "calc(100% - 40px)" }}
               value={tab}
               onChange={changeTab}
               tabs={productTypes.map((item, i) => item.name)}
