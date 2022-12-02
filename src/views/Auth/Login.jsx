@@ -43,7 +43,16 @@ import config from "../../config";
 const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+
   const { setNotificationState } = useNotification();
+
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
+
   const { languageState } = useLanguage();
 
   const [loading, setLoading] = useState(false);
@@ -78,43 +87,22 @@ const Login = () => {
           response.data.expiration,
           response.data.token
         );
-        setNotificationState({
-          type: "set",
-          message: languageState.texts.Messages.LoginSuccessful,
-          ntype: "success",
-        });
+        showNotification(
+          "success",
+          languageState.texts.Messages.LoginSuccessful
+        );
         setTimeout(() => {
           if (userLogged()) navigate("/settings");
         }, 100);
-      } else {
-        let error;
-        if (response.data) error = response.data.error;
-        else error = response.error;
-        let message;
-        if (
-          error.indexOf("not found") > -1 ||
-          error.indexOf("wrong password") > -1
-        )
-          message = languageState.texts.Errors.Wrong;
-        else if (error.indexOf("Error: Network Error") > -1)
-          message = languageState.texts.Errors.NotConnected;
-        else message = languageState.texts.Errors.SomeWrong;
-        setNotificationState({
-          type: "set",
-          ntype: "error",
-          message,
-        });
-        setLoading(false);
       }
     } catch (err) {
       console.error(err);
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: String(err),
-      });
-      setLoading(false);
+      const { response } = err;
+      if (response && response.status === 401)
+        showNotification("error", languageState.texts.Errors.Wrong);
+      else showNotification("error", String(err));
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -212,6 +200,7 @@ const Login = () => {
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
+                      tabIndex={-1}
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}

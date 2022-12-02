@@ -59,7 +59,12 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // utils
-import { userLogged, getUserName, isAdmin } from "../../utils/auth";
+import {
+  userLogged,
+  getUserName,
+  isAdmin,
+  passwordsAreValid,
+} from "../../utils/auth";
 import { spaceToDashes } from "../../utils/functions";
 
 // services
@@ -221,6 +226,13 @@ const Settings = () => {
       e.target.focus();
       setOk(false);
       switch (id) {
+        case "password": {
+          setPasswordError(true);
+          return showNotification(
+            "error",
+            languageState.texts.Errors.PasswordRequired
+          );
+        }
         case "phone":
           setPhoneError(true);
           return showNotification(
@@ -238,18 +250,62 @@ const Settings = () => {
   };
 
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [rPassword, setRPassword] = useState("");
+  const [rPasswordError, setRPasswordError] = useState("");
 
-  const onChangePassword = async (data) => {
-    setLoading(true);
-    try {
-      await changePassword(getUserName(), password, rPassword);
-      showNotification("success", languageState.texts.Messages.SaveSuccessful);
-      setLoading(false);
-      return true;
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
+  const onChangePassword = async () => {
+    setPasswordError(false);
+    setRPasswordError(false);
+    if (password === rPassword) {
+      const passwordValidationResult = passwordsAreValid(
+        password,
+        rPassword,
+        getUserName()
+      );
+      if (passwordValidationResult > -1)
+        switch (passwordValidationResult) {
+          case 0:
+            showNotification(
+              "error",
+              languageState.texts.Errors.PasswordLengthValidation
+            );
+            break;
+          case 1:
+            showNotification(
+              "error",
+              languageState.texts.Errors.PasswordCharacterValidation
+            );
+            break;
+          default:
+            showNotification(
+              "error",
+              languageState.texts.Errors.PasswordNameValidation
+            );
+            break;
+        }
+      else {
+        setLoading(true);
+        try {
+          await changePassword(getUserName(), password, rPassword);
+          showNotification(
+            "success",
+            languageState.texts.Messages.SaveSuccessful
+          );
+          setPassword("");
+          setRPassword("");
+          setLoading(false);
+          return true;
+        } catch (err) {
+          console.error(err);
+          showNotification("error", String(err));
+        }
+      }
+    } else {
+      setRPasswordError(true);
+      const rPasswordInput = document.getElementById("rPassword");
+      if (rPasswordInput !== null) rPasswordInput.focus();
+      showNotification("error", languageState.texts.Errors.DifferentPassword);
     }
     setLoading(false);
     return false;
@@ -769,6 +825,7 @@ const Settings = () => {
                 <SitoContainer sx={{ marginTop: "10px" }}>
                   <FormControl
                     sx={{ width: "100%", marginTop: "20px" }}
+                    color={passwordError ? "error" : "primary"}
                     variant="outlined"
                   >
                     <InputLabel htmlFor="outlined-adornment-password">
@@ -786,6 +843,7 @@ const Settings = () => {
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
+                            tabIndex={-1}
                             aria-label="toggle password visibility"
                             onClick={handleClickShowPassword}
                             onMouseDown={handleMouseDownPassword}
@@ -805,13 +863,13 @@ const Settings = () => {
                 <SitoContainer sx={{ marginTop: "10px" }}>
                   <FormControl
                     sx={{ width: "100%", marginTop: "20px" }}
+                    color={rPasswordError ? "error" : "primary"}
                     variant="outlined"
                   >
                     <InputLabel htmlFor="outlined-adornment-password">
                       {languageState.texts.Login.Inputs.RPassword.Label}
                     </InputLabel>
                     <OutlinedInput
-                      required
                       id="rPassword"
                       onInput={validate}
                       onInvalid={invalidate}
@@ -822,6 +880,7 @@ const Settings = () => {
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
+                            tabIndex={-1}
                             aria-label="toggle r password visibility"
                             onClick={handleClickRShowPassword}
                             onMouseDown={handleMouseDownPassword}
