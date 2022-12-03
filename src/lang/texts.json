@@ -2,7 +2,7 @@
   "es": {
     "CookieBox": {
       "Description": "Nuestro sitio usa cookies para analizar el tráfico de información y así mejorar tu experiencia",
-      "Link": "ver politica"
+      "Link": "ver politica",
       "Accept": "Aceptar",
       "Decline": "Denegar"
     },

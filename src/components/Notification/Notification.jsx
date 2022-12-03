@@ -36,6 +36,7 @@ const Notification = () => {
       <Snackbar open={open} autoHideDuration={99000} onClose={handleClose}>
         <MuiAlert
           variant="filled"
+          autoHideDuration={6000}
           onClose={handleClose}
           severity={notificationState.type}
           style={{

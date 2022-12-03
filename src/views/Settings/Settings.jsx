@@ -325,7 +325,7 @@ const Settings = () => {
         socialMedia || [],
         description || "",
         photo || "",
-        types || []
+        types.map((item) => item.name) || []
       );
       if (response.status === 200) {
         showNotification(
@@ -775,8 +775,9 @@ const Settings = () => {
                     marginTop: "20px",
                   }}
                 >
+                  {console.log("hola", process.env.PUBLIC_URL)}
                   <QRCode
-                    value={`${config.url}menu/${spaceToDashes(
+                    value={`${process.env.PUBLIC_URL}menu/${spaceToDashes(
                       getValues("menu")
                     )}?visited=qr`} // here you should keep the link/value(string) for which you are generation promocode
                     size={256} // the dimension of the QR code (number)

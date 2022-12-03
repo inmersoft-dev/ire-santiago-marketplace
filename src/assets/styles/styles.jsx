@@ -89,11 +89,8 @@ export const productContentBox = {
 };
 
 export const productDescriptionBox = {
-  height: { xs: "25px", sm: "50px", md: "100px" },
+  height: { xs: "50px", sm: "100px", md: "100%" },
   lineHeight: "20px",
-  wordBreak: "break-all",
-  display: "-webkit-box",
   boxOrient: "vertical",
-  lineClamp: 5,
   overflow: "hidden",
 };
