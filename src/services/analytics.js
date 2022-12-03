@@ -52,10 +52,15 @@ export const sendVisitCookie = async (menu) => {
  * @returns
  */
 export const sendDescriptionCookie = async (menu, product) => {
+  console.log(
+    getCookie(config.acceptCookie),
+    getCookie(`${product.id}${getCookie.descriptionCookie}`)
+  );
   if (
     getCookie(config.acceptCookie) &&
-    getCookie(`${product.id}${getCookie.descriptionCookie}`)
+    !getCookie(`${product.id}${getCookie.descriptionCookie}`)
   ) {
+    console.log("hola");
     const response = await axios.post(
       // @ts-ignore
       `${config.apiUrl}trigger/add`,

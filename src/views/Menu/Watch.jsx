@@ -185,7 +185,6 @@ const Watch = () => {
   const [selected, setSelected] = useState({});
 
   useEffect(() => {
-    console.log(selected);
     sendDescriptionCookie(currentMenu, selected);
   }, [selected]);
 

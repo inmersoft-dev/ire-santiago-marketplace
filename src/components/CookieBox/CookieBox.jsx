@@ -46,6 +46,10 @@ const CookieBox = () => {
   };
 
   useEffect(() => {
+    console.log(
+      getCookie(config.acceptCookie),
+      getCookie(config.declineCookie)
+    );
     if (!getCookie(config.acceptCookie) && !getCookie(config.declineCookie))
       setHide(false);
     else setHide(true);
