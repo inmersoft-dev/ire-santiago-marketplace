@@ -200,6 +200,10 @@ const Settings = () => {
           setPreview(data.photo.url);
         }
         if (data.business) setTypes(data.business);
+        if (data.location) {
+          setLng(data.location.longitude);
+          setLat(data.location.latitude);
+        }
         setOldName(data.menu);
         reset({
           menu: data.menu,
