@@ -32,7 +32,7 @@ export const modalContent = {
   width: { md: "800px", sm: "630px", xs: "100%" },
   height: "80%",
   padding: "1rem",
-  borderRadius: "1rem",
+  borderRadius: "1rem 1rem 0 0",
   position: "relative",
   transition: "all 500ms ease",
 };
