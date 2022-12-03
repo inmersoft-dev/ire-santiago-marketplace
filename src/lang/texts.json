@@ -1,5 +1,19 @@
 {
   "es": {
+    "Map": {
+      "Title": "Mapa",
+      "Inputs": {
+        "Longitude": {
+          "label": "Longitud",
+          "placeholder": "ej: -75.7119726"
+        },
+        "Latitude": {
+          "label": "Latitud",
+          "placeholder": "ej: 19.7521939"
+        }
+      },
+      "SearchAddressPlaceholder": "Escribe para buscar dirección"
+    },
     "CookieBox": {
       "Description": "Nuestro sitio usa cookies para analizar el tráfico de información y así mejorar tu experiencia",
       "Link": "Ver politica de cookies",
@@ -62,7 +76,7 @@
     },
     "Settings": {
       "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
-      "Tabs": ["Generales", "Seguridad"],
+      "Tabs": ["Generales", "Mapa", "Seguridad"],
       "PasswordTitle": "Cambiar contraseña",
       "Qr": "Código Qr del menú",
       "ShowLogoOnQr": "Mostrar logo en el qr",

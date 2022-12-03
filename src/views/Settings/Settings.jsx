@@ -78,6 +78,7 @@ import { removeImage } from "../../services/photo";
 import noProduct from "../../assets/images/no-product.webp";
 
 import config from "../../config";
+import Map from "../../components/Map/Map/Map";
 
 const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
 
@@ -453,6 +454,19 @@ const Settings = () => {
       setPasswordHelperText("");
     }
   }, [password]);
+
+  const onChangeMap = (which, value) => {
+    if (which === "lng") return setLng(value);
+    return setLat(value);
+  };
+
+  const [lng, setLng] = useState(-79.98476050000002);
+  const [lat, setLat] = useState(21.801503428305598);
+
+  const lngLatSelected = (point, lngLat) => {
+    setLng(lngLat.lng);
+    setLat(lngLat.lat);
+  };
 
   return (
     <Box
@@ -833,6 +847,17 @@ const Settings = () => {
                   </Button>
                 </Box>
               </form>,
+              <Box>
+                <Map
+                  onMapClick={lngLatSelected}
+                  lat={lat}
+                  lng={lng}
+                  point={lat && lng ? `${lat},${lng}` : ""}
+                  onChange={onChangeMap}
+                  onChangeLat={(newValue) => setLat(newValue)}
+                  onChangeLng={(newValue) => setLng(newValue)}
+                />
+              </Box>,
               <form
                 onSubmit={handleSubmit(onChangePassword)}
                 className={css({ width: "100%" })}
