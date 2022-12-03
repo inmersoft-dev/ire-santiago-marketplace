@@ -2,6 +2,7 @@
   "es": {
     "Map": {
       "Save": "Guardar",
+      "Tooltip": "¿Cómo llegar?",
       "Title": "Mapa",
       "Inputs": {
         "Longitude": {

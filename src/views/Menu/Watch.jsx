@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useReducer, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import inViewport from "in-viewport";
 
@@ -18,6 +18,7 @@ import {
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 // url
+import MapIcon from "@mui/icons-material/Map";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PublicIcon from "@mui/icons-material/Public";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -26,6 +27,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+
 // places
 import BalconyIcon from "@mui/icons-material/Balcony"; // old house
 import RestaurantIcon from "@mui/icons-material/Restaurant"; // restaurant
@@ -201,6 +203,7 @@ const Watch = () => {
   const [business, setBusiness] = useState([]);
   const [photo, setPhoto] = useState("");
   const [description, setDescription] = useState("");
+  const [geolocation, setGeoLocation] = useState({});
 
   const fetch = async () => {
     setLoading(1);
@@ -216,6 +219,7 @@ const Watch = () => {
         setPhone(data.phone);
         setBusiness(data.business);
         setSocialMedia(data.socialMedia);
+        if (data.location) setGeoLocation(data.location);
         setProductTypes({
           type: "set",
           newArray: data.types
@@ -331,6 +335,12 @@ const Watch = () => {
     if (type !== null) scrollTo(type.offsetTop);
   };
 
+  const parseI = (start, i) => {
+    let toReturn = start;
+    for (let j = 0; j < i; j += 1) toReturn += 0.2;
+    return toReturn;
+  };
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
       <BackButton flat to="/" />
@@ -402,7 +412,7 @@ const Watch = () => {
               }}
             >
               {phone.length > 0 ? (
-                <InViewComponent delay="0.1s">
+                <InViewComponent delay="0s">
                   <Tooltip
                     title={
                       languageState.texts.Settings.Inputs.Contact.SocialMedia
@@ -422,7 +432,7 @@ const Watch = () => {
                 </InViewComponent>
               ) : null}
               {socialMedia.map((item, i) => (
-                <InViewComponent delay={`0.${2 + i * 2}s`} key={item.url}>
+                <InViewComponent delay={`${parseI(0.1, i)}s`} key={item.url}>
                   <Tooltip
                     title={
                       languageState.texts.Settings.Inputs.Contact.SocialMedia
@@ -437,6 +447,21 @@ const Watch = () => {
                   </Tooltip>
                 </InViewComponent>
               ))}
+              {geolocation.latitude && geolocation.longitude ? (
+                <InViewComponent
+                  delay={`${parseI(0.1, socialMedia.length - 1)}s`}
+                >
+                  <Tooltip title={languageState.texts.Map.Tooltip}>
+                    <MUILink
+                      href={`https://www.google.com/maps/dir//${geolocation.latitude},${geolocation.longitude}/@${geolocation.latitude},${geolocation.longitude},21z`}
+                    >
+                      <IconButton color="primary">
+                        <MapIcon fontSize="large" />
+                      </IconButton>
+                    </MUILink>
+                  </Tooltip>
+                </InViewComponent>
+              ) : null}
             </Box>
           </Box>
           <Box
