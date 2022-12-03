@@ -34,6 +34,7 @@ import { useMode } from "./context/ModeProvider";
 // services
 import { validateBasicKey } from "./services/auth";
 import { sendMobileCookie, sendPcCookie } from "./services/analytics";
+import CookieBox from "./components/CookieBox/CookieBox";
 
 const App = () => {
   const { modeState } = useMode();
@@ -71,7 +72,7 @@ const App = () => {
     >
       <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
         <Notification />
-
+        <CookieBox />
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
