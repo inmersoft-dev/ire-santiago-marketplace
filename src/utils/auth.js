@@ -46,7 +46,7 @@ export const logoutUser = () => {
 /**
  * Takes a name, expiration, and value, and creates a cookie with those values
  * @param {string} name - The name of the cookie
- * @param {string} expiration - "2019-12-31 23:59:59"
+ * @param {any} expiration - "2019-12-31 23:59:59"
  * @param {any} value - The value of the cookie.
  */
 export const createCookie = (name, expiration, value) => {
@@ -61,7 +61,12 @@ export const createCookie = (name, expiration, value) => {
     Number(colonSplit[1]),
     Number(colonSplit[2])
   );
-  const expires = `expires=${d.toUTCString()}`;
+  let date = new Date();
+  if (typeof expiration !== "string") date.setDate(date.getDate() + expiration);
+
+  const expires = `expires=${
+    typeof expiration !== "string" ? date.toUTCString() : d.toUTCString()
+  }`;
   document.cookie = `${name}=${value};${expires}";path=/`;
 };
 

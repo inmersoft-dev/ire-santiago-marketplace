@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
+import { createCookie, getCookie } from "../utils/auth";
 
 /**
  *
@@ -8,16 +9,19 @@ import config from "../config";
  * @returns
  */
 export const sendQrCookie = async (menu) => {
-  const response = await axios.post(
-    // @ts-ignore
-    `${config.apiUrl}trigger/add`,
-    { event: "qr-visit", menu },
-    {
-      headers: getAuth,
-    }
-  );
-  const data = await response.data;
-  return data;
+  if (getCookie(config.acceptCookie) && !getCookie(config.visitCookie)) {
+    const response = await axios.post(
+      // @ts-ignore
+      `${config.apiUrl}trigger/add`,
+      { event: "qr-visit", menu },
+      {
+        headers: getAuth,
+      }
+    );
+    createCookie(config.viewCookie, 90, true);
+    const data = await response.data;
+    return data;
+  }
 };
 
 /**
@@ -26,16 +30,19 @@ export const sendQrCookie = async (menu) => {
  * @returns
  */
 export const sendVisitCookie = async (menu) => {
-  const response = await axios.post(
-    // @ts-ignore
-    `${config.apiUrl}trigger/add`,
-    { event: "visit", menu },
-    {
-      headers: getAuth,
-    }
-  );
-  const data = await response.data;
-  return data;
+  if (getCookie(config.acceptCookie) && !getCookie(config.visitCookie)) {
+    const response = await axios.post(
+      // @ts-ignore
+      `${config.apiUrl}trigger/add`,
+      { event: "visit", menu },
+      {
+        headers: getAuth,
+      }
+    );
+    createCookie(config.viewCookie, 90, true);
+    const data = await response.data;
+    return data;
+  }
 };
 
 /**
@@ -45,46 +52,58 @@ export const sendVisitCookie = async (menu) => {
  * @returns
  */
 export const sendDescriptionCookie = async (menu, product) => {
-  const response = await axios.post(
-    // @ts-ignore
-    `${config.apiUrl}trigger/add`,
-    { event: "see-description", menu, product: product.id },
-    {
-      headers: getAuth,
-    }
-  );
-  const data = await response.data;
-  return data;
+  if (
+    getCookie(config.acceptCookie) &&
+    getCookie(`${product.id}${getCookie.descriptionCookie}`)
+  ) {
+    const response = await axios.post(
+      // @ts-ignore
+      `${config.apiUrl}trigger/add`,
+      { event: "see-description", menu, product: product.id },
+      {
+        headers: getAuth,
+      }
+    );
+    createCookie(`${product.id}${getCookie.descriptionCookie}`, 90, true);
+    const data = await response.data;
+    return data;
+  }
 };
 
 /**
  * @returns
  */
 export const sendMobileCookie = async () => {
-  const response = await axios.post(
-    // @ts-ignore
-    `${config.apiUrl}trigger/general-add`,
-    { event: "view", from: "mobile" },
-    {
-      headers: getAuth,
-    }
-  );
-  const data = await response.data;
-  return data;
+  if (getCookie(config.acceptCookie) && !getCookie(config.viewCookie)) {
+    const response = await axios.post(
+      // @ts-ignore
+      `${config.apiUrl}trigger/general-add`,
+      { event: "view", from: "mobile" },
+      {
+        headers: getAuth,
+      }
+    );
+    createCookie(config.viewCookie, 90, true);
+    const data = await response.data;
+    return data;
+  }
 };
 
 /**
  * @returns
  */
 export const sendPcCookie = async () => {
-  const response = await axios.post(
-    // @ts-ignore
-    `${config.apiUrl}trigger/general-add`,
-    { event: "view", from: "pc" },
-    {
-      headers: getAuth,
-    }
-  );
-  const data = await response.data;
-  return data;
+  if (getCookie(config.acceptCookie) && !getCookie(config.viewCookie)) {
+    const response = await axios.post(
+      // @ts-ignore
+      `${config.apiUrl}trigger/general-add`,
+      { event: "view", from: "pc" },
+      {
+        headers: getAuth,
+      }
+    );
+    createCookie(config.viewCookie, 90, true);
+    const data = await response.data;
+    return data;
+  }
 };

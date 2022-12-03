@@ -14,6 +14,12 @@ const {
   REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   REACT_APP_FIREBASE_APP_ID,
   REACT_APP_FIREBASE_MEASUREMENT_ID,
+  // cookies
+  REACT_APP_ACCEPT_COOKIE,
+  REACT_APP_DECLINE_COOKIE,
+  REACT_APP_VISIT_COOKIE,
+  REACT_APP_DESCRIPTION_COOKIE,
+  REACT_APP_VIEW_COOKIE,
 } = process.env;
 
 const config = {
@@ -34,6 +40,12 @@ const config = {
     appId: REACT_APP_FIREBASE_APP_ID,
     measurementId: REACT_APP_FIREBASE_MEASUREMENT_ID,
   },
+  // cookie
+  acceptCookie: REACT_APP_ACCEPT_COOKIE,
+  declineCookie: REACT_APP_DECLINE_COOKIE,
+  visitCookie: REACT_APP_VISIT_COOKIE,
+  descriptionCookie: REACT_APP_DESCRIPTION_COOKIE,
+  viewCookie: REACT_APP_VIEW_COOKIE,
 };
 
 export default config;
