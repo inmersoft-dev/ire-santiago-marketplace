@@ -70,7 +70,11 @@ import {
 import { spaceToDashes } from "../../utils/functions";
 
 // services
-import { saveProfile, changePassword } from "../../services/profile";
+import {
+  saveProfile,
+  changePassword,
+  saveLocation,
+} from "../../services/profile";
 import { fetchMenu } from "../../services/menu.js";
 import { removeImage } from "../../services/photo";
 
@@ -472,11 +476,11 @@ const Settings = () => {
     setLat(lngLat.lat);
   };
 
-  const saveLocation = useCallback(async () => {
+  const saveRLocation = useCallback(async () => {
     try {
       setLoading(true);
       await saveLocation(getUserName(), lng, lat);
-      showNotification("success", languageState.textsMessages.SaveSuccessful);
+      showNotification("success", languageState.texts.Messages.SaveSuccessful);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
@@ -864,13 +868,14 @@ const Settings = () => {
                 </Box>
               </form>,
               <Box>
+                {console.log("lat", { lat, lng })}
                 <Map
-                  onSave={saveLocation}
+                  onSave={saveRLocation}
                   noButton
                   onMapClick={lngLatSelected}
                   lat={lat}
                   lng={lng}
-                  point={lat && lng ? `${lat},${lng}` : ""}
+                  point={{ lat, lng }}
                   onChange={onChangeMap}
                   onChangeLat={(newValue) => setLat(newValue)}
                   onChangeLng={(newValue) => setLng(newValue)}

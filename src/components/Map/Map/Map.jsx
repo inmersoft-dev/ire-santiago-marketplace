@@ -38,6 +38,7 @@ import { useLanguage } from "../../../context/LanguageProvider";
 import pointImage from "../../../assets/images/point.webp";
 // import Crash from "assets/images/crash";
 import config from "../../../config";
+import { useCallback } from "react";
 
 const Map = (props) => {
   const {
@@ -45,14 +46,12 @@ const Map = (props) => {
     height,
     point,
     points,
-    onMapClick,
     lng,
     lat,
     onChange,
     onChangeLng,
     onChangeLat,
     noButton,
-    noGeocoder,
     noInputs,
     onSave,
   } = props;
@@ -64,45 +63,10 @@ const Map = (props) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  const [localLng, setLocalLng] = useState(-75.82956791534245);
-  const [localLat, setLocalLat] = useState(20.022421136021567);
-
   const [zoom, setZoom] = useState(15);
 
   const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const [showMap, setShowMap] = useState(true);
-
-  const localOnChangeLng = (e) => {
-    const { value } = e.target;
-    let onePoint = false;
-    let newString = "";
-    for (let i = 0; i < value.length; i += 1) {
-      if (value[i] === "." && !onePoint) {
-        onePoint = true;
-        newString += value[i];
-      } else if (value[i] === "-" && i === 0) newString += value[i];
-      else if (numbers.indexOf(value[i]) > -1) newString += value[i];
-    }
-    if (onChange) onChange("lng", newString);
-    else if (onChangeLng) onChangeLng(newString);
-    setLocalLng(Number(newString));
-  };
-
-  const localOnChangeLat = (e) => {
-    const { value } = e.target;
-    let onePoint = false;
-    let newString = "";
-    for (let i = 0; i < value.length; i += 1) {
-      if (value[i] === "." && !onePoint) {
-        onePoint = true;
-        newString += value[i];
-      } else if (value[i] === "-" && i === 0) newString += value[i];
-      else if (numbers.indexOf(value[i]) > -1) newString += value[i];
-    }
-    if (onChange) onChange("lat", newString);
-    else if (onChangeLat) onChangeLat(newString);
-    setLocalLat(Number(newString));
-  };
 
   const init = async () => {
     try {
@@ -182,13 +146,36 @@ const Map = (props) => {
     } */
   };
 
+  const createPoint = useCallback(
+    (event) => {
+      if (map.current) {
+        const markerOld = document.getElementsByClassName("marker");
+        // Check if there is already a popup on the map and if so, remove it
+        if (markerOld[0]) markerOld[0].remove();
+        const el = document.createElement("div");
+        el.className = "marker";
+        el.style.backgroundImage = `url('${pointImage}')`;
+        el.id = `marker-${event.lngLat.wrap()}`;
+        const { lng, lat } = event.lngLat.wrap();
+        onChangeLng(lng);
+        onChangeLat(lat);
+
+        /* const marker = new mapboxgl.Marker(el);
+      marker.setLngLat([lng, lat]).addTo(map.current); */
+        new mapboxgl.Marker(el, { offset: [0, -23] })
+          .setLngLat([lng, lat])
+          .addTo(map.current);
+        /* Fly to the point */
+        flyToPoint([lng, lat]);
+      }
+    },
+    [onChangeLng, onChangeLat, flyToPoint]
+  );
+
   useEffect(() => {
-    if (apiMap === "" || !point) return;
-    /*  if (localLng !== lng) setLocalLng(lng);
-    if (localLat !== lat) setLocalLat(lat); */
+    if (apiMap === "") return;
     mapboxgl.accessToken = apiMap;
     if (map.current) return;
-    console.log("entre aqui");
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
@@ -210,181 +197,34 @@ const Map = (props) => {
     geocoder.on("result", async (event) => {
       // When the geocoder returns a result
       const point = event.result.center;
-      console.log(point); // Capture the result coordinates
       const [lat, lng] = point;
-      setLocalLng(lng);
       onChangeLng(lng);
-      setLocalLat(lat);
       onChangeLat(lat);
 
       /*  const marker = new mapboxgl.Marker(el);
       marker.setLngLat([lng, lat]).addTo(map.current);  */ // Add the marker to the map at the result coordinates
     });
 
-    map.current.on("move", () => {
-      setLocalLng(map.current.getCenter().lng);
-      setLocalLat(map.current.getCenter().lat);
+    /* map.current.on("move", () => {
       setZoom(map.current.getZoom().toFixed(2));
-      onChangeLng(localLng);
-      onChangeLat(localLat);
-    });
-    map.current.on("click", (event) => {
-      const markerOld = document.getElementsByClassName("marker");
-      // Check if there is already a popup on the map and if so, remove it
-      if (markerOld[0]) markerOld[0].remove();
-      const el = document.createElement("div");
-      el.className = "marker";
-      el.style.backgroundImage = `url('${pointImage}')`;
-      el.id = `marker-${event.lngLat.wrap()}`;
-      const { lng, lat } = event.lngLat.wrap();
-      setLocalLng(lng);
-      setLocalLat(lat);
-      onChangeLng(lng);
-      onChangeLat(lat);
+      onChangeLng(map.current.getCenter().lng);
+      onChangeLat(map.current.getCenter().lat);
+    }); */
 
-      /* const marker = new mapboxgl.Marker(el);
-      marker.setLngLat([lng, lat]).addTo(map.current); */
-
-      new mapboxgl.Marker(el, { offset: [0, -23] })
-        .setLngLat([lng, lat])
-        .addTo(map.current);
-
-      /* Fly to the point */
-      flyToPoint([lng, lat]);
-    });
+    map.current.on("click", createPoint);
+    console.log("point", point);
+    if (point !== "")
+      createPoint({
+        lngLat: {
+          wrap: () => ({ lng: point.lng, lat: point.lat }),
+        },
+      });
 
     /* if (lat && lng && map && map.current && map.current.getSource("single-point")) {
       console.log(map.current.getSource("single-point"));
       map.current.getSource("single-point").setData({ coordinates: [lng, lat], type: "Point" });
       flyToPoint({ geometry: { coordinates: [lng, lat] }* });
     } */
-  });
-
-  useEffect(() => {
-    if (apiMap === "" || !points.type) return;
-    mapboxgl.accessToken = apiMap;
-    if (map.current) return; // initialize map only once
-
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/outdoors-v12",
-      center: [lng, lat],
-      zoom,
-    });
-    map.current.on("move", () => {
-      setLocalLng(map.current.getCenter().lng);
-      setLocalLat(map.current.getCenter().lat);
-      setZoom(map.current.getZoom().toFixed(2));
-    });
-    map.current.on("click", (event) => {
-      /* Determine if a feature in the "locations" layer exists at that point. */
-      const features = map.current.queryRenderedFeatures(event.point, {
-        layers: ["point"],
-      });
-
-      /* If it does not exist, return */
-      if (!features.length) return;
-
-      const clickedPoint = features[0];
-
-      /* Fly to the point */
-      flyToPoint(clickedPoint);
-    });
-    // eslint-disable-next-line no-undef
-    const geocoder = new MapboxGeocoder({
-      // Initialize the geocoder
-      accessToken: config.mapBoxAPI, // Set the access token
-      mapboxgl: map.current, // Set the mapbox-gl instance
-      marker: false, // Do not use the default marker style
-      placeholder: languageState.texts.Map.SearchAddressplaceholder, // placeholder text for the search bar
-    });
-    if (!noGeocoder) {
-      // Add the geocoder to the map
-      map.current.addControl(geocoder);
-    }
-    map.current.on("load", () => {
-      /* Add the data to your map as a layer */
-      map.current.loadImage(
-        "https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png",
-        (error, image) => {
-          if (error) return error;
-          map.current.addImage("my-point", image);
-          map.current.addSource("single-point", {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: [],
-            },
-          });
-
-          map.current.addLayer({
-            id: "point",
-            source: "single-point",
-            type: "circle",
-            paint: {
-              "circle-radius": 10,
-              "circle-color": "#448ee4",
-            },
-          });
-
-          if (point !== "" && point !== 0) {
-            const [lat, lng] = point.split(",");
-            map.current.getSource("single-point").setData({
-              coordinates: [Number(lng), Number(lat)],
-              type: "Point",
-            });
-            flyToPoint({ geometry: { coordinates: [lng, lat] } });
-          }
-
-          if (!noGeocoder)
-            geocoder.on("result", (event) => {
-              map.current
-                .getSource("single-point")
-                .setData(event.result.geometry);
-            });
-
-          map.current.addSource("graves", {
-            type: "geojson",
-            data: points,
-          });
-          map.current.addLayer({
-            id: "locations",
-            type: "symbol",
-            source: "graves",
-            layout: {
-              "icon-image": "my-point",
-              "icon-allow-overlap": false,
-            },
-          });
-
-          // check if the Geolocation API is supported
-          if (navigator.geolocation) {
-            // navigator.geolocation.getCurrentPosition(onSuccess, onError);
-            // Add geolocate control to the map.
-            map.current.addControl(
-              new mapboxgl.GeolocateControl({
-                positionOptions: {
-                  enableHighAccuracy: true,
-                },
-                // When active the map will receive updates to the device's location as it changes.
-                trackUserLocation: true,
-                // Draw an arrow next to the location dot to indicate which direction the device is heading.
-                showUserHeading: true,
-              })
-            );
-          }
-        }
-      );
-
-      addMarkers();
-
-      // Listen for the `result` event from the Geocoder
-      // `result` event is triggered when a user makes a selection
-      //  Add a marker at the result's coordinates
-    });
-    map.current.on("click", (e) => {
-      if (onMapClick) onMapClick(e.point, e.lngLat.wrap());
-    });
   });
 
   return (
@@ -398,34 +238,26 @@ const Map = (props) => {
       {!noInputs && (lng || lat) && (
         <SitoContainer ignoreDefault className="row">
           <SitoContainer alignItems="center" sx={{ marginBottom: "20px" }}>
-            {(lng || lng === 0) && (
-              <TextField
-                label={languageState.texts.Map.Inputs.Longitude.label}
-                placeholder={
-                  languageState.texts.Map.Inputs.Longitude.placeholder
-                }
-                type="text"
-                name="lng"
-                id="lng"
-                value={localLng}
-                sx={{ marginRight: "20px" }}
-                onChange={localOnChangeLng}
-              />
-            )}
-            {(lat || lat === 0) && (
-              <TextField
-                label={languageState.texts.Map.Inputs.Latitude.label}
-                placeholder={
-                  languageState.texts.Map.Inputs.Latitude.placeholder
-                }
-                type="text"
-                name="lat"
-                id="lat"
-                value={localLat}
-                sx={{ marginRight: "20px" }}
-                onChange={localOnChangeLat}
-              />
-            )}
+            <TextField
+              label={languageState.texts.Map.Inputs.Longitude.label}
+              placeholder={languageState.texts.Map.Inputs.Longitude.placeholder}
+              type="text"
+              name="lng"
+              id="lng"
+              value={lng}
+              sx={{ marginRight: "20px" }}
+              onChange={onChangeLng}
+            />
+            <TextField
+              label={languageState.texts.Map.Inputs.Latitude.label}
+              placeholder={languageState.texts.Map.Inputs.Latitude.placeholder}
+              type="text"
+              name="lat"
+              id="lat"
+              value={lat}
+              sx={{ marginRight: "20px" }}
+              onChange={onChangeLat}
+            />
             {!noButton && (
               <Button
                 sx={{
@@ -440,7 +272,12 @@ const Map = (props) => {
                 <MapIcon />
               </Button>
             )}
-            <Button color="primary" variant="contained" onClick={onSave}>
+            <Button
+              type="button"
+              color="primary"
+              variant="contained"
+              onClick={onSave}
+            >
               {languageState.texts.Map.Save}
             </Button>
           </SitoContainer>
