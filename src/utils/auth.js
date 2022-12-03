@@ -50,20 +50,22 @@ export const logoutUser = () => {
  * @param {any} value - The value of the cookie.
  */
 export const createCookie = (name, expiration, value) => {
-  const spaceSplit = expiration.split(" ");
-  const dashSplit = spaceSplit[0].split("-");
-  const colonSplit = spaceSplit[1].split(":");
-  const d = new Date(
-    Number(dashSplit[0]),
-    Number(dashSplit[1]),
-    Number(dashSplit[2]),
-    Number(colonSplit[0]),
-    Number(colonSplit[1]),
-    Number(colonSplit[2])
-  );
+  let d = new Date();
+  if (typeof expiration === "string") {
+    const spaceSplit = expiration.split(" ");
+    const dashSplit = spaceSplit[0].split("-");
+    const colonSplit = spaceSplit[1].split(":");
+    d = new Date(
+      Number(dashSplit[0]),
+      Number(dashSplit[1]),
+      Number(dashSplit[2]),
+      Number(colonSplit[0]),
+      Number(colonSplit[1]),
+      Number(colonSplit[2])
+    );
+  }
   let date = new Date();
   if (typeof expiration !== "string") date.setDate(date.getDate() + expiration);
-
   const expires = `expires=${
     typeof expiration !== "string" ? date.toUTCString() : d.toUTCString()
   }`;
