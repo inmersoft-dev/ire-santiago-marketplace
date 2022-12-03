@@ -13,9 +13,9 @@ import SitoImage from "sito-image";
 // own components
 import Error from "../../components/Error/Error";
 import Loading from "../../components/Loading/Loading";
+import TabView from "../../components/TabView/TabView";
 import BackButton from "../../components/BackButton/BackButton";
-import ToLogout from "../../components/ToLogout/ToLogout";
-import RegisterNewUser from "../../components/RegisterNewUser/RegisterNewUser";
+import FabButtons from "../../components/FabButtons/FabButtons";
 
 // @emotion
 import { css } from "@emotion/css";
@@ -59,12 +59,7 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // utils
-import {
-  userLogged,
-  getUserName,
-  isAdmin,
-  passwordsAreValid,
-} from "../../utils/auth";
+import { userLogged, getUserName, passwordsAreValid } from "../../utils/auth";
 import { spaceToDashes } from "../../utils/functions";
 
 // services
@@ -76,7 +71,6 @@ import { removeImage } from "../../services/photo";
 import noProduct from "../../assets/images/no-product.webp";
 
 import config from "../../config";
-import TabView from "../../components/TabView/TabView";
 
 const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
 
@@ -431,9 +425,8 @@ const Settings = () => {
         justifyContent: "center",
       }}
     >
-      <ToLogout />
-      {isAdmin() && <RegisterNewUser />}
-      <BackButton to="/menu/edit" />
+      <BackButton to="/" />
+      <FabButtons location="settings" />
       <Paper
         sx={{
           display: "flex",

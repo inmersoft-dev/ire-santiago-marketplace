@@ -55,9 +55,10 @@ import Error from "../../components/Error/Error";
 import Loading from "../../components/Loading/Loading";
 import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
-import ToLogin from "../../components/ToLogin/ToLogin";
 import NotFound from "../../views/NotFound/NotFound";
 import TabView from "../../components/TabView/TabView";
+import BackButton from "../../components/BackButton/BackButton";
+import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // services
@@ -333,6 +334,8 @@ const Watch = () => {
 
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
+      <BackButton flat to="/" />
+      <FabButtons />
       {selected && (
         <Modal visible={visible} item={selected} onClose={onModalClose} />
       )}
@@ -342,7 +345,6 @@ const Watch = () => {
           zIndex: loading === 1 ? 99 : -1,
         }}
       />
-      <ToLogin />
       {notFound ? (
         <NotFound />
       ) : (
@@ -454,7 +456,10 @@ const Watch = () => {
                 background: theme.palette.background.paper,
                 zIndex: 15,
               }}
-              tabsContainerSx={{ width: "calc(100% - 40px)" }}
+              tabsContainerSx={{
+                width: "calc(100% - 40px)",
+                paddingLeft: "40px",
+              }}
               value={tab}
               onChange={changeTab}
               tabs={productTypes.map((item, i) => item.name)}

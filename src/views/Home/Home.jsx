@@ -25,9 +25,8 @@ import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
 import Loading from "../../components/Loading/Loading";
-import ToLogin from "../../components/ToLogin/ToLogin";
-import ToLogout from "../../components/ToLogout/ToLogout";
 import LinkCard from "../../components/LinkCard/LinkCard";
+import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // services
@@ -185,6 +184,7 @@ const Home = () => {
 
   return (
     <Box sx={mainWindow} flexDirection="column">
+      <FabButtons />
       <Box sx={{ minHeight: "100vh" }}>
         <Box
           sx={{
@@ -370,7 +370,6 @@ const Home = () => {
             />
           </Box>
         </Box>
-        {userLogged() ? <ToLogout /> : <ToLogin />}
         {error && loading === -1 && <Error onRetry={retry} />}
         {list.length === 0 && !loading && (
           <Empty text={languageState.texts.Errors.NoMenu} />

@@ -28,8 +28,7 @@ import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
 import Loading from "../../components/Loading/Loading";
-import ToLogin from "../../components/ToLogin/ToLogin";
-import ToLogout from "../../components/ToLogout/ToLogout";
+import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // functions
@@ -311,8 +310,7 @@ const Edit = () => {
 
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
-      <ToLogout />
-      <ToLogin />
+      <FabButtons location="edit" />
       {selected && (
         <Modal
           visible={visible}
