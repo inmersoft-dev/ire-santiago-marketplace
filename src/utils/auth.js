@@ -100,8 +100,9 @@ export const deleteCookie = (name) => {
  * @returns {number} The index of the first uppercase letter in the string.
  */
 export const findFirstUpperLetter = (str) => {
+  const upperLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   for (let i = 0; i < str.length; i += 1)
-    if (str[i] === str[i].toUpperCase()) return i;
+    if (upperLetters.indexOf(str[i]) > -1) return i;
   return -1;
 };
 
@@ -111,9 +112,9 @@ export const findFirstUpperLetter = (str) => {
  * @returns {number} The index of the first number in the string.
  */
 export const findFirstNumber = (str) => {
-  const upperLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "012345678";
   for (let i = 0; i < str.length; i += 1)
-    if (upperLetters.indexOf(str[i]) > -1) return i;
+    if (numbers.indexOf(str[i]) > -1) return i;
   return -1;
 };
 

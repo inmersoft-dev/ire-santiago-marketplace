@@ -22,25 +22,29 @@ import {
 
 // @mui icons
 import CloseIcon from "@mui/icons-material/Close";
-
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 // own components
 import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
+import TabView from "../../components/TabView/TabView";
 import Loading from "../../components/Loading/Loading";
 import FabButtons from "../../components/FabButtons/FabButtons";
+import BackButton from "../../components/BackButton/BackButton";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
 
 // services
-import { fetchMenu, saveMenu } from "../../services/menu";
 import { removeImage } from "../../services/photo";
+import { fetchMenu, saveMenu } from "../../services/menu";
 
 // contexts
-import { useNotification } from "../../context/NotificationProvider";
+import { useMode } from "../../context/ModeProvider";
 import { useLanguage } from "../../context/LanguageProvider";
+import { useNotification } from "../../context/NotificationProvider";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
@@ -64,7 +68,11 @@ const Edit = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const { modeState, setModeState } = useMode();
+
   const [selected, setSelected] = useState();
+
+  const toggleMode = () => setModeState({ type: "toggle" });
 
   const [visible, setVisible] = useState(false);
 
@@ -201,11 +209,15 @@ const Edit = () => {
   const deleteProduct = async (index) => {
     setLoading(1);
     try {
-      if (productTypes[index].photo)
-        await removeImage(productTypes.photo.fileId);
+      if (products[index].photo) await removeImage(productTypes.photo.fileId);
       const newProducts = [...products];
       newProducts.splice(index, 1);
-      await saveMenu(getUserName(), menuName, newProducts, productTypes);
+      await saveMenu(
+        getUserName(),
+        menuName,
+        newProducts,
+        productTypes.map((item) => item.name)
+      );
       setProducts({ type: "delete", index });
       setLoading(0);
     } catch (err) {
@@ -261,7 +273,7 @@ const Edit = () => {
         getUserName(),
         menuName,
         newProducts,
-        newProductTypes
+        newProductTypes.map((item) => item.name)
       );
       if (result.status === 200) {
         showNotification(
@@ -308,8 +320,26 @@ const Edit = () => {
     retry();
   }, []);
 
+  const hasProducts = useCallback(
+    (item) => {
+      const lProducts = products.filter((jtem) => jtem.type === item.name);
+      if (lProducts.length > 0) return true;
+      return false;
+    },
+    [products]
+  );
+
+  const [tab, setTab] = useState(0);
+
+  const changeTab = (e, value) => {
+    setTab(value);
+    const type = document.getElementById(`title-${productTypes[value].name}`);
+    if (type !== null) scrollTo(type.offsetTop);
+  };
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
+      <BackButton flat to="/" />
       <FabButtons location="edit" />
       {selected && (
         <Modal
@@ -326,46 +356,39 @@ const Edit = () => {
           zIndex: loading === 1 ? 99 : -1,
         }}
       />
-      <Paper
-        elevation={1}
+      <Box
         sx={{
           width: "100%",
-          height: "36px",
           display: "flex",
           alignItems: "center",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          borderRadius: 0,
-          background: theme.palette.background.paper,
-          zIndex: 15,
         }}
       >
-        {productTypes.map((item, i) => (
-          <Button
-            key={item.name}
-            onClick={() => {
-              const type = document.getElementById(`title-${item.name}`);
-              if (type !== null) scrollTo(type.offsetTop);
-              setProductTypes({ type: "set-active", index: i });
-            }}
-            color={item.active ? "primary" : "inherit"}
-            sx={{
-              borderRadius: 0,
-              borderBottom: item.active
-                ? `2px solid ${theme.palette.primary.main}`
-                : "",
-            }}
-          >
-            {item.name}
-          </Button>
-        ))}
-        {productTypes.length === 0 ? (
-          <Typography sx={{ marginLeft: "20px" }}>
-            {languageState.texts.Insert.Categories}
-          </Typography>
-        ) : null}
-      </Paper>
+        <TabView
+          sx={{
+            width: "100%",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            background: theme.palette.background.paper,
+            zIndex: 15,
+          }}
+          tabsContainerSx={{
+            width: "calc(100% - 40px)",
+            paddingLeft: "40px",
+          }}
+          value={tab}
+          onChange={changeTab}
+          tabs={productTypes.map((item, i) => item.name)}
+          content={[]}
+        />
+        <IconButton
+          color="inherit"
+          sx={{ position: "absolute", top: "3px", right: 0, zIndex: 40 }}
+          onClick={toggleMode}
+        >
+          {modeState.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+        </IconButton>
+      </Box>
       {/* shouldScroll */}
       <SitoContainer
         sx={{ width: "100%", marginTop: "65px" }}
@@ -393,99 +416,101 @@ const Edit = () => {
       {!error && loading === 0 && (
         <Box sx={productList}>
           {!loading &&
-            productTypes.map((item) => (
-              <Box key={item.name} sx={typeBoxCss}>
-                <Box id={`title-${item.name}`} sx={headerBox}>
-                  <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
-                    {item.name}
-                  </Typography>
-                </Box>
-                <Box>
-                  {products
-                    .filter((jtem) => jtem.type === item.name)
-                    .map((jtem) => (
-                      <InViewComponent
-                        key={jtem.id}
-                        delay={`0.${1 * (jtem.index + 1)}s`}
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          width: "100%",
-                        }}
-                      >
-                        <Paper
-                          id={`obj-${jtem.id}`}
-                          elevation={1}
+            productTypes
+              .filter((item) => hasProducts(item))
+              .map((item) => (
+                <Box key={item.name} sx={typeBoxCss}>
+                  <Box id={`title-${item.name}`} sx={headerBox}>
+                    <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                      {item.name}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    {products
+                      .filter((jtem) => jtem.type === item.name)
+                      .map((jtem) => (
+                        <InViewComponent
+                          key={jtem.id}
+                          delay={`0.${1 * (jtem.index + 1)}s`}
                           sx={{
-                            position: "relative",
-                            marginTop: "20px",
-                            width: { md: "800px", sm: "630px", xs: "100%" },
-                            padding: "1rem",
-                            borderRadius: "1rem",
-                            background: theme.palette.background.paper,
-                            alignItems: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            width: "100%",
                           }}
                         >
-                          <IconButton
+                          <Paper
+                            id={`obj-${jtem.id}`}
+                            elevation={1}
                             sx={{
-                              position: "absolute",
-                              top: "1px",
-                              right: "1px",
-                            }}
-                            color="error"
-                            onClick={() => deleteProduct(jtem.index)}
-                          >
-                            <CloseIcon />
-                          </IconButton>
-                          <Box
-                            sx={{ cursor: "pointer", display: "flex" }}
-                            onClick={() => {
-                              setVisible(true);
-                              setSelected(jtem);
+                              position: "relative",
+                              marginTop: "20px",
+                              width: { md: "800px", sm: "630px", xs: "100%" },
+                              padding: "1rem",
+                              borderRadius: "1rem",
+                              background: theme.palette.background.paper,
+                              alignItems: "center",
                             }}
                           >
-                            <SitoContainer sx={{ marginRight: "20px" }}>
-                              <Box sx={productImageBox}>
-                                <SitoImage
-                                  src={
-                                    jtem.photo && jtem.photo.url !== ""
-                                      ? jtem.photo.url
-                                      : noProduct
-                                  }
-                                  alt={jtem.name}
-                                  sx={productImage}
-                                />
-                              </Box>
-                            </SitoContainer>
-                            <Box sx={productContentBox}>
-                              <Typography
-                                variant="h3"
-                                sx={{ fontWeight: "bold", fontSize: "1rem" }}
-                              >
-                                {jtem.name}
-                              </Typography>
-                              <Box sx={productDescriptionBox}>
+                            <IconButton
+                              sx={{
+                                position: "absolute",
+                                top: "1px",
+                                right: "1px",
+                              }}
+                              color="error"
+                              onClick={() => deleteProduct(jtem.index)}
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                            <Box
+                              sx={{ cursor: "pointer", display: "flex" }}
+                              onClick={() => {
+                                setVisible(true);
+                                setSelected(jtem);
+                              }}
+                            >
+                              <SitoContainer sx={{ marginRight: "20px" }}>
+                                <Box sx={productImageBox}>
+                                  <SitoImage
+                                    src={
+                                      jtem.photo && jtem.photo.url !== ""
+                                        ? jtem.photo.url
+                                        : noProduct
+                                    }
+                                    alt={jtem.name}
+                                    sx={productImage}
+                                  />
+                                </Box>
+                              </SitoContainer>
+                              <Box sx={productContentBox}>
                                 <Typography
-                                  variant="body1"
-                                  sx={{ textAlign: "justify" }}
+                                  variant="h3"
+                                  sx={{ fontWeight: "bold", fontSize: "1rem" }}
                                 >
-                                  {jtem.description}
+                                  {jtem.name}
+                                </Typography>
+                                <Box sx={productDescriptionBox}>
+                                  <Typography
+                                    variant="body1"
+                                    sx={{ textAlign: "justify" }}
+                                  >
+                                    {jtem.description}
+                                  </Typography>
+                                </Box>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ fontWeight: "bold", width: "75%" }}
+                                >
+                                  {jtem.price} CUP
                                 </Typography>
                               </Box>
-                              <Typography
-                                variant="body2"
-                                sx={{ fontWeight: "bold", width: "75%" }}
-                              >
-                                {jtem.price} CUP
-                              </Typography>
                             </Box>
-                          </Box>
-                        </Paper>
-                      </InViewComponent>
-                    ))}
+                          </Paper>
+                        </InViewComponent>
+                      ))}
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
         </Box>
       )}
     </SitoContainer>

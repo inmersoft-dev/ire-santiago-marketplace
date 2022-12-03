@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback, useReducer } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -51,6 +52,7 @@ import {
   Autocomplete,
   OutlinedInput,
   InputAdornment,
+  FormHelperText,
   FormControlLabel,
 } from "@mui/material";
 
@@ -59,7 +61,12 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // utils
-import { userLogged, getUserName, passwordsAreValid } from "../../utils/auth";
+import {
+  userLogged,
+  getUserName,
+  passwordsAreValid,
+  passwordValidation,
+} from "../../utils/auth";
 import { spaceToDashes } from "../../utils/functions";
 
 // services
@@ -248,6 +255,8 @@ const Settings = () => {
   const [rPassword, setRPassword] = useState("");
   const [rPasswordError, setRPasswordError] = useState("");
 
+  const [passwordHelperText, setPasswordHelperText] = useState("");
+
   const onChangePassword = async () => {
     setPasswordError(false);
     setRPasswordError(false);
@@ -414,6 +423,36 @@ const Settings = () => {
   };
 
   const [tab, setTab] = useState(0);
+
+  useEffect(() => {
+    const passwordValidationResult = passwordValidation(
+      password,
+      getUserName()
+    );
+    if (passwordValidationResult > -1) {
+      setPasswordError(true);
+      switch (passwordValidationResult) {
+        case 0:
+          setPasswordHelperText(
+            languageState.texts.Errors.PasswordLengthValidation
+          );
+          break;
+        case 1:
+          setPasswordHelperText(
+            languageState.texts.Errors.PasswordCharacterValidation
+          );
+          break;
+        default:
+          setPasswordHelperText(
+            languageState.texts.Errors.PasswordNameValidation
+          );
+          break;
+      }
+    } else {
+      setPasswordError(false);
+      setPasswordHelperText("");
+    }
+  }, [password]);
 
   return (
     <Box
@@ -768,7 +807,6 @@ const Settings = () => {
                     marginTop: "20px",
                   }}
                 >
-                  {console.log("hola", process.env.PUBLIC_URL)}
                   <QRCode
                     value={`${process.env.PUBLIC_URL}menu/${spaceToDashes(
                       getValues("menu")
@@ -849,8 +887,11 @@ const Settings = () => {
                       }
                       label={languageState.texts.Login.Inputs.Password.Label}
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
                     />
+                    <FormHelperText>{passwordHelperText}</FormHelperText>
                   </FormControl>
                 </SitoContainer>
                 {/* rPassword */}
