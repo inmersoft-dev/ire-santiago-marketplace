@@ -72,3 +72,29 @@ export const changePassword = async (user, password) => {
   const data = await response.data;
   return data;
 };
+
+/**
+ *
+ * @param {string} user
+ * @param {number} longitude
+ * @param {number} latitude
+ */
+export const saveLocation = async (user, longitude, latitude) => {
+  const response = await axios.post(
+    // @ts-ignore
+    `${config.apiUrl}user/save-location`,
+    {
+      user,
+      longitude,
+      latitude,
+    },
+    {
+      headers: {
+        ...getAuth,
+        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+      },
+    }
+  );
+  const data = await response.data;
+  return data;
+};

@@ -62,6 +62,7 @@ const CookieBox = () => {
         position: "fixed",
         display: "flex",
         justifyContent: "center",
+        zIndex: 99,
       }}
     >
       {!hide ? (

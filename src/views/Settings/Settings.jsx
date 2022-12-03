@@ -460,13 +460,25 @@ const Settings = () => {
     return setLat(value);
   };
 
-  const [lng, setLng] = useState(-79.98476050000002);
-  const [lat, setLat] = useState(21.801503428305598);
+  const [lng, setLng] = useState(-75.82956791534245);
+  const [lat, setLat] = useState(20.022421136021567);
 
   const lngLatSelected = (point, lngLat) => {
     setLng(lngLat.lng);
     setLat(lngLat.lat);
   };
+
+  const saveLocation = useCallback(async () => {
+    try {
+      setLoading(true);
+      await saveLocation(getUserName(), lng, lat);
+      showNotification("success", languageState.textsMessages.SaveSuccessful);
+    } catch (err) {
+      console.error(err);
+      showNotification("error", String(err));
+      setLoading(false);
+    }
+  }, [lng, lat]);
 
   return (
     <Box
@@ -849,6 +861,8 @@ const Settings = () => {
               </form>,
               <Box>
                 <Map
+                  onSave={saveLocation}
+                  noButton
                   onMapClick={lngLatSelected}
                   lat={lat}
                   lng={lng}

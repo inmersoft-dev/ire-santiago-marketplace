@@ -54,6 +54,7 @@ const Map = (props) => {
     noButton,
     noGeocoder,
     noInputs,
+    onSave,
   } = props;
 
   const { languageState } = useLanguage();
@@ -63,8 +64,8 @@ const Map = (props) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  const [localLng, setLocalLng] = useState(-75.83877828533579);
-  const [localLat, setLocalLat] = useState(21.801503428305598);
+  const [localLng, setLocalLng] = useState(-75.82956791534245);
+  const [localLat, setLocalLat] = useState(20.022421136021567);
 
   const [zoom, setZoom] = useState(15);
 
@@ -120,7 +121,7 @@ const Map = (props) => {
       center: currentFeature.geometry
         ? currentFeature.geometry.coordinates
         : currentFeature,
-      zoom: 15,
+      zoom: 20,
     });
   };
 
@@ -190,7 +191,7 @@ const Map = (props) => {
     console.log("entre aqui");
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/streets-v12",
       center: [lng, lat],
       zoom,
     });
@@ -266,7 +267,7 @@ const Map = (props) => {
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/outdoors-v12",
       center: [lng, lat],
       zoom,
     });
@@ -328,12 +329,10 @@ const Map = (props) => {
 
           if (point !== "" && point !== 0) {
             const [lat, lng] = point.split(",");
-            map.current
-              .getSource("single-point")
-              .setData({
-                coordinates: [Number(lng), Number(lat)],
-                type: "Point",
-              });
+            map.current.getSource("single-point").setData({
+              coordinates: [Number(lng), Number(lat)],
+              type: "Point",
+            });
             flyToPoint({ geometry: { coordinates: [lng, lat] } });
           }
 
@@ -441,6 +440,9 @@ const Map = (props) => {
                 <MapIcon />
               </Button>
             )}
+            <Button color="primary" variant="contained" onClick={onSave}>
+              {languageState.texts.Map.Save}
+            </Button>
           </SitoContainer>
         </SitoContainer>
       )}
@@ -493,8 +495,8 @@ Map.defaultProps = {
   height: "500px",
   point: [],
   points: [],
-  lng: -79.98476050000002,
-  lat: 21.801503428305598,
+  lng: -75.82956791534245,
+  lat: 20.022421136021567,
   onMapClick: undefined,
   onChange: undefined,
   onChangeLng: undefined,
@@ -502,6 +504,7 @@ Map.defaultProps = {
   noButton: false,
   noGeocoder: false,
   noInputs: false,
+  onSave: undefined,
 };
 
 Map.propTypes = {
@@ -518,6 +521,7 @@ Map.propTypes = {
   noButton: PropTypes.bool,
   noGeocoder: PropTypes.bool,
   noInputs: PropTypes.bool,
+  onSave: PropTypes.func,
 };
 
 export default Map;

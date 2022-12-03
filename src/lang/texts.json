@@ -1,6 +1,7 @@
 {
   "es": {
     "Map": {
+      "Save": "Guardar",
       "Title": "Mapa",
       "Inputs": {
         "Longitude": {
