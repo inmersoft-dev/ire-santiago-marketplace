@@ -14,7 +14,6 @@ import {
   Link as MUILink,
 } from "@mui/material";
 
-
 // @mui/icons-material
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -137,8 +136,8 @@ const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
 
-  const { modeState, setModeState } = useMode();
   const { languageState } = useLanguage();
+  const { modeState, setModeState } = useMode();
   const { setNotificationState } = useNotification();
 
   const toggleMode = () => setModeState({ type: "toggle" });

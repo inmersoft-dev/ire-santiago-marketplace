@@ -252,7 +252,10 @@ const Home = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+            <Typography
+              sx={{ fontSize: { xs: "1.3rem", md: "1.5rem" } }}
+              variant="h3"
+            >
               {languageState.texts.Title}
             </Typography>
             {biggerThanMD ? (
