@@ -99,13 +99,13 @@ import {
 } from "../../assets/styles/styles";
 
 const socialMediaIcons = {
-  any: <PublicIcon fontSize="large" />,
-  facebook: <FacebookIcon fontSize="large" />,
-  instagram: <InstagramIcon fontSize="large" />,
-  twitter: <TwitterIcon fontSize="large" />,
-  linkedIn: <LinkedInIcon fontSize="large" />,
-  pinterest: <PinterestIcon fontSize="large" />,
-  youtube: <YouTubeIcon fontSize="large" />,
+  any: <PublicIcon  />,
+  facebook: <FacebookIcon  />,
+  instagram: <InstagramIcon  />,
+  twitter: <TwitterIcon  />,
+  linkedIn: <LinkedInIcon  />,
+  pinterest: <PinterestIcon  />,
+  youtube: <YouTubeIcon  />,
 };
 
 const placeTypeIcons = {
@@ -551,7 +551,7 @@ const Edit = () => {
                   target="_blank"
                 >
                   <IconButton color="primary">
-                    <WhatsAppIcon fontSize="large" />
+                    <WhatsAppIcon  />
                   </IconButton>
                 </MUILink>
               </Tooltip>
@@ -582,7 +582,7 @@ const Edit = () => {
                   href={`https://www.google.com/maps/dir//${geolocation.latitude},${geolocation.longitude}/@${geolocation.latitude},${geolocation.longitude},21z`}
                 >
                   <IconButton color="primary">
-                    <MapIcon fontSize="large" />
+                    <MapIcon  />
                   </IconButton>
                 </MUILink>
               </Tooltip>
