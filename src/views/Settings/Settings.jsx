@@ -509,12 +509,17 @@ const Settings = () => {
 
   useEffect(() => {
     const [value] = phoneValue;
-    if (findFirstLowerLetter(value) > -1 || findFirstUpperLetter(value) > -1) {
-      setPhoneError(true);
-      setPhoneHelperText(languageState.texts.Errors.InvalidPhone);
-    } else {
-      setPhoneError(false);
-      setPhoneHelperText("");
+    if (value) {
+      if (
+        findFirstLowerLetter(value) > -1 ||
+        findFirstUpperLetter(value) > -1
+      ) {
+        setPhoneError(true);
+        setPhoneHelperText(languageState.texts.Errors.InvalidPhone);
+      } else {
+        setPhoneError(false);
+        setPhoneHelperText("");
+      }
     }
   }, [phoneValue]);
 
