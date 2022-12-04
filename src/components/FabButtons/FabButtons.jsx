@@ -75,7 +75,7 @@ const FabButtons = (props) => {
         >
           <InViewComponent delay={isAdmin() ? "0.7s" : "0.5s"}>
             <motion.div className={active ? "appear" : "hidden"}>
-              <ToTop />
+              <ToTop show={active} />
             </motion.div>
           </InViewComponent>
           {userLogged() ? (
