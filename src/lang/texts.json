@@ -61,6 +61,7 @@
       "PriceRequired": "Debes introducir un precio",
       "PhoneRequired": "Debes introducir un número celular",
       "TypeRequired": "Debes introducir una categoría",
+      "InvalidPhone": "Número de teléfono inválido",
       "DescriptionRequired": "Debes introducir una descripción",
       "PasswordLengthValidation": "La contraseña debe tener al menos 8 caracteres y no debe pasar de 25 caracteres",
       "PasswordCharacterValidation": "La contraseña debe tener al menos una letra mayúscula, una minúscula y un número",

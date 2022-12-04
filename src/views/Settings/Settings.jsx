@@ -66,6 +66,8 @@ import {
   getUserName,
   passwordsAreValid,
   passwordValidation,
+  findFirstLowerLetter,
+  findFirstUpperLetter,
 } from "../../utils/auth";
 import { spaceToDashes } from "../../utils/functions";
 
@@ -107,7 +109,6 @@ const Settings = () => {
 
   const [oldName, setOldName] = useState("");
   const [menuNameError, setMenuNameError] = useState(false);
-  const [phoneError, setPhoneError] = useState(false);
 
   const socialMediaReducer = (socialMediaState, action) => {
     const { type } = action;
@@ -177,7 +178,7 @@ const Settings = () => {
 
   const handleMouseDownPassword = (event) => event.preventDefault();
 
-  const { control, handleSubmit, reset, getValues } = useForm({
+  const { control, handleSubmit, reset, getValues, watch } = useForm({
     defaultValues: {
       menu: "",
       description: "",
@@ -264,8 +265,9 @@ const Settings = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [rPassword, setRPassword] = useState("");
-  const [rPasswordError, setRPasswordError] = useState("");
-
+  const [phoneError, setPhoneError] = useState(false);
+  const [phoneHelperText, setPhoneHelperText] = useState("");
+  const [rPasswordError, setRPasswordError] = useState(false);
   const [passwordHelperText, setPasswordHelperText] = useState("");
 
   const onChangePassword = async () => {
@@ -325,44 +327,57 @@ const Settings = () => {
     return false;
   };
 
-  const onSubmit = async (data) => {
-    setMenuNameError(false);
-    setPhoneError(false);
-    setLoading(true);
-    const { menu, phone, description } = data;
-    try {
-      const response = await saveProfile(
-        getUserName(),
-        oldName,
-        menu,
-        phone || "",
-        socialMedia || [],
-        description || "",
-        photo || "",
-        types || []
-      );
-      if (response.status === 200) {
-        showNotification(
-          "success",
-          languageState.texts.Messages.SaveSuccessful
-        );
-        setLoading(false);
-        return true;
+  const onSubmit = useCallback(
+    async (data) => {
+      const { menu, phone, description } = data;
+      if (phoneError && (!phone || phone.length)) {
+        const phoneInput = document.getElementById("phone");
+        if (phoneInput !== null) phoneInput.focus();
       } else {
-        const { error } = response.data;
-        if (error.indexOf("menu") > -1) {
-          setMenuNameError(true);
-          document.getElementById("menu").focus();
-          showNotification("error", languageState.texts.Errors.MenuNameTaken);
-        } else showNotification("error", languageState.texts.Errors.SomeWrong);
+        setMenuNameError(false);
+        setPhoneError(false);
+        setLoading(true);
+        try {
+          const response = await saveProfile(
+            getUserName(),
+            oldName,
+            menu,
+            phone || "",
+            socialMedia || [],
+            description || "",
+            photo || "",
+            types || []
+          );
+          if (response.status === 200) {
+            showNotification(
+              "success",
+              languageState.texts.Messages.SaveSuccessful
+            );
+            setLoading(false);
+            return true;
+          } else {
+            const { error } = response.data;
+            if (error.indexOf("menu") > -1) {
+              setMenuNameError(true);
+              document.getElementById("menu").focus();
+              showNotification(
+                "error",
+                languageState.texts.Errors.MenuNameTaken
+              );
+            } else
+              showNotification("error", languageState.texts.Errors.SomeWrong);
+          }
+        } catch (err) {
+          console.error(err);
+          showNotification("error", String(err));
+        }
       }
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
-    }
-    setLoading(false);
-    return false;
-  };
+
+      setLoading(false);
+      return false;
+    },
+    [phoneError, passwordError]
+  );
 
   useEffect(() => {
     const image = document.getElementById("no-image");
@@ -489,6 +504,19 @@ const Settings = () => {
       setLoading(false);
     }
   }, [lng, lat]);
+
+  const phoneValue = watch(["phone"]);
+
+  useEffect(() => {
+    const [value] = phoneValue;
+    if (findFirstLowerLetter(value) > -1 || findFirstUpperLetter(value) > -1) {
+      setPhoneError(true);
+      setPhoneHelperText(languageState.texts.Errors.InvalidPhone);
+    } else {
+      setPhoneError(false);
+      setPhoneHelperText("");
+    }
+  }, [phoneValue]);
 
   return (
     <Box
@@ -624,6 +652,7 @@ const Settings = () => {
                         sx={{ width: "100%", marginTop: "10px" }}
                         id="phone"
                         type="tel"
+                        helperText={phoneHelperText}
                         onInput={validate}
                         onInvalid={invalidate}
                         label={

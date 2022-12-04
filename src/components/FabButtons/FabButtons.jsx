@@ -11,8 +11,7 @@ import { motion } from "framer-motion";
 import { Box, Button } from "@mui/material";
 
 // @mui/icons-material
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 // components
 import ToTop from "../ToTop/ToTop";
@@ -111,7 +110,7 @@ const FabButtons = (props) => {
             minWidth: 0,
           }}
         >
-          {active ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+          <MoreHorizIcon />
         </Button>
       </motion.div>
     </Box>
