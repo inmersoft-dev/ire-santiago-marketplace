@@ -52,7 +52,7 @@ const LinkCard = (props) => {
               alt={item.menu}
               sx={productImage}
             />
-            {item.name && item.menu ? (
+            {item.name && item.menu && item.name !== item.menu ? (
               <Box
                 sx={{
                   width: "50px",
@@ -81,7 +81,9 @@ const LinkCard = (props) => {
             sx={{ fontWeight: "bold", fontSize: "1rem" }}
           >
             {item.name || item.menu}{" "}
-            {item.name && item.menu ? `- ${item.menu}` : null}
+            {item.name && item.menu && item.name !== item.menu
+              ? `- ${item.menu}`
+              : null}
           </Typography>
           <Box sx={productDescriptionBox}>
             <Typography variant="body1" sx={{ textAlign: "justify" }}>
