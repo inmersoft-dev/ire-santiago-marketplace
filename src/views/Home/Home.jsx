@@ -12,6 +12,7 @@ import {
   InputAdornment,
   OutlinedInput,
   Chip,
+  useTheme,
 } from "@mui/material";
 
 // @mui/icons-material
@@ -106,10 +107,19 @@ const Home = () => {
   const toggleFilters = () => setShowFilters(!showFilters);
 
   const topBarHeight = useCallback(() => {
-    if (biggerThanMD && !showFilters) return "50px";
+    if (biggerThanMD && !showFilters) return "60px";
+    if (showSearch && showFilters)
+      if (biggerThanMD) return "120px";
+      else return "170px";
+    if (showSearch) return "120px";
+    return "60px";
+  }, [biggerThanMD, showSearch, showFilters]);
+
+  const marginTopBar = useCallback(() => {
+    if (biggerThanMD && !showFilters) return "40px";
     if (showSearch && showFilters)
       if (biggerThanMD) return "100px";
-      else return "150px";
+      else return "160px";
     if (showSearch) return "100px";
     return "40px";
   }, [biggerThanMD, showSearch, showFilters]);
@@ -229,6 +239,8 @@ const Home = () => {
     }
   }, [location]);
 
+  const theme = useTheme();
+
   return (
     <Box sx={mainWindow} flexDirection="column">
       <FabButtons />
@@ -236,9 +248,16 @@ const Home = () => {
         <Box
           sx={{
             width: "100%",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            padding: "10px 20px",
             overflow: "hidden",
             transition: "height 200ms ease",
             height: topBarHeight(),
+            background: theme.palette.background.paper,
+            borderBottom: "1px solid",
+            borderColor: "rgba(87,87,87,0.5)",
           }}
         >
           <Box
@@ -249,6 +268,7 @@ const Home = () => {
               alignItems: "center",
               marginBottom: "20px",
               position: "relative",
+
               justifyContent: "space-between",
             }}
           >
@@ -424,7 +444,14 @@ const Home = () => {
         {list.length === 0 && !loading && (
           <Empty text={languageState.texts.Errors.NoMenu} />
         )}
-        <Box position="relative" sx={{ height: "100%" }}>
+        <Box
+          position="relative"
+          sx={{
+            height: "100%",
+            marginTop: marginTopBar(),
+            transition: "margin 200ms ease",
+          }}
+        >
           <Loading
             visible={loading === 1}
             sx={{
