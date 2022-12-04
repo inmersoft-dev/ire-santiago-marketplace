@@ -198,6 +198,7 @@ const Register = () => {
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
+                      color="secondary"
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
@@ -236,6 +237,7 @@ const Register = () => {
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
+                      color="secondary"
                       aria-label="toggle password visibility"
                       onClick={handleClickShowRPassword}
                       onMouseDown={handleMouseDownRPassword}

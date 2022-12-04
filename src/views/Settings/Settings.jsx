@@ -13,17 +13,15 @@ import SitoImage from "sito-image";
 
 // own components
 import Error from "../../components/Error/Error";
+import AppBar from "../../components/AppBar/AppBar";
 import Loading from "../../components/Loading/Loading";
 import TabView from "../../components/TabView/TabView";
-import BackButton from "../../components/BackButton/BackButton";
 import FabButtons from "../../components/FabButtons/FabButtons";
 
 // @emotion
 import { css } from "@emotion/css";
 
 // @mui/icons-material
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
 import AddIcon from "@mui/icons-material/Add";
 import DownloadIcon from "@mui/icons-material/Download";
 import PublicIcon from "@mui/icons-material/Public";
@@ -59,7 +57,6 @@ import {
 } from "@mui/material";
 
 // contexts
-import { useMode } from "../../context/ModeProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
@@ -108,10 +105,8 @@ const Settings = () => {
   const preventDefault = (event) => event.preventDefault();
 
   const { languageState } = useLanguage();
-  const { modeState, setModeState } = useMode();
-  const { setNotificationState } = useNotification();
 
-  const toggleMode = () => setModeState({ type: "toggle" });
+  const { setNotificationState } = useNotification();
 
   const [oldName, setOldName] = useState("");
   const [menuNameError, setMenuNameError] = useState(false);
@@ -539,50 +534,14 @@ const Settings = () => {
         justifyContent: "center",
       }}
     >
-      <BackButton flat to="/" />
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            height: "48px",
-            position: "fixed",
-            borderBottom: "1px solid",
-            borderColor: "rgba(87,87,87,0.5)",
-            top: 0,
-            left: 0,
-            background: theme.palette.background.paper,
-            paddingLeft: "40px",
-            zIndex: 15,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{ fontSize: { xs: "1.3rem", md: "1.5rem" }, marginTop: "4px" }}
-            variant="h3"
-          >
-            {languageState.texts.AppName}
-          </Typography>
-        </Box>
-        <IconButton
-          color="inherit"
-          sx={{ position: "fixed", top: "3px", right: 0, zIndex: 40 }}
-          onClick={toggleMode}
-        >
-          {modeState.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
-        </IconButton>
-      </Box>
+      <AppBar />
       <FabButtons location="settings" />
       <Paper
         sx={{
           display: "flex",
           width: { md: "800px", sm: "630px", xs: "100%" },
           padding: "1rem",
+          marginTop: "40px",
           borderRadius: "1rem",
         }}
       >
@@ -1001,6 +960,7 @@ const Settings = () => {
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
+                            color="secondary"
                             tabIndex={-1}
                             aria-label="toggle password visibility"
                             onClick={handleClickShowPassword}
@@ -1041,6 +1001,7 @@ const Settings = () => {
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
+                            color="secondary"
                             tabIndex={-1}
                             aria-label="toggle r password visibility"
                             onClick={handleClickRShowPassword}

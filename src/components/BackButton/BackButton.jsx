@@ -3,18 +3,15 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // @mui components
-import { IconButton, Button } from "@mui/material";
+import { Box, IconButton, Button } from "@mui/material";
 
 // @mui icons
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 
-// sito components
-import SitoContainer from "sito-container";
-
 const BackButton = (props) => {
   const { to, flat, sx } = props;
   return (
-    <SitoContainer
+    <Box
       sx={{
         position: "fixed",
         top: "5px",
@@ -38,7 +35,7 @@ const BackButton = (props) => {
           </IconButton>
         )}
       </Link>
-    </SitoContainer>
+    </Box>
   );
 };
 
