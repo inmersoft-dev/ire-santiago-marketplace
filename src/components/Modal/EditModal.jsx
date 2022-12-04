@@ -247,7 +247,7 @@ const Modal = (props) => {
         <SitoContainer
           flexDirection="column"
           alignItems="center"
-          sx={{ width: "100%", form: "100%" }}
+          sx={{ width: "100%", form: { width: "100%" } }}
         >
           <form onSubmit={handleSubmit(onLocalSubmit)}>
             <Controller

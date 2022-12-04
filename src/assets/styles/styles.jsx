@@ -6,7 +6,7 @@ export const loadingPhotoSpinner = {
 };
 
 export const mainWindow = {
-  width: { md: "800px", sm: "630px", xs: "100%" },
+  width: { sm: "630px", xs: "100%" },
   display: "flex",
   minHeight: "100vh",
   padding: "25px",
@@ -29,7 +29,7 @@ export const modal = {
 export const modalContent = {
   display: "flex",
   flexDirection: "column",
-  width: { md: "800px", sm: "630px", xs: "100%" },
+  width: { sm: "630px", xs: "100%" },
   height: "80%",
   padding: "1rem",
   borderRadius: "1rem 1rem 0 0",
@@ -38,7 +38,7 @@ export const modalContent = {
 };
 
 export const mainContent = {
-  width: { md: "800px", sm: "630px", xs: "100%" },
+  width: { sm: "630px", xs: "100%" },
   flexDirection: "column",
   display: "flex",
   alignItems: "center",
@@ -58,20 +58,20 @@ export const typeBoxCss = {
   display: "flex",
 };
 
-export const headerBox = { width: { md: "800px", sm: "630px", xs: "100%" } };
+export const headerBox = { width: { sm: "630px", xs: "100%" } };
 
 export const productPaper = {
   cursor: "pointer",
   marginTop: "20px",
   display: "flex",
-  width: { md: "800px", sm: "630px", xs: "100%" },
+  width: { sm: "630px", xs: "100%" },
   padding: "1rem",
   borderRadius: "1rem",
 };
 
 export const productImageBox = {
-  width: { md: "160px", sm: "120px", xs: "80px" },
-  height: { md: "160px", sm: "120px", xs: "80px" },
+  width: { md: "160px", sm: "120px", xs: "100px" },
+  height: { md: "160px", sm: "120px", xs: "100px" },
 };
 
 export const productImage = {

@@ -347,6 +347,15 @@ const Watch = () => {
     sendHowToGoCookie();
   };
 
+  const hasProducts = useCallback(
+    (item) => {
+      const lProducts = products.filter((jtem) => jtem.type === item.name);
+      if (lProducts.length > 0) return true;
+      return false;
+    },
+    [products]
+  );
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
       <BackButton flat to="/" />
@@ -493,7 +502,9 @@ const Watch = () => {
               }}
               value={tab}
               onChange={changeTab}
-              tabs={productTypes.map((item, i) => item.name)}
+              tabs={productTypes
+                .filter((item) => hasProducts(item))
+                .map((item, i) => item.name)}
               content={[]}
             />
             <IconButton
@@ -513,41 +524,43 @@ const Watch = () => {
           {!error && (
             <Box sx={productList}>
               {!loading &&
-                productTypes.map((item) => (
-                  <Box key={item.name} sx={typeBoxCss}>
-                    <Box id={`title-${item.name}`} sx={headerBox}>
-                      <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
-                        {item.name}
-                      </Typography>
-                    </Box>
-                    <Box>
-                      {products
-                        .filter((jtem) => jtem.type === item.name)
-                        .map((jtem) => (
-                          <InViewComponent
-                            key={jtem.id}
-                            id={`obj-${spaceToDashes(
-                              parserAccents(jtem.name)
-                            )}`}
-                            delay={`0.${1 * (jtem.index + 1)}s`}
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              width: "100%",
-                            }}
-                          >
-                            <ProductCard
-                              item={jtem}
-                              onClick={() => {
-                                setVisible(true);
-                                setSelected(jtem);
+                productTypes
+                  .filter((item) => hasProducts(item))
+                  .map((item) => (
+                    <Box key={item.name} sx={typeBoxCss}>
+                      <Box id={`title-${item.name}`} sx={headerBox}>
+                        <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                          {item.name}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        {products
+                          .filter((jtem) => jtem.type === item.name)
+                          .map((jtem) => (
+                            <InViewComponent
+                              key={jtem.id}
+                              id={`obj-${spaceToDashes(
+                                parserAccents(jtem.name)
+                              )}`}
+                              delay={`0.${1 * (jtem.index + 1)}s`}
+                              sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                width: "100%",
                               }}
-                            />
-                          </InViewComponent>
-                        ))}
+                            >
+                              <ProductCard
+                                item={jtem}
+                                onClick={() => {
+                                  setVisible(true);
+                                  setSelected(jtem);
+                                }}
+                              />
+                            </InViewComponent>
+                          ))}
+                      </Box>
                     </Box>
-                  </Box>
-                ))}
+                  ))}
             </Box>
           )}
         </>
