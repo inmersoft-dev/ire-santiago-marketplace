@@ -377,7 +377,7 @@ const Settings = () => {
       setLoading(false);
       return false;
     },
-    [phoneError, passwordError]
+    [phoneError, passwordError, socialMedia]
   );
 
   useEffect(() => {
@@ -547,7 +547,9 @@ const Settings = () => {
       >
         {!error ? (
           <TabView
-            sx={{ width: "100%" }}
+            sx={{
+              width: "100%",
+            }}
             value={tab}
             onChange={(e, newTab) => setTab(newTab)}
             tabs={languageState.texts.Settings.Tabs}
@@ -648,7 +650,7 @@ const Settings = () => {
                   />
                 </SitoContainer>
                 {/* Phone */}
-                <SitoContainer sx={{ marginTop: "10px" }}>
+                <SitoContainer sx={{ marginTop: "20px" }}>
                   <Controller
                     name="phone"
                     control={control}
@@ -676,6 +678,7 @@ const Settings = () => {
                     )}
                   />
                 </SitoContainer>
+                {/* Social Media */}
                 <Box
                   sx={{
                     width: "100%",
@@ -684,19 +687,9 @@ const Settings = () => {
                     alignItems: "center",
                   }}
                 >
-                  <FormControl sx={{ width: "180px" }}>
-                    <InputLabel>
-                      {
-                        languageState.texts.Settings.Inputs.Contact.SocialMedia
-                          .Label
-                      }
-                    </InputLabel>
+                  <FormControl sx={{ width: { xs: "70px", md: "180px" } }}>
                     <Select
                       value={currentSocialMedia}
-                      label={
-                        languageState.texts.Settings.Inputs.Contact.SocialMedia
-                          .Label
-                      }
                       sx={{ div: { display: "flex" } }}
                       onChange={handleSelectSocialMedia}
                     >
@@ -706,11 +699,18 @@ const Settings = () => {
                           value={item}
                           sx={{ display: "flex", alignItems: "center" }}
                         >
-                          {icons[item]} -{" "}
-                          {
-                            languageState.texts.Settings.Inputs.Contact
-                              .SocialMedia.Icons[item]
-                          }
+                          {icons[item]}
+                          <Typography
+                            sx={{
+                              display: { xs: "none", md: "inherit" },
+                            }}
+                          >
+                            -{" "}
+                            {
+                              languageState.texts.Settings.Inputs.Contact
+                                .SocialMedia.Icons[item]
+                            }
+                          </Typography>
                         </MenuItem>
                       ))}
                     </Select>
@@ -721,12 +721,22 @@ const Settings = () => {
                     }}
                     variant="outlined"
                   >
+                    <InputLabel>
+                      {
+                        languageState.texts.Settings.Inputs.Contact.SocialMedia
+                          .Label
+                      }
+                    </InputLabel>
                     <OutlinedInput
                       id="search"
                       value={inputCurrentSocialMedia}
                       placeholder={
                         languageState.texts.Settings.Inputs.Contact.SocialMedia
                           .Placeholder
+                      }
+                      label={
+                        languageState.texts.Settings.Inputs.Contact.SocialMedia
+                          .Label
                       }
                       onChange={handleInputCurrentSocialMedia}
                       type="url"
@@ -776,9 +786,9 @@ const Settings = () => {
                   ))}
                 </Box>
                 {/* Business */}
-                <SitoContainer sx={{ width: "100%" }}>
+                <SitoContainer sx={{ width: "100%", marginTop: "30px" }}>
                   <Autocomplete
-                    sx={{ marginTop: "20px", width: "100%" }}
+                    sx={{ width: "100%" }}
                     multiple
                     id="places"
                     onChange={handleTypes}
@@ -808,13 +818,13 @@ const Settings = () => {
                   />
                 </SitoContainer>
                 {/* Description */}
-                <SitoContainer sx={{ marginTop: "10px" }}>
+                <SitoContainer sx={{ marginTop: "30px" }}>
                   <Controller
                     name="description"
                     control={control}
                     render={({ field }) => (
                       <TextField
-                        sx={{ width: "100%", marginTop: "20px" }}
+                        sx={{ width: "100%" }}
                         id="description"
                         label={
                           languageState.texts.Settings.Inputs.Description.Label
@@ -833,6 +843,7 @@ const Settings = () => {
                     )}
                   />
                 </SitoContainer>
+                {/* Buttons */}
                 <SitoContainer
                   justifyContent="flex-end"
                   sx={{ width: "100%", marginTop: "20px" }}
@@ -848,6 +859,7 @@ const Settings = () => {
                     {languageState.texts.Insert.Buttons.Edit}
                   </Button>
                 </SitoContainer>
+                {/* Qr */}
                 <Box
                   sx={{
                     display: "flex",
@@ -857,7 +869,10 @@ const Settings = () => {
                     marginTop: "20px",
                   }}
                 >
-                  <Typography variant="h4">
+                  <Typography
+                    variant="h3"
+                    sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
+                  >
                     {languageState.texts.Settings.Qr}
                   </Typography>
                   <FormControlLabel
@@ -905,7 +920,7 @@ const Settings = () => {
                   </Button>
                 </Box>
               </form>,
-              <Box>
+              <Box sx={{ marginTop: "20px" }}>
                 <Map
                   onSave={saveRLocation}
                   noButton
