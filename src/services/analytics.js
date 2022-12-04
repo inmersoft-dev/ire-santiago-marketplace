@@ -2,6 +2,7 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 import { createCookie, getCookie } from "../utils/auth";
+import { dashesToSpace } from "../utils/functions";
 
 /**
  *
@@ -9,17 +10,20 @@ import { createCookie, getCookie } from "../utils/auth";
  * @returns
  */
 export const sendQrCookie = async (menu) => {
-  if (getCookie(config.acceptCookie) && !getCookie(config.visitCookie)) {
+  if (
+    getCookie(config.acceptCookie) &&
+    !getCookie(`${menu}${config.visitCookie}`)
+  ) {
     try {
       const response = await axios.post(
         // @ts-ignore
         `${config.apiUrl}trigger/add`,
-        { event: "qr-visit", menu },
+        { event: "qr-visit", menu: dashesToSpace(menu) },
         {
           headers: getAuth,
         }
       );
-      createCookie(config.visitCookie, 90, true);
+      createCookie(`${menu}${config.visitCookie}`, 90, true);
       const data = await response.data;
       return data;
     } catch (err) {
@@ -34,17 +38,20 @@ export const sendQrCookie = async (menu) => {
  * @returns
  */
 export const sendVisitCookie = async (menu) => {
-  if (getCookie(config.acceptCookie) && !getCookie(config.visitCookie)) {
+  if (
+    getCookie(config.acceptCookie) &&
+    !getCookie(`${menu}${config.visitCookie}`)
+  ) {
     try {
       const response = await axios.post(
         // @ts-ignore
         `${config.apiUrl}trigger/add`,
-        { event: "visit", menu },
+        { event: "visit", menu: dashesToSpace(menu) },
         {
           headers: getAuth,
         }
       );
-      createCookie(config.visitCookie, 90, true);
+      createCookie(`${menu}${config.visitCookie}`, 90, true);
       const data = await response.data;
       return data;
     } catch (err) {
@@ -68,7 +75,11 @@ export const sendDescriptionCookie = async (menu, product) => {
       const response = await axios.post(
         // @ts-ignore
         `${config.apiUrl}trigger/add`,
-        { event: "see-description", menu, product: product.id },
+        {
+          event: "see-description",
+          menu: dashesToSpace(menu),
+          product: product.id,
+        },
         {
           headers: getAuth,
         }
