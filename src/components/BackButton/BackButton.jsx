@@ -12,7 +12,7 @@ import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import SitoContainer from "sito-container";
 
 const BackButton = (props) => {
-  const { to, flat } = props;
+  const { to, flat, sx } = props;
   return (
     <SitoContainer
       sx={{
@@ -20,6 +20,7 @@ const BackButton = (props) => {
         top: "5px",
         left: "1px",
         zIndex: 20,
+        ...sx,
       }}
     >
       <Link to={to}>
@@ -44,11 +45,13 @@ const BackButton = (props) => {
 BackButton.defaultProps = {
   to: "/",
   flat: false,
+  sx: {},
 };
 
 BackButton.propTypes = {
   to: PropTypes.string,
   flat: PropTypes.bool,
+  sx: PropTypes.object,
 };
 
 export default BackButton;

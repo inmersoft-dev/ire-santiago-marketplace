@@ -533,7 +533,7 @@ const Settings = () => {
         justifyContent: "center",
       }}
     >
-      <BackButton to="/" />
+      <BackButton to="/" sx={{ left: "5px" }} />
       <FabButtons location="settings" />
       <Paper
         sx={{
