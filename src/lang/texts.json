@@ -53,7 +53,7 @@
       "NoResults": "No hay resultados",
       "NoMenu": "No hay catálogos",
       "UsernameTaken": "Nombre de usuario en uso",
-      "MenuNameTaken": "Nombre de menú en uso",
+      "MenuNameTaken": "Nombre de catálogo en uso",
       "InvalidMenuName": "Nombre del menú inválido, solo se permiten letras y números",
       "SomeWrong": "Ha ocurrido un error",
       "Wrong": "Usuario o contraseña incorrecta",
