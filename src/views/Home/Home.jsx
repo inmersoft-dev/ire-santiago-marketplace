@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback, useReducer } from "react";
+import { useLocation } from "react-router-dom";
 
 // @mui components
 import {
@@ -39,7 +40,7 @@ import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { parserAccents } from "../../utils/parser";
-import { spaceToDashes } from "../../utils/functions";
+import { spaceToDashes, dashesToSpace } from "../../utils/functions";
 import { getUserName, userLogged } from "../../utils/auth";
 
 // styles
@@ -50,6 +51,7 @@ import { search } from "../../services/search";
 
 const Home = () => {
   const biggerThanMD = useMediaQuery("(min-width:900px)");
+  const location = useLocation();
 
   const { languageState } = useLanguage();
   const { modeState, setModeState } = useMode();
@@ -183,14 +185,49 @@ const Home = () => {
   };
 
   const searchResultIsEmpty = useCallback(() => {
-    return !(
-      searchResult &&
-      searchResult.products &&
-      searchResult.menus &&
-      searchResult.products.length &&
-      searchResult.menus.length
-    );
+    if (searchResult && (searchResult[0] || searchResult[1]))
+      if (searchResult[0].list.length || searchResult[1].list.length)
+        return false;
+    return true;
   }, [searchResult]);
+
+  useEffect(() => {
+    if (location.search) {
+      const queryParams = location.search.substring(1);
+      const params = queryParams.split("&");
+      params.forEach((item) => {
+        const [paramName, paramValue] = item.split("=");
+        if (paramValue)
+          switch (paramName) {
+            case "business":
+              setSearchingProducts(false);
+              setSearchingCategories(false);
+              setSearchingMenus(true);
+              setToSearch(dashesToSpace(paramValue));
+              setShowSearch(true);
+              break;
+            case "product": {
+              setSearchingProducts(true);
+              setSearchingCategories(false);
+              setSearchingMenus(false);
+              setToSearch(dashesToSpace(paramValue));
+              setShowSearch(true);
+              break;
+            }
+            case "category": {
+              setSearchingProducts(false);
+              setSearchingCategories(true);
+              setSearchingMenus(false);
+              setToSearch(dashesToSpace(paramValue));
+              setShowSearch(true);
+              break;
+            }
+            default:
+              break;
+          }
+      });
+    }
+  }, [location]);
 
   return (
     <Box sx={mainWindow} flexDirection="column">

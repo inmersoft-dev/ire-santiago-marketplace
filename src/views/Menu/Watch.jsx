@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useReducer, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import inViewport from "in-viewport";
 
@@ -397,10 +397,10 @@ const Watch = () => {
             >
               {business.map((item) => (
                 <Tooltip key={item.url} title={item.name}>
-                  <MUILink
-                    href={`${process.env.PUBLIC_URL}/?type=${item.id}`}
-                    rel="noopener"
-                    target="_blank"
+                  <Link
+                    to={`/?business=${parserAccents(
+                      spaceToDashes(item.name)
+                    ).toLowerCase()}`}
                   >
                     <IconButton color="primary">
                       {
@@ -411,7 +411,7 @@ const Watch = () => {
                         ]
                       }
                     </IconButton>
-                  </MUILink>
+                  </Link>
                 </Tooltip>
               ))}
             </Box>
