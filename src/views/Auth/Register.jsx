@@ -7,8 +7,8 @@ import { useState, useEffect } from "react";
 import SitoContainer from "sito-container";
 
 // own components
+import AppBar from "../../components/AppBar/AppBar";
 import Loading from "../../components/Loading/Loading";
-import BackButton from "../../components/BackButton/BackButton";
 
 // @mui
 import {
@@ -147,7 +147,7 @@ const Register = () => {
         position: "relative",
       }}
     >
-      <BackButton to="/settings/" />
+      <AppBar />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Loading
           visible={loading}
