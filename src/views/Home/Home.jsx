@@ -110,13 +110,13 @@ const Home = () => {
     if (biggerThanMD && !showFilters) return "60px";
     if (showSearch && showFilters)
       if (biggerThanMD) return "120px";
-      else return "170px";
+      else return "180px";
     if (showSearch) return "120px";
     return "60px";
   }, [biggerThanMD, showSearch, showFilters]);
 
   const marginTopBar = useCallback(() => {
-    if (biggerThanMD && !showFilters) return "40px";
+    if (biggerThanMD && !showFilters) return "60px";
     if (showSearch && showFilters)
       if (biggerThanMD) return "100px";
       else return "160px";
