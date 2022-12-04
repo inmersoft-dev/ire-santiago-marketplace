@@ -115,7 +115,6 @@ const Map = (props) => {
   };
 
   const addMarkers = () => {
-    console.log(points);
     if (points.length) {
       // For each feature in the GeoJSON object above:
       for (const marker of points.features) {
@@ -214,7 +213,7 @@ const Map = (props) => {
     }); */
 
     map.current.on("click", createPoint);
-    console.log("point", point);
+
     if (point !== "")
       createPoint({
         lngLat: {

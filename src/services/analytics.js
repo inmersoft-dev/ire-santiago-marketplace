@@ -87,7 +87,6 @@ export const sendDescriptionCookie = async (menu, product) => {
  */
 export const sendMobileCookie = async () => {
   if (getCookie(config.acceptCookie) && !getCookie(config.viewCookie)) {
-    console.log("hola movil");
     try {
       const response = await axios.post(
         // @ts-ignore
@@ -111,7 +110,6 @@ export const sendMobileCookie = async () => {
  */
 export const sendPcCookie = async () => {
   if (getCookie(config.acceptCookie) && !getCookie(config.viewCookie)) {
-    console.log("hola");
     try {
       const response = await axios.post(
         // @ts-ignore

@@ -208,6 +208,8 @@ const Settings = () => {
           setLng(data.location.longitude);
           setLat(data.location.latitude);
         }
+        if (data.socialMedia)
+          setSocialMedia({ type: "set", newArray: data.socialMedia });
         setOldName(data.menu);
         reset({
           menu: data.menu,
@@ -868,7 +870,6 @@ const Settings = () => {
                 </Box>
               </form>,
               <Box>
-                {console.log("lat", { lat, lng })}
                 <Map
                   onSave={saveRLocation}
                   noButton

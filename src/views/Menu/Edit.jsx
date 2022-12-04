@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useCallback, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import inViewport from "in-viewport";
 
@@ -12,15 +12,18 @@ import SitoImage from "sito-image";
 
 // @mui components
 import {
-  useTheme,
-  Paper,
   Box,
+  Paper,
   Button,
+  Tooltip,
+  useTheme,
   IconButton,
   Typography,
+  Link as MUILink,
 } from "@mui/material";
 
 // @mui icons
+import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -33,6 +36,35 @@ import Loading from "../../components/Loading/Loading";
 import FabButtons from "../../components/FabButtons/FabButtons";
 import BackButton from "../../components/BackButton/BackButton";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
+// url
+import MapIcon from "@mui/icons-material/Map";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import PublicIcon from "@mui/icons-material/Public";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import PinterestIcon from "@mui/icons-material/Pinterest";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+// places
+import BalconyIcon from "@mui/icons-material/Balcony"; // old house
+import RestaurantIcon from "@mui/icons-material/Restaurant"; // restaurant
+import BedroomParentIcon from "@mui/icons-material/BedroomParent"; // rent house
+import LocalBarIcon from "@mui/icons-material/LocalBar"; // bar
+import DiningIcon from "@mui/icons-material/Dining"; // cafeteria
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"; // gym
+import ColorLensIcon from "@mui/icons-material/ColorLens"; // art
+import MuseumIcon from "@mui/icons-material/Museum"; // museum
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary"; // library
+import NightlifeIcon from "@mui/icons-material/Nightlife"; // night life
+import LocalMallIcon from "@mui/icons-material/LocalMall"; // mall
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore"; // shop
+import UmbrellaIcon from "@mui/icons-material/Umbrella"; // beauty
+import BoltIcon from "@mui/icons-material/Bolt"; // electronic
+import CheckroomIcon from "@mui/icons-material/Checkroom"; // cloth
+import HotelIcon from "@mui/icons-material/Hotel"; // hotel
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"; // fuel
+import CarRentalIcon from "@mui/icons-material/CarRental"; // car rental
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
@@ -40,6 +72,7 @@ import { getUserName, userLogged } from "../../utils/auth";
 // services
 import { removeImage } from "../../services/photo";
 import { fetchMenu, saveMenu } from "../../services/menu";
+import { sendHowToGoCookie } from "../../services/analytics";
 
 // contexts
 import { useMode } from "../../context/ModeProvider";
@@ -56,6 +89,7 @@ import { scrollTo } from "../../utils/functions";
 import {
   headerBox,
   mainWindow,
+  mainContent,
   productContentBox,
   productDescriptionBox,
   productImage,
@@ -63,6 +97,37 @@ import {
   productList,
   typeBoxCss,
 } from "../../assets/styles/styles";
+
+const socialMediaIcons = {
+  any: <PublicIcon fontSize="large" />,
+  facebook: <FacebookIcon fontSize="large" />,
+  instagram: <InstagramIcon fontSize="large" />,
+  twitter: <TwitterIcon fontSize="large" />,
+  linkedIn: <LinkedInIcon fontSize="large" />,
+  pinterest: <PinterestIcon fontSize="large" />,
+  youtube: <YouTubeIcon fontSize="large" />,
+};
+
+const placeTypeIcons = {
+  oldHouse: <BalconyIcon fontSize="small" />,
+  restaurant: <RestaurantIcon fontSize="small" />,
+  rentHouse: <BedroomParentIcon fontSize="small" />,
+  bar: <LocalBarIcon fontSize="small" />,
+  cafeteria: <DiningIcon fontSize="small" />,
+  gym: <FitnessCenterIcon fontSize="small" />,
+  art: <ColorLensIcon fontSize="small" />,
+  museum: <MuseumIcon fontSize="small" />,
+  library: <LocalLibraryIcon fontSize="small" />,
+  nightLife: <NightlifeIcon fontSize="small" />,
+  mall: <LocalMallIcon fontSize="small" />,
+  shop: <LocalGroceryStoreIcon fontSize="small" />,
+  beauty: <UmbrellaIcon fontSize="small" />,
+  electronic: <BoltIcon fontSize="small" />,
+  cloth: <CheckroomIcon fontSize="small" />,
+  hotel: <HotelIcon fontSize="small" />,
+  fuel: <LocalGasStationIcon fontSize="small" />,
+  carRental: <CarRentalIcon fontSize="small" />,
+};
 
 const Edit = () => {
   const theme = useTheme();
@@ -146,6 +211,13 @@ const Edit = () => {
   const [error, setError] = useState(false);
 
   const [menuName, setMenuName] = useState("");
+  const [menu, setMenu] = useState("");
+  const [phone, setPhone] = useState("");
+  const [socialMedia, setSocialMedia] = useState([]);
+  const [business, setBusiness] = useState([]);
+  const [photo, setPhoto] = useState("");
+  const [description, setDescription] = useState("");
+  const [geolocation, setGeoLocation] = useState({});
 
   const { setNotificationState } = useNotification();
 
@@ -164,6 +236,13 @@ const Edit = () => {
       const data = await response.data;
       if (data) {
         setMenuName(data.menu);
+        if (data.photo) setPhoto(data.photo.url);
+        setMenu(data.menu);
+        setDescription(data.description);
+        setPhone(data.phone);
+        setBusiness(data.business);
+        setSocialMedia(data.socialMedia);
+        if (data.location) setGeoLocation(data.location);
         setProductTypes({
           type: "set",
           newArray: data.types
@@ -320,6 +399,11 @@ const Edit = () => {
     retry();
   }, []);
 
+  const clickedMap = (e) => {
+    e.preventDefault();
+    sendHowToGoCookie();
+  };
+
   const hasProducts = useCallback(
     (item) => {
       const lProducts = products.filter((jtem) => jtem.type === item.name);
@@ -394,6 +478,120 @@ const Edit = () => {
         >
           {modeState.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
         </IconButton>
+      </Box>
+      <Box sx={mainContent}>
+        <Box sx={productImageBox}>
+          <SitoImage
+            src={photo && photo !== "" ? photo : noProduct}
+            alt={menu}
+            sx={productImage}
+          />
+        </Box>
+        <Box display="flex" alignItems="center" sx={{ marginTop: "10px" }}>
+          <Typography
+            variant="h3"
+            sx={{ fontWeight: "bold", fontSize: "1.5rem", marginRight: "10px" }}
+          >
+            {menu}
+          </Typography>
+          <Link to="/settings">
+            <IconButton color="primary">
+              <EditIcon />
+            </IconButton>
+          </Link>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          {business.map((item) => (
+            <Tooltip key={item.url} title={item.name}>
+              <MUILink
+                href={`${process.env.PUBLIC_URL}/?type=${item.id}`}
+                rel="noopener"
+                target="_blank"
+              >
+                <IconButton color="primary">
+                  {
+                    placeTypeIcons[
+                      languageState.texts.Settings.Inputs.CenterTypes.Types.find(
+                        (jtem) => jtem.id === item.id
+                      ).icon
+                    ]
+                  }
+                </IconButton>
+              </MUILink>
+            </Tooltip>
+          ))}
+        </Box>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {description}
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          {phone.length > 0 ? (
+            <InViewComponent delay="0s">
+              <Tooltip
+                title={
+                  languageState.texts.Settings.Inputs.Contact.SocialMedia
+                    .WhatsApp
+                }
+              >
+                <MUILink
+                  href={`https://wa.me/${phone}`}
+                  rel="noopener"
+                  target="_blank"
+                >
+                  <IconButton color="primary">
+                    <WhatsAppIcon fontSize="large" />
+                  </IconButton>
+                </MUILink>
+              </Tooltip>
+            </InViewComponent>
+          ) : null}
+          {socialMedia.map((item, i) => (
+            <InViewComponent delay={`${parseI(0.1, i)}s`} key={item.url}>
+              <Tooltip
+                title={
+                  languageState.texts.Settings.Inputs.Contact.SocialMedia.Icons[
+                    item.icon
+                  ]
+                }
+              >
+                <MUILink href={item.url} rel="noopener" target="_blank">
+                  <IconButton color="primary">
+                    {socialMediaIcons[item.icon]}
+                  </IconButton>
+                </MUILink>
+              </Tooltip>
+            </InViewComponent>
+          ))}
+          {geolocation.latitude && geolocation.longitude ? (
+            <InViewComponent delay={`${parseI(0.1, socialMedia.length - 1)}s`}>
+              <Tooltip title={languageState.texts.Map.Tooltip}>
+                <MUILink
+                  onClick={clickedMap}
+                  href={`https://www.google.com/maps/dir//${geolocation.latitude},${geolocation.longitude}/@${geolocation.latitude},${geolocation.longitude},21z`}
+                >
+                  <IconButton color="primary">
+                    <MapIcon fontSize="large" />
+                  </IconButton>
+                </MUILink>
+              </Tooltip>
+            </InViewComponent>
+          ) : null}
+        </Box>
       </Box>
       {/* shouldScroll */}
       <SitoContainer
