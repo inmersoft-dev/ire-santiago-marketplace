@@ -23,6 +23,7 @@ import { css } from "@emotion/css";
 
 // @mui/icons-material
 import AddIcon from "@mui/icons-material/Add";
+import WhatsApp from "@mui/icons-material/WhatsApp";
 import DownloadIcon from "@mui/icons-material/Download";
 import PublicIcon from "@mui/icons-material/Public";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -650,31 +651,45 @@ const Settings = () => {
                   />
                 </SitoContainer>
                 {/* Phone */}
-                <SitoContainer sx={{ marginTop: "20px" }}>
+                <SitoContainer sx={{ marginTop: "30px" }}>
                   <Controller
                     name="phone"
                     control={control}
                     render={({ field }) => (
-                      <TextField
-                        required
+                      <FormControl
                         color={phoneError ? "error" : "primary"}
-                        sx={{ width: "100%", marginTop: "10px" }}
-                        id="phone"
-                        type="tel"
-                        helperText={phoneHelperText}
-                        onInput={validate}
-                        onInvalid={invalidate}
-                        label={
-                          languageState.texts.Settings.Inputs.Contact.Phone
-                            .Label
-                        }
-                        placeholder={
-                          languageState.texts.Settings.Inputs.Contact.Phone
-                            .Placeholder
-                        }
+                        sx={{ width: "100%" }}
                         variant="outlined"
-                        {...field}
-                      />
+                      >
+                        <InputLabel>
+                          {
+                            languageState.texts.Settings.Inputs.Contact.Phone
+                              .Label
+                          }
+                        </InputLabel>
+                        <OutlinedInput
+                          required
+                          id="phone"
+                          type="tel"
+                          onInput={validate}
+                          onInvalid={invalidate}
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <WhatsApp color="secondary" />
+                            </InputAdornment>
+                          }
+                          label={
+                            languageState.texts.Settings.Inputs.Contact.Phone
+                              .Label
+                          }
+                          placeholder={
+                            languageState.texts.Settings.Inputs.Contact.Phone
+                              .Placeholder
+                          }
+                          {...field}
+                        />
+                        <FormHelperText>{phoneHelperText}</FormHelperText>
+                      </FormControl>
                     )}
                   />
                 </SitoContainer>
@@ -960,7 +975,7 @@ const Settings = () => {
                     color={passwordError ? "error" : "primary"}
                     variant="outlined"
                   >
-                    <InputLabel htmlFor="outlined-adornment-password">
+                    <InputLabel>
                       {languageState.texts.Login.Inputs.Password.Label}
                     </InputLabel>
                     <OutlinedInput
