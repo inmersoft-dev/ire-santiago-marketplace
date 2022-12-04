@@ -342,10 +342,7 @@ const Watch = () => {
     return toReturn;
   };
 
-  const clickedMap = (e) => {
-    e.preventDefault();
-    sendHowToGoCookie();
-  };
+  const clickedMap = () => sendHowToGoCookie();
 
   const hasProducts = useCallback(
     (item) => {
