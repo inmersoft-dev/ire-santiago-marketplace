@@ -575,7 +575,7 @@ const Edit = () => {
             </InViewComponent>
           ))}
           {geolocation.latitude && geolocation.longitude ? (
-            <InViewComponent delay={`${parseI(0.1, socialMedia.length - 1)}s`}>
+            <InViewComponent delay={`${parseI(0.1, socialMedia.length)}s`}>
               <Tooltip title={languageState.texts.Map.Tooltip}>
                 <MUILink
                   onClick={clickedMap}
