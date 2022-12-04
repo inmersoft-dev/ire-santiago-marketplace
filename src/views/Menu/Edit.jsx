@@ -389,7 +389,7 @@ const Edit = () => {
         />
         <IconButton
           color="inherit"
-          sx={{ position: "absolute", top: "3px", right: 0, zIndex: 40 }}
+          sx={{ position: "fixed", top: "3px", right: 0, zIndex: 40 }}
           onClick={toggleMode}
         >
           {modeState.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}

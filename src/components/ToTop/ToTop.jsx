@@ -35,9 +35,6 @@ const ToTop = () => {
       variant="contained"
       sx={{
         borderRadius: "100%",
-        position: "fixed",
-        right: 10,
-        bottom: 10,
         padding: "5px",
         minWidth: 0,
         transition: "all 500ms ease",

@@ -7,6 +7,7 @@ import SitoContainer from "sito-container";
 
 // own components
 import Loading from "../../components/Loading/Loading";
+import BackButton from "../../components/BackButton/BackButton";
 
 // @mui components
 import {
@@ -152,6 +153,7 @@ const Login = () => {
         position: "relative",
       }}
     >
+      <BackButton to="/" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Loading
           visible={loading}
