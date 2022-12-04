@@ -542,7 +542,6 @@ const Settings = () => {
       <BackButton flat to="/" />
       <Box
         sx={{
-          width: "100%",
           display: "flex",
           alignItems: "center",
         }}

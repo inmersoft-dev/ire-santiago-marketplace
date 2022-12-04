@@ -419,7 +419,7 @@ const Home = () => {
             sx={{
               display: "flex",
               marginTop: "20px",
-              marginLeft: { xs: "10px", md: 0 },
+              marginLeft: 0,
               gap: "10px",
             }}
           >
