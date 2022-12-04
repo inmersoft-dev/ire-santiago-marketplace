@@ -182,6 +182,16 @@ const Home = () => {
     }
   };
 
+  const searchResultIsEmpty = useCallback(() => {
+    return !(
+      searchResult &&
+      searchResult.products &&
+      searchResult.menus &&
+      searchResult.products.length &&
+      searchResult.menus.length
+    );
+  }, [searchResult]);
+
   return (
     <Box sx={mainWindow} flexDirection="column">
       <FabButtons />
@@ -435,7 +445,7 @@ const Home = () => {
                         ))}
                       </Box>
                     ))}
-              {toSearch.length > 0 && searchResult.length === 0 && !loading && (
+              {toSearch.length > 0 && searchResultIsEmpty() && !loading && (
                 <Empty text={languageState.texts.Errors.NoResults} />
               )}
             </Box>
