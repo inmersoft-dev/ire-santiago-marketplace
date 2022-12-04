@@ -536,13 +536,13 @@ const Watch = () => {
                       <Box>
                         {products
                           .filter((jtem) => jtem.type === item.name)
-                          .map((jtem) => (
+                          .map((jtem, j) => (
                             <InViewComponent
                               key={jtem.id}
                               id={`obj-${spaceToDashes(
                                 parserAccents(jtem.name)
                               )}`}
-                              delay={`0.${1 * (jtem.index + 1)}s`}
+                              delay={`${parseI(0.1, j)}s`}
                               sx={{
                                 display: "flex",
                                 justifyContent: "center",

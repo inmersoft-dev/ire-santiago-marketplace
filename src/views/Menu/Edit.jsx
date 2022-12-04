@@ -337,6 +337,12 @@ const Edit = () => {
     if (type !== null) scrollTo(type.offsetTop);
   };
 
+  const parseI = (start, i) => {
+    let toReturn = start;
+    for (let j = 0; j < i; j += 1) toReturn += 0.2;
+    return toReturn;
+  };
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
       <BackButton flat to="/" />
@@ -428,10 +434,10 @@ const Edit = () => {
                   <Box>
                     {products
                       .filter((jtem) => jtem.type === item.name)
-                      .map((jtem) => (
+                      .map((jtem, j) => (
                         <InViewComponent
                           key={jtem.id}
-                          delay={`0.${1 * (jtem.index + 1)}s`}
+                          delay={`${parseI(0.1, j)}s`}
                           sx={{
                             display: "flex",
                             justifyContent: "center",
