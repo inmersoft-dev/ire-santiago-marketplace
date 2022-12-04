@@ -352,7 +352,7 @@ const Edit = () => {
         getUserName(),
         menuName,
         newProducts,
-        newProductTypes.map((item) => item.name)
+        newProductTypes
       );
       if (result.status === 200) {
         showNotification(
@@ -425,7 +425,7 @@ const Edit = () => {
   };
 
   return (
-    <SitoContainer sx={mainWindow} flexDirection="column">
+    <Box sx={mainWindow} flexDirection="column">
       <BackButton flat to="/" />
       <FabButtons location="edit" />
       {selected && (
@@ -626,7 +626,7 @@ const Edit = () => {
                       {item.name}
                     </Typography>
                   </Box>
-                  <Box>
+                  <Box sx={{ width: "100%" }}>
                     {products
                       .filter((jtem) => jtem.type === item.name)
                       .map((jtem, j) => (
@@ -645,7 +645,7 @@ const Edit = () => {
                             sx={{
                               position: "relative",
                               marginTop: "20px",
-                              width: { md: "800px", sm: "630px", xs: "100%" },
+                              width: { sm: "630px", xs: "100%" },
                               padding: "1rem",
                               borderRadius: "1rem",
                               background: theme.palette.background.paper,
@@ -670,7 +670,9 @@ const Edit = () => {
                                 setSelected(jtem);
                               }}
                             >
-                              <SitoContainer sx={{ marginRight: "20px" }}>
+                              <Box
+                                sx={{ marginRight: "20px", display: "flex" }}
+                              >
                                 <Box sx={productImageBox}>
                                   <SitoImage
                                     src={
@@ -682,7 +684,7 @@ const Edit = () => {
                                     sx={productImage}
                                   />
                                 </Box>
-                              </SitoContainer>
+                              </Box>
                               <Box sx={productContentBox}>
                                 <Typography
                                   variant="h3"
@@ -714,7 +716,7 @@ const Edit = () => {
               ))}
         </Box>
       )}
-    </SitoContainer>
+    </Box>
   );
 };
 

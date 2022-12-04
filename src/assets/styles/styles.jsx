@@ -9,7 +9,7 @@ export const mainWindow = {
   width: { sm: "630px", xs: "100%" },
   display: "flex",
   minHeight: "100vh",
-  padding: "25px",
+  padding: { xs: "25px", sm: 0 },
 };
 
 export const modal = {
@@ -48,6 +48,7 @@ export const mainContent = {
 
 export const productList = {
   padding: "20px 0",
+  width: "100%",
   flexDirection: "column",
 };
 
