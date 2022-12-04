@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useReducer, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import inViewport from "in-viewport";
 
@@ -69,6 +69,7 @@ import {
   sendQrCookie,
   sendVisitCookie,
   sendDescriptionCookie,
+  sendHowToGoCookie,
 } from "../../services/analytics";
 
 // contexts
@@ -341,6 +342,11 @@ const Watch = () => {
     return toReturn;
   };
 
+  const clickedMap = (e) => {
+    e.preventDefault();
+    sendHowToGoCookie();
+  };
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
       <BackButton flat to="/" />
@@ -453,6 +459,7 @@ const Watch = () => {
                 >
                   <Tooltip title={languageState.texts.Map.Tooltip}>
                     <MUILink
+                      onClick={clickedMap}
                       href={`https://www.google.com/maps/dir//${geolocation.latitude},${geolocation.longitude}/@${geolocation.latitude},${geolocation.longitude},21z`}
                     >
                       <IconButton color="primary">

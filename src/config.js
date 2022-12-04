@@ -20,6 +20,8 @@ const {
   REACT_APP_VISIT_COOKIE,
   REACT_APP_DESCRIPTION_COOKIE,
   REACT_APP_VIEW_COOKIE,
+  REACT_APP_HOW_TO_GO,
+  // map box
   REACT_APP_MAPBOX_API,
 } = process.env;
 
@@ -47,6 +49,7 @@ const config = {
   visitCookie: REACT_APP_VISIT_COOKIE,
   descriptionCookie: REACT_APP_DESCRIPTION_COOKIE,
   viewCookie: REACT_APP_VIEW_COOKIE,
+  howToGo: REACT_APP_HOW_TO_GO,
   // map box api
   mapBoxAPI: REACT_APP_MAPBOX_API,
 };
