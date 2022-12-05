@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useCallback, useReducer } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import inViewport from "in-viewport";
 
@@ -15,32 +15,23 @@ import {
   Box,
   Paper,
   Button,
-  Tooltip,
   useTheme,
   IconButton,
   Typography,
-  Link as MUILink,
 } from "@mui/material";
 
 // @mui icons
-import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
-// url
-import MapIcon from "@mui/icons-material/Map";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 // own components
 import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
+import MainContent from "./components/MainContent";
 import Modal from "../../components/Modal/EditModal";
 import Loading from "../../components/Loading/Loading";
 import WatchAppBar from "../../components/AppBar/WatchAppBar";
 import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
-import BusinessCategories from "../../components/BusinessCategories/BusinessCategories";
-
-// icons
-import { socialMediaIcons } from "./icons";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
@@ -48,7 +39,6 @@ import { getUserName, userLogged } from "../../utils/auth";
 // services
 import { removeImage } from "../../services/photo";
 import { fetchMenu, saveMenu } from "../../services/menu";
-import { sendHowToGoCookie } from "../../services/analytics";
 
 // contexts
 
@@ -62,7 +52,6 @@ import noProduct from "../../assets/images/no-product.webp";
 import {
   headerBox,
   mainWindow,
-  mainContent,
   productContentBox,
   productDescriptionBox,
   productImage,
@@ -337,8 +326,6 @@ const Edit = () => {
     retry();
   }, []);
 
-  const clickedMap = () => sendHowToGoCookie();
-
   const hasProducts = useCallback(
     (item) => {
       const lProducts = products.filter((jtem) => jtem.type === item.name);
@@ -373,93 +360,16 @@ const Edit = () => {
         }}
       />
       <WatchAppBar productTypes={productTypes} hasProducts={hasProducts} />
-      <Box sx={mainContent}>
-        <Box sx={productImageBox}>
-          <SitoImage
-            src={photo && photo !== "" ? photo : noProduct}
-            alt={menu}
-            sx={productImage}
-          />
-        </Box>
-        <Box display="flex" alignItems="center" sx={{ marginTop: "10px" }}>
-          <Typography
-            variant="h3"
-            sx={{ fontWeight: "bold", fontSize: "1.5rem", marginRight: "10px" }}
-          >
-            {menu}
-          </Typography>
-          <Link to="/settings">
-            <IconButton color="primary">
-              <EditIcon />
-            </IconButton>
-          </Link>
-        </Box>
-
-        <BusinessCategories business={business} />
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {description}
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          {phone.length > 0 ? (
-            <InViewComponent delay="0s">
-              <Tooltip
-                title={
-                  languageState.texts.Settings.Inputs.Contact.SocialMedia
-                    .WhatsApp
-                }
-              >
-                <MUILink
-                  href={`https://wa.me/${phone}`}
-                  rel="noopener"
-                  target="_blank"
-                >
-                  <IconButton color="primary">
-                    <WhatsAppIcon />
-                  </IconButton>
-                </MUILink>
-              </Tooltip>
-            </InViewComponent>
-          ) : null}
-          {socialMedia.map((item, i) => (
-            <InViewComponent delay={`${parseI(0.1, i)}s`} key={item.url}>
-              <Tooltip
-                title={
-                  languageState.texts.Settings.Inputs.Contact.SocialMedia.Icons[
-                    item.icon
-                  ]
-                }
-              >
-                <MUILink href={item.url} rel="noopener" target="_blank">
-                  <IconButton color="primary">
-                    {socialMediaIcons[item.icon]}
-                  </IconButton>
-                </MUILink>
-              </Tooltip>
-            </InViewComponent>
-          ))}
-          {geolocation.latitude && geolocation.longitude ? (
-            <InViewComponent delay={`${parseI(0.1, socialMedia.length)}s`}>
-              <Tooltip title={languageState.texts.Map.Tooltip}>
-                <MUILink
-                  onClick={clickedMap}
-                  href={`https://www.google.com/maps/dir//${geolocation.latitude},${geolocation.longitude}/@${geolocation.latitude},${geolocation.longitude},21z`}
-                >
-                  <IconButton color="primary">
-                    <MapIcon />
-                  </IconButton>
-                </MUILink>
-              </Tooltip>
-            </InViewComponent>
-          ) : null}
-        </Box>
-      </Box>
+      <MainContent
+        menu={menu}
+        phone={phone}
+        photo={photo}
+        business={business}
+        socialMedia={socialMedia}
+        description={description}
+        geolocation={geolocation}
+        editing
+      />
       {/* shouldScroll */}
       <SitoContainer
         sx={{ width: "100%", marginTop: "65px" }}

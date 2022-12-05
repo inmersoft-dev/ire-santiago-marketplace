@@ -3,35 +3,21 @@ import { useState, useEffect, useReducer, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
 // @mui components
-import {
-  Box,
-  Tooltip,
-  IconButton,
-  Typography,
-  Link as MUILink,
-} from "@mui/material";
-
-// @mui/icons-material
-import MapIcon from "@mui/icons-material/Map";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { Box, Typography } from "@mui/material";
 
 // sito components
 import SitoContainer from "sito-container";
-import SitoImage from "sito-image";
 
 // own components
 import Error from "../../components/Error/Error";
 import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
+import MainContent from "./components/MainContent";
 import NotFound from "../../views/NotFound/NotFound";
 import Loading from "../../components/Loading/Loading";
 import WatchAppBar from "../../components/AppBar/WatchAppBar";
 import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
-import BusinessCategories from "../../components/BusinessCategories/BusinessCategories";
-
-// icons
-import { socialMediaIcons } from "./icons";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
@@ -39,41 +25,31 @@ import {
   sendQrCookie,
   sendVisitCookie,
   sendDescriptionCookie,
-  sendHowToGoCookie,
 } from "../../services/analytics";
 
 // contexts
-import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // components
 import ProductCard from "../../components/ProductCard/ProductCard";
 
-// images
-import noProduct from "../../assets/images/no-product.webp";
-
 // functions
 import { dashesToSpace } from "../../utils/functions";
 
 // utils
-import { parserAccents } from "../../utils/parser";
+import { parserAccents, parseI } from "../../utils/parser";
 import { scrollTo, spaceToDashes } from "../../utils/functions";
 
 // styles
 import {
   typeBoxCss,
-  productImageBox,
-  productImage,
   headerBox,
   productList,
-  mainContent,
   mainWindow,
 } from "../../assets/styles/styles";
 
 const Watch = () => {
   const location = useLocation();
-
-  const { languageState } = useLanguage();
 
   const { setNotificationState } = useNotification();
 
@@ -243,14 +219,6 @@ const Watch = () => {
     if (qr === 0) sendVisitCookie(currentMenu);
   }, [qr, currentMenu]);
 
-  const parseI = (start, i) => {
-    let toReturn = start;
-    for (let j = 0; j < i; j += 1) toReturn += 0.2;
-    return toReturn;
-  };
-
-  const clickedMap = () => sendHowToGoCookie();
-
   const hasProducts = useCallback(
     (item) => {
       const lProducts = products.filter((jtem) => jtem.type === item.name);
@@ -276,86 +244,16 @@ const Watch = () => {
         <NotFound />
       ) : (
         <>
-          <Box sx={mainContent}>
-            <Box sx={productImageBox}>
-              <SitoImage
-                src={photo && photo !== "" ? photo : noProduct}
-                alt={menu}
-                sx={productImage}
-              />
-            </Box>
-            <Typography
-              variant="h3"
-              sx={{ fontWeight: "bold", fontSize: "1.5rem", marginTop: "10px" }}
-            >
-              {menu}
-            </Typography>
-            <BusinessCategories business={business} />
-            <Typography variant="body1" sx={{ textAlign: "center" }}>
-              {description}
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              {phone.length > 0 ? (
-                <InViewComponent delay="0s">
-                  <Tooltip
-                    title={
-                      languageState.texts.Settings.Inputs.Contact.SocialMedia
-                        .WhatsApp
-                    }
-                  >
-                    <MUILink
-                      href={`https://wa.me/${phone}`}
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      <IconButton color="primary">
-                        <WhatsAppIcon />
-                      </IconButton>
-                    </MUILink>
-                  </Tooltip>
-                </InViewComponent>
-              ) : null}
-              {socialMedia.map((item, i) => (
-                <InViewComponent delay={`${parseI(0.1, i)}s`} key={item.url}>
-                  <Tooltip
-                    title={
-                      languageState.texts.Settings.Inputs.Contact.SocialMedia
-                        .Icons[item.icon]
-                    }
-                  >
-                    <MUILink href={item.url} rel="noopener" target="_blank">
-                      <IconButton color="primary">
-                        {socialMediaIcons[item.icon]}
-                      </IconButton>
-                    </MUILink>
-                  </Tooltip>
-                </InViewComponent>
-              ))}
-              {geolocation.latitude && geolocation.longitude ? (
-                <InViewComponent delay={`${parseI(0.1, socialMedia.length)}s`}>
-                  <Tooltip title={languageState.texts.Map.Tooltip}>
-                    <MUILink
-                      onClick={clickedMap}
-                      href={`https://www.google.com/maps/dir//${geolocation.latitude},${geolocation.longitude}/@${geolocation.latitude},${geolocation.longitude},21z`}
-                    >
-                      <IconButton color="primary">
-                        <MapIcon />
-                      </IconButton>
-                    </MUILink>
-                  </Tooltip>
-                </InViewComponent>
-              ) : null}
-            </Box>
-          </Box>
-
           <WatchAppBar productTypes={productTypes} hasProducts={hasProducts} />
+          <MainContent
+            menu={menu}
+            phone={phone}
+            photo={photo}
+            business={business}
+            socialMedia={socialMedia}
+            description={description}
+            geolocation={geolocation}
+          />
           {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (
