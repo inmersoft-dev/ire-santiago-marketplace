@@ -1,14 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useReducer, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
-
-import inViewport from "in-viewport";
+import { useLocation } from "react-router-dom";
 
 // @mui components
 import {
   Box,
   Tooltip,
-  useTheme,
   IconButton,
   Typography,
   Link as MUILink,
@@ -17,8 +14,6 @@ import {
 // @mui/icons-material
 import MapIcon from "@mui/icons-material/Map";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -26,17 +21,17 @@ import SitoImage from "sito-image";
 
 // own components
 import Error from "../../components/Error/Error";
-import Loading from "../../components/Loading/Loading";
 import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
 import NotFound from "../../views/NotFound/NotFound";
-import TabView from "../../components/TabView/TabView";
-import BackButton from "../../components/BackButton/BackButton";
+import Loading from "../../components/Loading/Loading";
+import WatchAppBar from "../../components/AppBar/WatchAppBar";
 import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
+import BusinessCategories from "../../components/BusinessCategories/BusinessCategories";
 
 // icons
-import { socialMediaIcons, placeTypeIcons } from "./icons";
+import { socialMediaIcons } from "./icons";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
@@ -48,7 +43,6 @@ import {
 } from "../../services/analytics";
 
 // contexts
-import { useMode } from "../../context/ModeProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
@@ -77,14 +71,11 @@ import {
 } from "../../assets/styles/styles";
 
 const Watch = () => {
-  const theme = useTheme();
   const location = useLocation();
 
   const { languageState } = useLanguage();
-  const { modeState, setModeState } = useMode();
-  const { setNotificationState } = useNotification();
 
-  const toggleMode = () => setModeState({ type: "toggle" });
+  const { setNotificationState } = useNotification();
 
   const typesReducer = (typesStates, action) => {
     const { type } = action;
@@ -184,24 +175,6 @@ const Watch = () => {
 
   const retry = () => fetch();
 
-  const onScroll = useCallback(
-    (e) => {
-      let firstTrue = -1;
-      for (let i = 0; i < productTypes.length; i += 1) {
-        const elem = document.getElementById(`title-${productTypes[i].name}`);
-        const isInViewport = inViewport(elem);
-        if (isInViewport && firstTrue === -1) firstTrue = i;
-        if (
-          isInViewport &&
-          document.documentElement.scrollTop >=
-            Math.floor(elem.offsetTop - elem.getBoundingClientRect().top)
-        )
-          setTab(i);
-      }
-    },
-    [productTypes]
-  );
-
   const onKeyDown = useCallback(
     (e) => {
       if (e.key === "Escape") {
@@ -212,13 +185,11 @@ const Watch = () => {
   );
 
   useEffect(() => {
-    window.addEventListener("scroll", onScroll);
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [onScroll, onKeyDown]);
+  }, [onKeyDown]);
 
   useEffect(() => {
     if (currentMenu.length) retry();
@@ -272,14 +243,6 @@ const Watch = () => {
     if (qr === 0) sendVisitCookie(currentMenu);
   }, [qr, currentMenu]);
 
-  const [tab, setTab] = useState(0);
-
-  const changeTab = (e, value) => {
-    setTab(value);
-    const type = document.getElementById(`title-${productTypes[value].name}`);
-    if (type !== null) scrollTo(type.offsetTop);
-  };
-
   const parseI = (start, i) => {
     let toReturn = start;
     for (let j = 0; j < i; j += 1) toReturn += 0.2;
@@ -299,7 +262,6 @@ const Watch = () => {
 
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
-      <BackButton flat to="/" sx={{ top: "11px" }} />
       <FabButtons />
       {selected && (
         <Modal visible={visible} item={selected} onClose={onModalClose} />
@@ -328,34 +290,7 @@ const Watch = () => {
             >
               {menu}
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              {business.map((item) => (
-                <Tooltip key={item.url} title={item.name}>
-                  <Link
-                    to={`/?business=${parserAccents(
-                      spaceToDashes(item.name)
-                    ).toLowerCase()}`}
-                  >
-                    <IconButton color="primary">
-                      {
-                        placeTypeIcons[
-                          languageState.texts.Settings.Inputs.CenterTypes.Types.find(
-                            (jtem) => jtem.id === item.id
-                          ).icon
-                        ]
-                      }
-                    </IconButton>
-                  </Link>
-                </Tooltip>
-              ))}
-            </Box>
+            <BusinessCategories business={business} />
             <Typography variant="body1" sx={{ textAlign: "center" }}>
               {description}
             </Typography>
@@ -419,48 +354,8 @@ const Watch = () => {
               ) : null}
             </Box>
           </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <TabView
-              sx={{
-                width: "100%",
-                position: "fixed",
-                height: "60px",
-                top: 0,
-                left: 0,
-                background: theme.palette.background.paper,
-                zIndex: 15,
-              }}
-              tabsContainerSx={{
-                width: "calc(100% - 40px)",
-                paddingLeft: "40px",
-                paddingTop: "6px",
-                height: "60px",
-              }}
-              value={tab}
-              onChange={changeTab}
-              tabs={productTypes
-                .filter((item) => hasProducts(item))
-                .map((item, i) => item.name)}
-              content={[]}
-            />
-            <IconButton
-              color="inherit"
-              sx={{ position: "fixed", top: "11px", right: 0, zIndex: 40 }}
-              onClick={toggleMode}
-            >
-              {modeState.mode === "light" ? (
-                <DarkModeIcon />
-              ) : (
-                <LightModeIcon />
-              )}
-            </IconButton>
-          </Box>
+
+          <WatchAppBar productTypes={productTypes} hasProducts={hasProducts} />
           {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (

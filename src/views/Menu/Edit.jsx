@@ -25,23 +25,22 @@ import {
 // @mui icons
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
-// own components
-import Error from "../../components/Error/Error";
-import Empty from "../../components/Empty/Empty";
-import Modal from "../../components/Modal/EditModal";
-import TabView from "../../components/TabView/TabView";
-import Loading from "../../components/Loading/Loading";
-import FabButtons from "../../components/FabButtons/FabButtons";
-import BackButton from "../../components/BackButton/BackButton";
-import InViewComponent from "../../components/InViewComponent/InViewComponent";
 // url
 import MapIcon from "@mui/icons-material/Map";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
+// own components
+import Error from "../../components/Error/Error";
+import Empty from "../../components/Empty/Empty";
+import Modal from "../../components/Modal/EditModal";
+import Loading from "../../components/Loading/Loading";
+import WatchAppBar from "../../components/AppBar/WatchAppBar";
+import FabButtons from "../../components/FabButtons/FabButtons";
+import InViewComponent from "../../components/InViewComponent/InViewComponent";
+import BusinessCategories from "../../components/BusinessCategories/BusinessCategories";
+
 // icons
-import { socialMediaIcons, placeTypeIcons } from "./icons";
+import { socialMediaIcons } from "./icons";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
@@ -52,15 +51,12 @@ import { fetchMenu, saveMenu } from "../../services/menu";
 import { sendHowToGoCookie } from "../../services/analytics";
 
 // contexts
-import { useMode } from "../../context/ModeProvider";
+
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
-
-// utils
-import { scrollTo } from "../../utils/functions";
 
 // styles
 import {
@@ -79,11 +75,7 @@ const Edit = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const { modeState, setModeState } = useMode();
-
   const [selected, setSelected] = useState();
-
-  const toggleMode = () => setModeState({ type: "toggle" });
 
   const [visible, setVisible] = useState(false);
 
@@ -356,14 +348,6 @@ const Edit = () => {
     [products]
   );
 
-  const [tab, setTab] = useState(0);
-
-  const changeTab = (e, value) => {
-    setTab(value);
-    const type = document.getElementById(`title-${productTypes[value].name}`);
-    if (type !== null) scrollTo(type.offsetTop);
-  };
-
   const parseI = (start, i) => {
     let toReturn = start;
     for (let j = 0; j < i; j += 1) toReturn += 0.2;
@@ -372,7 +356,6 @@ const Edit = () => {
 
   return (
     <Box sx={mainWindow} flexDirection="column">
-      <BackButton flat to="/" />
       <FabButtons location="edit" />
       {selected && (
         <Modal
@@ -389,39 +372,7 @@ const Edit = () => {
           zIndex: loading === 1 ? 99 : -1,
         }}
       />
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <TabView
-          sx={{
-            width: "100%",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            background: theme.palette.background.paper,
-            zIndex: 15,
-          }}
-          tabsContainerSx={{
-            width: "calc(100% - 40px)",
-            paddingLeft: "40px",
-          }}
-          value={tab}
-          onChange={changeTab}
-          tabs={productTypes.map((item, i) => item.name)}
-          content={[]}
-        />
-        <IconButton
-          color="inherit"
-          sx={{ position: "fixed", top: "3px", right: 0, zIndex: 40 }}
-          onClick={toggleMode}
-        >
-          {modeState.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
-        </IconButton>
-      </Box>
+      <WatchAppBar productTypes={productTypes} hasProducts={hasProducts} />
       <Box sx={mainContent}>
         <Box sx={productImageBox}>
           <SitoImage
@@ -444,34 +395,7 @@ const Edit = () => {
           </Link>
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          {business.map((item) => (
-            <Tooltip key={item.url} title={item.name}>
-              <MUILink
-                href={`${process.env.PUBLIC_URL}/?type=${item.id}`}
-                rel="noopener"
-                target="_blank"
-              >
-                <IconButton color="primary">
-                  {
-                    placeTypeIcons[
-                      languageState.texts.Settings.Inputs.CenterTypes.Types.find(
-                        (jtem) => jtem.id === item.id
-                      ).icon
-                    ]
-                  }
-                </IconButton>
-              </MUILink>
-            </Tooltip>
-          ))}
-        </Box>
+        <BusinessCategories business={business} />
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {description}
         </Typography>
