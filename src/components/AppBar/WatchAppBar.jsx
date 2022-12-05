@@ -33,7 +33,7 @@ const WatchAppBar = (props) => {
   const changeTab = (e, value) => {
     setTab(value);
     const type = document.getElementById(`title-${productTypes[value].name}`);
-    if (type !== null) scrollTo(type.offsetTop);
+    if (type !== null) scrollTo(type.offsetTop - (tab < value ? 0 : 120));
   };
 
   const onScroll = useCallback(

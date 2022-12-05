@@ -30,7 +30,7 @@ const BusinessCategories = (props) => {
       }}
     >
       {business.map((item) => (
-        <Tooltip key={item.url} title={item.name}>
+        <Tooltip key={item.id} title={item.name}>
           <Link
             to={`/?business=${parserAccents(
               spaceToDashes(item.name)
