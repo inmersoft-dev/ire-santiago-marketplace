@@ -299,7 +299,7 @@ const Watch = () => {
 
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
-      <BackButton flat to="/" />
+      <BackButton flat to="/" sx={{ top: "11px" }} />
       <FabButtons />
       {selected && (
         <Modal visible={visible} item={selected} onClose={onModalClose} />
@@ -430,6 +430,7 @@ const Watch = () => {
               sx={{
                 width: "100%",
                 position: "fixed",
+                height: "60px",
                 top: 0,
                 left: 0,
                 background: theme.palette.background.paper,
@@ -438,6 +439,8 @@ const Watch = () => {
               tabsContainerSx={{
                 width: "calc(100% - 40px)",
                 paddingLeft: "40px",
+                paddingTop: "6px",
+                height: "60px",
               }}
               value={tab}
               onChange={changeTab}
@@ -448,7 +451,7 @@ const Watch = () => {
             />
             <IconButton
               color="inherit"
-              sx={{ position: "fixed", top: "3px", right: 0, zIndex: 40 }}
+              sx={{ position: "fixed", top: "11px", right: 0, zIndex: 40 }}
               onClick={toggleMode}
             >
               {modeState.mode === "light" ? (

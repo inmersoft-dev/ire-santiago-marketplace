@@ -248,6 +248,7 @@ const Home = () => {
         <Box
           sx={{
             width: "100%",
+            zIndex: 99,
             position: "fixed",
             top: 0,
             left: 0,
