@@ -6,9 +6,9 @@ const dark = createTheme({
   palette: {
     type: "dark",
     primary: {
-      dark: "#850f17",
-      main: "#be1622",
-      light: "#cb444e",
+      dark: " #930e1f",
+      main: "#d2152d",
+      light: "#db4357",
       contrastText: "#ffffff",
     },
     secondary: {
@@ -133,9 +133,10 @@ const dark = createTheme({
     },
     button: {
       fontSize: "0.8rem",
-      fontWeight: 500,
+      fontWeight: "bold",
       lineHeight: 1.75,
       letterSpacing: "0.02em",
+      textTransform: "capitalize",
       fontFamily: "Roboto, sans-serif",
     },
     caption: {

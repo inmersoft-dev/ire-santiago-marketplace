@@ -83,8 +83,8 @@
       "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
       "Tabs": ["Generales", "Mapa", "Seguridad"],
       "PasswordTitle": "Cambiar contraseña",
-      "Qr": "Código Qr del catálogo",
-      "ShowLogoOnQr": "Mostrar logo en el qr",
+      "Qr": "Código QR del catálogo",
+      "ShowLogoOnQr": "Mostrar logo en el QR",
       "Inputs": {
         "CenterTypes": {
           "Label": "Tipo de negocio",

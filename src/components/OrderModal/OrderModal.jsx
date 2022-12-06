@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import useOnclickOutside from "react-cool-onclickoutside";
 
 import PropTypes from "prop-types";
@@ -36,13 +36,13 @@ import {
 
 // context
 import { useLanguage } from "../../context/LanguageProvider";
+import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { findFirstLowerLetter, findFirstUpperLetter } from "../../utils/auth";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
-import { useCallback } from "react";
 
 const OrderModal = (props) => {
   const theme = useTheme();
@@ -70,6 +70,7 @@ const OrderModal = (props) => {
 
   const [remote, setRemote] = useState(false);
   const [customerName, setCustomerName] = useState("");
+  const [nameHelperText, setNameHelperText] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [phoneHelperText, setPhoneHelperText] = useState("");
 
@@ -97,6 +98,8 @@ const OrderModal = (props) => {
   };
 
   useEffect(() => {
+    const name = document.getElementById("name");
+    if (name !== null) name.focus();
     if (show) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "inherit";
   }, [show]);
@@ -106,6 +109,49 @@ const OrderModal = (props) => {
     order.forEach((item) => (total += item.cost));
     return total;
   }, [order]);
+
+  const { setNotificationState } = useNotification();
+
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
+
+  const [ok, setOk] = useState(1);
+
+  const validate = () => setOk(true);
+
+  const invalidate = (e) => {
+    e.preventDefault();
+    if (ok) {
+      const { id } = e.target;
+      e.target.focus();
+      setOk(false);
+      switch (id) {
+        case "phone":
+          setPhoneHelperText(languageState.texts.Errors.PhoneRequired);
+          return showNotification(
+            "error",
+            languageState.texts.Errors.PhoneRequired
+          );
+        default:
+          setNameHelperText(languageState.texts.Errors.NameRequired);
+          return showNotification(
+            "error",
+            languageState.texts.Errors.NameRequired
+          );
+      }
+    }
+  };
+
+  const [orderState, setOrderState] = useState(false);
+
+  const executeOrder = (e) => {
+    e.preventDefault();
+    console.log("hola");
+  };
 
   return (
     <Box
@@ -169,6 +215,7 @@ const OrderModal = (props) => {
 
         {order.map((item) => (
           <Box
+            key={item.productId}
             sx={{
               position: "relative",
               width: { sm: "630px", xs: "100%" },
@@ -269,6 +316,8 @@ const OrderModal = (props) => {
           </Box>
         ) : null}
         <Box
+          component="form"
+          onSubmit={executeOrder}
           display="flex"
           flexDirection="column"
           gap="20px"
@@ -280,6 +329,11 @@ const OrderModal = (props) => {
           }}
         >
           <TextField
+            required
+            id="name"
+            color={nameHelperText.length > 0 ? "error" : "primary"}
+            onInput={validate}
+            onInvalid={invalidate}
             sx={{ width: "100%" }}
             type="text"
             label={
@@ -294,6 +348,10 @@ const OrderModal = (props) => {
             onChange={(e) => setCustomerName(e.target.value)}
           />
           <TextField
+            required
+            id="phone"
+            onInput={validate}
+            onInvalid={invalidate}
             sx={{ width: "100%" }}
             color={phoneHelperText.length > 0 ? "error" : "primary"}
             helperText={phoneHelperText}
@@ -335,7 +393,7 @@ const OrderModal = (props) => {
             alignItems="center"
             sx={{ width: "100%", gap: "20px" }}
           >
-            <Button variant="contained">
+            <Button variant="contained" type="submit">
               {languageState.texts.Settings.Inputs.Contact.Count.Submit}
             </Button>
             <Button
