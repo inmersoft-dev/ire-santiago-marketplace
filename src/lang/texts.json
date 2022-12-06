@@ -81,7 +81,7 @@
     },
     "Settings": {
       "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
-      "Tabs": ["Generales", "Mapa", "Seguridad"],
+      "Tabs": ["Generales", "Social", "Mapa", "Seguridad", "QR"],
       "PasswordTitle": "Cambiar contraseña",
       "Qr": "Código QR del catálogo",
       "ShowLogoOnQr": "Mostrar logo en el QR",

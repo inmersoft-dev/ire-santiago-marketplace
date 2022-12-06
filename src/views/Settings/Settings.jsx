@@ -110,7 +110,7 @@ const Settings = () => {
   const { setNotificationState } = useNotification();
 
   const [oldName, setOldName] = useState("");
-  const [menuNameError, setMenuNameError] = useState(false);
+  const [menuNameHelperText, setMenuNameHelperText] = useState(false);
 
   const socialMediaReducer = (socialMediaState, action) => {
     const { type } = action;
@@ -242,39 +242,27 @@ const Settings = () => {
       setOk(false);
       switch (id) {
         case "password": {
-          setPasswordError(true);
-          return showNotification(
-            "error",
+          return setPasswordHelperText(
             languageState.texts.Errors.PasswordRequired
           );
         }
         case "phone":
-          setPhoneError(true);
-          return showNotification(
-            "error",
-            languageState.texts.Errors.PhoneRequired
-          );
+          return setPhoneHelperText(languageState.texts.Errors.PhoneRequired);
         default:
-          setMenuNameError(true);
-          return showNotification(
-            "error",
-            languageState.texts.Errors.NameRequired
-          );
+          return setMenuNameHelperText(languageState.texts.Errors.NameRequired);
       }
     }
   };
 
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [rPassword, setRPassword] = useState("");
-  const [phoneError, setPhoneError] = useState(false);
   const [phoneHelperText, setPhoneHelperText] = useState("");
-  const [rPasswordError, setRPasswordError] = useState(false);
   const [passwordHelperText, setPasswordHelperText] = useState("");
+  const [rpasswordHelperText, setRPasswordHelperText] = useState("");
 
   const onChangePassword = async () => {
-    setPasswordError(false);
-    setRPasswordError(false);
+    setPasswordHelperText("");
+    setRPasswordHelperText("");
     if (password === rPassword) {
       const passwordValidationResult = passwordsAreValid(
         password,
@@ -284,20 +272,17 @@ const Settings = () => {
       if (passwordValidationResult > -1)
         switch (passwordValidationResult) {
           case 0:
-            showNotification(
-              "error",
+            setPasswordHelperText(
               languageState.texts.Errors.PasswordLengthValidation
             );
             break;
           case 1:
-            showNotification(
-              "error",
+            setPasswordHelperText(
               languageState.texts.Errors.PasswordCharacterValidation
             );
             break;
           default:
-            showNotification(
-              "error",
+            setPasswordHelperText(
               languageState.texts.Errors.PasswordNameValidation
             );
             break;
@@ -320,10 +305,9 @@ const Settings = () => {
         }
       }
     } else {
-      setRPasswordError(true);
+      setRPasswordHelperText(languageState.texts.Errors.DifferentPassword);
       const rPasswordInput = document.getElementById("rPassword");
       if (rPasswordInput !== null) rPasswordInput.focus();
-      showNotification("error", languageState.texts.Errors.DifferentPassword);
     }
     setLoading(false);
     return false;
@@ -332,12 +316,12 @@ const Settings = () => {
   const onSubmit = useCallback(
     async (data) => {
       const { menu, phone, description } = data;
-      if (phoneError && (!phone || phone.length)) {
+      if (phoneHelperText.length > 0 && (!phone || phone.length)) {
         const phoneInput = document.getElementById("phone");
         if (phoneInput !== null) phoneInput.focus();
       } else {
-        setMenuNameError(false);
-        setPhoneError(false);
+        setMenuNameHelperText("");
+        setPhoneHelperText("");
         setLoading(true);
         try {
           const response = await saveProfile(
@@ -360,12 +344,9 @@ const Settings = () => {
           } else {
             const { error } = response.data;
             if (error.indexOf("menu") > -1) {
-              setMenuNameError(true);
-              document.getElementById("menu").focus();
-              showNotification(
-                "error",
-                languageState.texts.Errors.MenuNameTaken
-              );
+              setMenuNameHelperText(languageState.texts.Errors.MenuNameTaken);
+              const menuInput = document.getElementById("menu");
+              if (menuInput !== null) menuInput.focus();
             } else
               showNotification("error", languageState.texts.Errors.SomeWrong);
           }
@@ -374,11 +355,45 @@ const Settings = () => {
           showNotification("error", String(err));
         }
       }
-
       setLoading(false);
       return false;
     },
-    [phoneError, passwordError, socialMedia]
+    [phoneHelperText, socialMedia]
+  );
+
+  const onSaveSocial = useCallback(
+    async (data) => {
+      const { description } = data;
+      if (description && description.length) {
+        const descriptionInput = document.getElementById("description");
+        if (descriptionInput !== null) descriptionInput.focus();
+      } else {
+        setDescriptionHelperText("");
+        setLoading(true);
+        try {
+          const response = await saveSocial(
+            getUserName(),
+            socialMedia || [],
+            description || ""
+          );
+          if (response.status === 200) {
+            showNotification(
+              "success",
+              languageState.texts.Messages.SaveSuccessful
+            );
+            setLoading(false);
+            return true;
+          } else
+            showNotification("error", languageState.texts.Errors.SomeWrong);
+        } catch (err) {
+          console.error(err);
+          showNotification("error", String(err));
+        }
+      }
+      setLoading(false);
+      return false;
+    },
+    [socialMedia]
   );
 
   useEffect(() => {
@@ -443,10 +458,9 @@ const Settings = () => {
       });
       if (value) navigate("/menu/edit/");
     } else {
-      setMenuNameError(true);
-      if (document.getElementById("menu"))
-        document.getElementById("menu").focus();
-      return showNotification("error", languageState.texts.Errors.NameRequired);
+      setMenuNameHelperText(languageState.texts.Errors.NameRequired);
+      const menuInput = document.getElementById("menu");
+      if (menuInput !== null) document.getElementById("menu").focus();
     }
   };
 
@@ -458,7 +472,6 @@ const Settings = () => {
       getUserName()
     );
     if (passwordValidationResult > -1) {
-      setPasswordError(true);
       switch (passwordValidationResult) {
         case 0:
           setPasswordHelperText(
@@ -476,10 +489,7 @@ const Settings = () => {
           );
           break;
       }
-    } else {
-      setPasswordError(false);
-      setPasswordHelperText("");
-    }
+    } else setPasswordHelperText("");
   }, [password]);
 
   const onChangeMap = (which, value) => {
@@ -511,18 +521,13 @@ const Settings = () => {
 
   useEffect(() => {
     const [value] = phoneValue;
-    if (value) {
-      if (
-        findFirstLowerLetter(value) > -1 ||
-        findFirstUpperLetter(value) > -1
-      ) {
-        setPhoneError(true);
-        setPhoneHelperText(languageState.texts.Errors.InvalidPhone);
-      } else {
-        setPhoneError(false);
-        setPhoneHelperText("");
-      }
-    }
+
+    if (
+      value &&
+      (findFirstLowerLetter(value) > -1 || findFirstUpperLetter(value) > -1)
+    )
+      setPhoneHelperText(languageState.texts.Errors.InvalidPhone);
+    else setPhoneHelperText("");
   }, [phoneValue]);
 
   return (
@@ -634,7 +639,9 @@ const Settings = () => {
                     render={({ field }) => (
                       <TextField
                         required
-                        color={menuNameError ? "error" : "primary"}
+                        color={
+                          menuNameHelperText.length > 0 ? "error" : "primary"
+                        }
                         sx={{ width: "100%", marginTop: "20px" }}
                         id="menu"
                         type="text"
@@ -657,7 +664,7 @@ const Settings = () => {
                     control={control}
                     render={({ field }) => (
                       <FormControl
-                        color={phoneError ? "error" : "primary"}
+                        color={phoneHelperText.length > 0 ? "error" : "primary"}
                         sx={{ width: "100%" }}
                         variant="outlined"
                       >
@@ -693,6 +700,119 @@ const Settings = () => {
                     )}
                   />
                 </SitoContainer>
+                {/* Business */}
+                <SitoContainer sx={{ width: "100%", marginTop: "30px" }}>
+                  <Autocomplete
+                    sx={{ width: "100%" }}
+                    multiple
+                    id="places"
+                    onChange={handleTypes}
+                    options={
+                      languageState.texts.Settings.Inputs.CenterTypes.Types
+                    }
+                    getOptionLabel={(option) => option.name}
+                    defaultValue={[]}
+                    filterSelectedOptions
+                    value={types || []}
+                    ChipProps={{ color: "primary" }}
+                    renderInput={(params) => (
+                      <TextField
+                        color="primary"
+                        {...params}
+                        label={
+                          languageState.texts.Settings.Inputs.CenterTypes.Label
+                        }
+                        placeholder={
+                          types.length === 0
+                            ? languageState.texts.Settings.Inputs.CenterTypes
+                                .Placeholder
+                            : ""
+                        }
+                      />
+                    )}
+                  />
+                </SitoContainer>
+                {/* Buttons */}
+                <SitoContainer
+                  justifyContent="flex-end"
+                  sx={{ width: "100%", marginTop: "20px" }}
+                >
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ marginRight: "10px" }}
+                  >
+                    {languageState.texts.Insert.Buttons.Save}
+                  </Button>
+                  <Button type="button" variant="outlined" onClick={goToEdit}>
+                    {languageState.texts.Insert.Buttons.Edit}
+                  </Button>
+                </SitoContainer>
+                {/* Qr */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: { md: "row", xs: "column" },
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginTop: "20px",
+                  }}
+                >
+                  <Typography
+                    variant="h3"
+                    sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
+                  >
+                    {languageState.texts.Settings.Qr}
+                  </Typography>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={showLogoOnQr}
+                        onChange={(e) => setShowLogoOnQr(e.target.checked)}
+                      />
+                    }
+                    label={languageState.texts.Settings.ShowLogoOnQr}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    marginTop: "20px",
+                  }}
+                >
+                  <QRCode
+                    value={`${config.url}menu/${spaceToDashes(
+                      getValues("menu")
+                    )}?visited=qr`} // here you should keep the link/value(string) for which you are generation promocode
+                    size={256} // the dimension of the QR code (number)
+                    logoImage={showLogoOnQr ? preview : ""} // URL of the logo you want to use, make sure it is a dynamic url
+                    logoHeight={60}
+                    logoWidth={60}
+                    logoOpacity={1}
+                    enableCORS={true} // enabling CORS, this is the thing that will bypass that DOM check
+                    id="QRCode"
+                  />
+                  <Button
+                    onClick={onQrDownload}
+                    variant="contained"
+                    sx={{
+                      minWidth: 0,
+                      marginTop: "20px",
+                      padding: "10px",
+                      borderRadius: "100%",
+                    }}
+                  >
+                    <DownloadIcon />
+                  </Button>
+                </Box>
+              </form>,
+              <form
+                onSubmit={handleSubmit(onSaveSocial)}
+                className={css({ width: "100%" })}
+              >
                 {/* Social Media */}
                 <Box
                   sx={{
@@ -800,38 +920,6 @@ const Settings = () => {
                     />
                   ))}
                 </Box>
-                {/* Business */}
-                <SitoContainer sx={{ width: "100%", marginTop: "30px" }}>
-                  <Autocomplete
-                    sx={{ width: "100%" }}
-                    multiple
-                    id="places"
-                    onChange={handleTypes}
-                    options={
-                      languageState.texts.Settings.Inputs.CenterTypes.Types
-                    }
-                    getOptionLabel={(option) => option.name}
-                    defaultValue={[]}
-                    filterSelectedOptions
-                    value={types || []}
-                    ChipProps={{ color: "primary" }}
-                    renderInput={(params) => (
-                      <TextField
-                        color="primary"
-                        {...params}
-                        label={
-                          languageState.texts.Settings.Inputs.CenterTypes.Label
-                        }
-                        placeholder={
-                          types.length === 0
-                            ? languageState.texts.Settings.Inputs.CenterTypes
-                                .Placeholder
-                            : ""
-                        }
-                      />
-                    )}
-                  />
-                </SitoContainer>
                 {/* Description */}
                 <SitoContainer sx={{ marginTop: "30px" }}>
                   <Controller
@@ -858,82 +946,6 @@ const Settings = () => {
                     )}
                   />
                 </SitoContainer>
-                {/* Buttons */}
-                <SitoContainer
-                  justifyContent="flex-end"
-                  sx={{ width: "100%", marginTop: "20px" }}
-                >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ marginRight: "10px" }}
-                  >
-                    {languageState.texts.Insert.Buttons.Save}
-                  </Button>
-                  <Button type="button" variant="outlined" onClick={goToEdit}>
-                    {languageState.texts.Insert.Buttons.Edit}
-                  </Button>
-                </SitoContainer>
-                {/* Qr */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { md: "row", xs: "column" },
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginTop: "20px",
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
-                  >
-                    {languageState.texts.Settings.Qr}
-                  </Typography>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={showLogoOnQr}
-                        onChange={(e) => setShowLogoOnQr(e.target.checked)}
-                      />
-                    }
-                    label={languageState.texts.Settings.ShowLogoOnQr}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    marginTop: "20px",
-                  }}
-                >
-                  <QRCode
-                    value={`${config.url}menu/${spaceToDashes(
-                      getValues("menu")
-                    )}?visited=qr`} // here you should keep the link/value(string) for which you are generation promocode
-                    size={256} // the dimension of the QR code (number)
-                    logoImage={showLogoOnQr ? preview : ""} // URL of the logo you want to use, make sure it is a dynamic url
-                    logoHeight={60}
-                    logoWidth={60}
-                    logoOpacity={1}
-                    enableCORS={true} // enabling CORS, this is the thing that will bypass that DOM check
-                    id="QRCode"
-                  />
-                  <Button
-                    onClick={onQrDownload}
-                    variant="contained"
-                    sx={{
-                      minWidth: 0,
-                      marginTop: "20px",
-                      padding: "10px",
-                      borderRadius: "100%",
-                    }}
-                  >
-                    <DownloadIcon />
-                  </Button>
-                </Box>
               </form>,
               <Box sx={{ marginTop: "20px" }}>
                 <Map
@@ -972,7 +984,7 @@ const Settings = () => {
                 <SitoContainer sx={{ marginTop: "10px" }}>
                   <FormControl
                     sx={{ width: "100%", marginTop: "20px" }}
-                    color={passwordError ? "error" : "primary"}
+                    color={passwordHelperText.length > 0 ? "error" : "primary"}
                     variant="outlined"
                   >
                     <InputLabel>
@@ -1014,7 +1026,7 @@ const Settings = () => {
                 <SitoContainer sx={{ marginTop: "10px" }}>
                   <FormControl
                     sx={{ width: "100%", marginTop: "20px" }}
-                    color={rPasswordError ? "error" : "primary"}
+                    color={rpasswordHelperText.length > 0 ? "error" : "primary"}
                     variant="outlined"
                   >
                     <InputLabel htmlFor="outlined-adornment-password">
