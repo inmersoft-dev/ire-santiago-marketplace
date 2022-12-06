@@ -19,7 +19,6 @@ import {
 
 // @mui/icons-material
 import CloseIcon from "@mui/icons-material/Close";
-import WhatsApp from "@mui/icons-material/WhatsApp";
 
 // components
 import Map from "../Map/Map/Map";
@@ -43,6 +42,7 @@ import { findFirstLowerLetter, findFirstUpperLetter } from "../../utils/auth";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
+import { useCallback } from "react";
 
 const OrderModal = (props) => {
   const theme = useTheme();
@@ -101,6 +101,12 @@ const OrderModal = (props) => {
     else document.body.style.overflow = "inherit";
   }, [show]);
 
+  const totalCost = useCallback(() => {
+    let total = 0;
+    order.forEach((item) => (total += item.cost));
+    return total;
+  }, [order]);
+
   return (
     <Box
       sx={{
@@ -132,17 +138,35 @@ const OrderModal = (props) => {
         >
           <CloseIcon />
         </IconButton>
-        <Typography
-          variant="h3"
+        <Box
           sx={{
-            fontWeight: "bold",
-            fontSize: "2rem",
-            marginTop: "20px",
-            textAlign: "center",
+            gap: "20px",
+            display: "flex",
+            marginTop: "40px",
+            alignItems: "center",
+            justifyContent: "center",
+            width: { sm: "630px", xs: "100%" },
           }}
         >
-          {languageState.texts.Settings.Inputs.Contact.Count.Order.Title}
-        </Typography>
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: "bold",
+              fontSize: "2rem",
+              textAlign: "center",
+            }}
+          >
+            {languageState.texts.Settings.Inputs.Contact.Count.Order.Title}
+          </Typography>
+          <Divider sx={{ flex: 1 }} />
+          <Box>
+            <Typography variant="caption">
+              {languageState.texts.Settings.Inputs.Contact.Count.Order.Total}
+            </Typography>
+            <Typography>{totalCost()} CUP</Typography>
+          </Box>
+        </Box>
+
         {order.map((item) => (
           <Box
             sx={{
@@ -214,6 +238,36 @@ const OrderModal = (props) => {
             </Box>
           </Box>
         ))}
+        {order.length > 5 ? (
+          <Box
+            sx={{
+              gap: "20px",
+              display: "flex",
+              marginTop: "40px",
+              alignItems: "center",
+              justifyContent: "center",
+              width: { sm: "630px", xs: "100%" },
+            }}
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: "bold",
+                fontSize: "2rem",
+                textAlign: "center",
+              }}
+            >
+              {languageState.texts.Settings.Inputs.Contact.Count.Order.Title}
+            </Typography>
+            <Divider sx={{ flex: 1 }} />
+            <Box>
+              <Typography variant="caption">
+                {languageState.texts.Settings.Inputs.Contact.Count.Order.Total}
+              </Typography>
+              <Typography>{totalCost()} CUP</Typography>
+            </Box>
+          </Box>
+        ) : null}
         <Box
           display="flex"
           flexDirection="column"
@@ -300,6 +354,22 @@ const OrderModal = (props) => {
       </Box>
     </Box>
   );
+};
+
+OrderModal.propTypes = {
+  order: PropTypes.arrayOf(
+    PropTypes.shape({
+      count: PropTypes.number,
+      productId: PropTypes.string,
+      product: PropTypes.string,
+      price: PropTypes.number,
+      cost: PropTypes.number,
+      photo: PropTypes.string,
+    })
+  ),
+  visible: PropTypes.bool,
+  onClose: PropTypes.func,
+  cleanOrder: PropTypes.func,
 };
 
 export default OrderModal;

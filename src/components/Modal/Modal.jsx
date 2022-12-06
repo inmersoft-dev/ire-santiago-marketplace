@@ -75,6 +75,8 @@ const Modal = (props) => {
   };
 
   useEffect(() => {
+    const countInput = document.getElementById("count");
+    if (countInput !== null) countInput.focus();
     if (show) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "inherit";
   }, [show]);
@@ -187,6 +189,7 @@ const Modal = (props) => {
                 </InputLabel>
                 <OutlinedInput
                   type="number"
+                  id="count"
                   min={1}
                   endAdornment={
                     <InputAdornment position="end">
