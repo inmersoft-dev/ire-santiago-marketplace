@@ -2,6 +2,7 @@
   "es": {
     "AppName": "Marketplace",
     "Map": {
+      "Placeholder": "Introduce la dirección",
       "Save": "Guardar",
       "Tooltip": "¿Cómo llegar?",
       "Title": "Mapa",
@@ -182,6 +183,23 @@
           ]
         },
         "Contact": {
+          "Count": {
+            "Clean": "Limpiar orden",
+            "Submit": "Ordenar",
+            "Remote": "Domicilio",
+            "Share": "Compartir",
+            "CustomerName": {
+              "Label": "Nombre del receptor",
+              "Placeholder": "ej: Jose Andres Perez Meriño"
+            },
+            "Order": {
+              "Title": "Orden",
+              "Total": "total: "
+            },
+            "CartTooltip": "Orden",
+            "Title": "Ordenar",
+            "Label": "Cantidad"
+          },
           "Phone": {
             "Label": "Teléfono",
             "Placeholder": "ej: +53 56174215"

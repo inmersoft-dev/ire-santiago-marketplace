@@ -1,4 +1,6 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, useCallback } from "react";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 import PropTypes from "prop-types";
 
@@ -6,28 +8,61 @@ import PropTypes from "prop-types";
 import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
 
-// @mui icons
+// @mui/icons-material
 import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/AddCircle";
 
 // image
 import noProduct from "../../assets/images/no-product.webp";
 
-// @mui
-import { useTheme, Box, Typography, IconButton } from "@mui/material";
-import { useEffect } from "react";
+// @mui/material
+import {
+  useTheme,
+  Box,
+  Typography,
+  IconButton,
+  FormControl,
+  OutlinedInput,
+  InputAdornment,
+  InputLabel,
+} from "@mui/material";
+
+// styles
 import {
   modal,
   modalContent,
   productImageBox,
 } from "../../assets/styles/styles";
 
+// context
+import { useLanguage } from "../../context/LanguageProvider";
+
 const Modal = (props) => {
   const theme = useTheme();
-  const { visible, onClose, item } = props;
+
+  const ref = useOnclickOutside(() => {
+    onClose();
+    setShow(false);
+  });
+
+  const { visible, onClose, item, addCount } = props;
 
   const [show, setShow] = useState(visible);
 
   const [preview, setPreview] = useState("");
+
+  const { languageState } = useLanguage();
+
+  const handleMouseDownPassword = (event) => event.preventDefault();
+
+  const [count, setCount] = useState(1);
+
+  const localAddCount = useCallback(() => {
+    addCount(count, item);
+    onClose();
+    setShow(false);
+    setCount(1);
+  }, [count, addCount]);
 
   useEffect(() => {
     setShow(visible);
@@ -39,19 +74,29 @@ const Modal = (props) => {
     setShow(false);
   };
 
+  useEffect(() => {
+    if (show) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "inherit";
+  }, [show]);
+
+  const localSubmit = (e) => {
+    e.preventDefault();
+    localAddCount();
+  };
+
   return (
     <Box
-      onClick={onShowOff}
       sx={{
         ...modal,
         zIndex: show ? 20 : -1,
         opacity: show ? 1 : -1,
       }}
-      onClose={onClose}
     >
       <Box
+        ref={ref}
         sx={{
           ...modalContent,
+          overflow: "hidden",
           opacity: show ? 1 : -1,
           background: theme.palette.background.paper,
         }}
@@ -118,6 +163,64 @@ const Modal = (props) => {
           >
             {item.description}
           </Typography>
+          <Box sx={{ width: "80%" }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: "bold",
+                width: "100%",
+                margin: "20px 10px 20px 10px",
+                fontSize: "1.5rem",
+              }}
+            >
+              {languageState.texts.Settings.Inputs.Contact.Count.Title}
+            </Typography>
+            <Box
+              display="flex"
+              alignItems="center"
+              component="form"
+              onSubmit={localSubmit}
+            >
+              <FormControl sx={{ width: "100%" }} variant="outlined">
+                <InputLabel>
+                  {languageState.texts.Settings.Inputs.Contact.Count.Label}
+                </InputLabel>
+                <OutlinedInput
+                  type="number"
+                  min={1}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        type="submit"
+                        color="secondary"
+                        tabIndex={-1}
+                        aria-label="toggle password visibility"
+                        onClick={localAddCount}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label={
+                    languageState.texts.Settings.Inputs.Contact.Count.Label
+                  }
+                  value={count}
+                  onChange={(e) =>
+                    Number(e.target.value) <= 0
+                      ? setCount(1)
+                      : setCount(e.target.value)
+                  }
+                />
+              </FormControl>
+              <Typography
+                sx={{ marginLeft: "20px", width: "200px", color: "gray" }}
+              >
+                {count * item.price} CUP
+              </Typography>
+            </Box>
+          </Box>
         </SitoContainer>
       </Box>
     </Box>
@@ -128,6 +231,7 @@ Modal.propTypes = {
   visible: PropTypes.bool,
   onClose: PropTypes.func,
   item: PropTypes.object,
+  addCount: PropTypes.func,
 };
 
 export default Modal;

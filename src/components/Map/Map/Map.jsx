@@ -185,10 +185,11 @@ const Map = (props) => {
     });
     const geocoder = new MapboxGeocoder({
       // Initialize the geocoder
+      countries: "cu",
       accessToken: apiMap, // Set the access token
       mapboxgl, // Set the mapbox-gl instance
       zoom, // Set the zoom level for geocoding results
-      placeholder: "Enter an address or place name", // This placeholder text will display in the search bar
+      placeholder: languageState.texts.Map.Placeholder, // This placeholder text will display in the search bar
       /*  bbox: [-105.116, 39.679, -104.898, 39.837], */ // Set a bounding box
     });
     // Add the geocoder to the map
@@ -273,14 +274,17 @@ const Map = (props) => {
                 <MapIcon />
               </Button>
             )}
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={onSave}
-            >
-              {languageState.texts.Map.Save}
-            </Button>
+
+            {onSave ? (
+              <Button
+                type="button"
+                color="primary"
+                variant="contained"
+                onClick={onSave}
+              >
+                {languageState.texts.Map.Save}
+              </Button>
+            ) : null}
           </SitoContainer>
         </SitoContainer>
       )}

@@ -2,8 +2,11 @@
 import { useState, useEffect, useReducer, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
-// @mui components
-import { Box, Typography } from "@mui/material";
+// @mui/material
+import { Box, Typography, Button, Tooltip, Badge } from "@mui/material";
+
+// @mui/icons-material
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -29,6 +32,7 @@ import {
 
 // contexts
 import { useNotification } from "../../context/NotificationProvider";
+import { useLanguage } from "../../context/LanguageProvider";
 
 // components
 import ProductCard from "../../components/ProductCard/ProductCard";
@@ -47,9 +51,69 @@ import {
   productList,
   mainWindow,
 } from "../../assets/styles/styles";
+import OrderModal from "../../components/OrderModal/OrderModal";
 
 const Watch = () => {
   const location = useLocation();
+
+  const { languageState } = useLanguage();
+
+  const orderReducer = (orderStates, action) => {
+    const { type } = action;
+    switch (type) {
+      case "set": {
+        const { newArray } = action;
+        if (newArray.length) newArray[0].active = true;
+        return newArray;
+      }
+      case "delete": {
+        const { index } = action;
+        const newArray = [...orderStates];
+        newArray.splice(index, 1);
+        return newArray;
+      }
+      case "add": {
+        const { newProduct } = action;
+        const findIndex = orderStates.findIndex(
+          (item) => item.productId === newProduct.productId
+        );
+        if (findIndex > -1) {
+          orderStates[findIndex].count += newProduct.count;
+          orderStates[findIndex].cost += newProduct.cost;
+        } else orderStates.push(newProduct);
+        return [...orderStates];
+      }
+      default:
+        return [];
+    }
+  };
+
+  const [toOrder, setToOrder] = useReducer(orderReducer, []);
+
+  const [shake, setShake] = useState(false);
+
+  useEffect(() => {
+    if (toOrder.length > 0) {
+      setShake(true);
+      setTimeout(() => {
+        setShake(false);
+      }, 100);
+    }
+  }, [toOrder]);
+
+  const addToOrder = (count, product) => {
+    setToOrder({
+      type: "add",
+      newProduct: {
+        count,
+        productId: product.id,
+        product: product.name,
+        price: product.price,
+        cost: product.price * count,
+        photo: product.photo,
+      },
+    });
+  };
 
   const { setNotificationState } = useNotification();
 
@@ -228,11 +292,57 @@ const Watch = () => {
     [products]
   );
 
+  const [showOrder, setShowOrder] = useState();
+  const showOrderOff = () => setShowOrder(false);
+
+  const toggleOrder = () => setShowOrder(!showOrder);
+
+  const cleanOrder = () => setToOrder({ type: "clean" });
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
+      {toOrder.length ? (
+        <OrderModal
+          visible={showOrder}
+          order={toOrder}
+          onClose={showOrderOff}
+          cleanOrder={cleanOrder}
+        />
+      ) : null}
+      {toOrder.length > 0 ? (
+        <Tooltip
+          title={languageState.texts.Settings.Inputs.Contact.Count.CartTooltip}
+          placement="right"
+        >
+          <Button
+            onClick={toggleOrder}
+            className={shake ? "shake" : ""}
+            variant="contained"
+            sx={{
+              borderRadius: "100%",
+              padding: "5px",
+              minWidth: 0,
+              zIndex: 20,
+              position: "fixed",
+              bottom: "10px",
+              left: "10px",
+            }}
+          >
+            <Badge badgeContent={toOrder.length} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </Button>
+        </Tooltip>
+      ) : null}
+
       <FabButtons />
       {selected && (
-        <Modal visible={visible} item={selected} onClose={onModalClose} />
+        <Modal
+          addCount={addToOrder}
+          visible={visible}
+          item={selected}
+          onClose={onModalClose}
+        />
       )}
       <Loading
         visible={loading === 1}

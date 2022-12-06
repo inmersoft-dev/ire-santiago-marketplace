@@ -7,6 +7,9 @@ import "@fontsource/poppins";
 // styles
 import "./index.css";
 
+// animations
+import "./assets/animations/shake.css";
+
 // context
 import { ModeProvider } from "./context/ModeProvider";
 import { LanguageProvider } from "./context/LanguageProvider";
