@@ -35,6 +35,7 @@ import { useNotification } from "../../context/NotificationProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 
 // components
+import OrderModal from "../../components/OrderModal/OrderModal";
 import ProductCard from "../../components/ProductCard/ProductCard";
 
 // functions
@@ -51,7 +52,6 @@ import {
   productList,
   mainWindow,
 } from "../../assets/styles/styles";
-import OrderModal from "../../components/OrderModal/OrderModal";
 
 const Watch = () => {
   const location = useLocation();
@@ -303,6 +303,7 @@ const Watch = () => {
     <SitoContainer sx={mainWindow} flexDirection="column">
       {toOrder.length ? (
         <OrderModal
+          menu={menu}
           visible={showOrder}
           order={toOrder}
           onClose={showOrderOff}

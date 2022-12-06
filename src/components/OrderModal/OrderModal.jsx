@@ -34,6 +34,9 @@ import {
   productImageBox,
 } from "../../assets/styles/styles";
 
+// services
+import { executeOrder as executeOrderService } from "../../services/payment";
+
 // context
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
@@ -50,7 +53,7 @@ const OrderModal = (props) => {
 
   const { languageState } = useLanguage();
 
-  const { order, visible, onClose, cleanOrder } = props;
+  const { order, visible, onClose, cleanOrder, menu } = props;
 
   const [show, setShow] = useState(visible);
 
@@ -148,9 +151,15 @@ const OrderModal = (props) => {
 
   const [orderState, setOrderState] = useState(false);
 
-  const executeOrder = (e) => {
+  const executeOrder = async (e) => {
     e.preventDefault();
-    console.log("hola");
+    try {
+      const response = await executeOrderService(order, menu);
+      console.log("hola");
+    } catch (err) {
+      console.error(err);
+      showNotification("error", String(err));
+    }
   };
 
   return (
@@ -425,6 +434,7 @@ OrderModal.propTypes = {
       photo: PropTypes.string,
     })
   ),
+  menu: PropTypes.string,
   visible: PropTypes.bool,
   onClose: PropTypes.func,
   cleanOrder: PropTypes.func,
