@@ -59,6 +59,7 @@ const Settings = () => {
         <TabView
           sx={{
             width: "100%",
+            height: "100%",
           }}
           value={tab}
           onChange={(e, newTab) => setTab(newTab)}

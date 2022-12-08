@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useCallback, useEffect, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import { useState, useCallback, useEffect, useReducer } from "react";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -49,13 +50,14 @@ import { saveSocial } from "../../../services/profile";
 import { getUserName } from "../../../utils/auth";
 
 const Socials = () => {
+  const navigate = useNavigate();
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
   const { settingsState, setSettingsState } = useSettings();
 
   const [loading, setLoading] = useState(true);
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, getValues } = useForm({
     defaultValues: {
       description: "",
     },
@@ -112,21 +114,26 @@ const Socials = () => {
   const [socialMedia, setSocialMedia] = useReducer(socialMediaReducer, []);
 
   const addSocialMedia = useCallback(() => {
-    const newSocialMedia = {
-      url: inputCurrentSocialMedia,
-      icon: currentSocialMedia,
-    };
-    setInputCurrentSocialMedia("");
-    setCurrentSocialMedia("any");
-    setSocialMedia({ type: "add", newSocialMedia });
+    if (inputCurrentSocialMedia.length) {
+      const newSocialMedia = {
+        url: inputCurrentSocialMedia,
+        icon: currentSocialMedia,
+      };
+      setInputCurrentSocialMedia("");
+      setCurrentSocialMedia("any");
+      setSocialMedia({ type: "add", newSocialMedia });
+    }
   }, [currentSocialMedia, inputCurrentSocialMedia]);
 
   const onSaveSocial = useCallback(
     async (data) => {
       const { description } = data;
-      if (description && description.length) {
+      if (!description || !description.length) {
         const descriptionInput = document.getElementById("description");
         if (descriptionInput !== null) descriptionInput.focus();
+        setDescriptionHelperText(
+          languageState.texts.Errors.DescriptionRequired
+        );
       } else {
         setDescriptionHelperText("");
         setLoading(true);
@@ -161,12 +168,15 @@ const Socials = () => {
     [socialMedia]
   );
 
+  const [menu, setMenu] = useState("");
+
   const fetch = async () => {
     setLoading(true);
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data) {
+        setMenu(data.menu);
         if (data.socialMedia)
           setSocialMedia({ type: "set", newArray: data.socialMedia });
         reset({
@@ -222,6 +232,15 @@ const Socials = () => {
     if (!settingsState.description || !settingsState.socialMedia) retry();
     else init();
   }, []);
+
+  const goToEdit = async () => {
+    if (menu.length) {
+      const value = await onSaveSocial({
+        description: getValues("description"),
+      });
+      if (value) navigate("/menu/edit/");
+    }
+  };
 
   return (
     <form
@@ -362,6 +381,18 @@ const Socials = () => {
             />
           )}
         />
+      </SitoContainer>
+      {/* Buttons */}
+      <SitoContainer
+        justifyContent="flex-end"
+        sx={{ width: "100%", marginTop: "20px" }}
+      >
+        <Button type="submit" variant="contained" sx={{ marginRight: "10px" }}>
+          {languageState.texts.Insert.Buttons.Save}
+        </Button>
+        <Button type="button" variant="outlined" onClick={goToEdit}>
+          {languageState.texts.Insert.Buttons.Edit}
+        </Button>
       </SitoContainer>
     </form>
   );

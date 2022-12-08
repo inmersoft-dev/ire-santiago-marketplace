@@ -41,8 +41,8 @@ const Map = () => {
     return setLat(value);
   };
 
-  const [lng, setLng] = useState(-75.82956791534245);
-  const [lat, setLat] = useState(20.022421136021567);
+  const [lng, setLng] = useState(0); // useState(-75.82956791534245);
+  const [lat, setLat] = useState(0); //  useState(20.022421136021567);
 
   const lngLatSelected = (point, lngLat) => {
     setLng(lngLat.lng);
@@ -54,11 +54,15 @@ const Map = () => {
       setLoading(true);
       await saveLocation(getUserName(), lng, lat);
       showNotification("success", languageState.texts.Messages.SaveSuccessful);
+      setSettingsState({
+        type: "set-map",
+        location: { latitude: lat, longitude: lng },
+      });
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
-      setLoading(false);
     }
+    setLoading(false);
   }, [lng, lat]);
 
   const fetch = async () => {
@@ -68,6 +72,7 @@ const Map = () => {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data && data.location) {
+        console.log(data.location);
         setLng(data.location.longitude);
         setLat(data.location.latitude);
         setSettingsState({
@@ -97,26 +102,40 @@ const Map = () => {
   }, []);
 
   return (
-    <Box sx={{ marginTop: "20px", position: "relative" }}>
+    <Box
+      sx={{
+        marginTop: "20px",
+        position: "relative",
+        width: "100%",
+        height: "100%",
+      }}
+    >
       <Loading
         visible={loading}
         sx={{
           position: "absolute",
+          borderRadius: 0,
+          marginTop: lat !== 0 && lng !== 0 ? "-10px" : 0,
+          height: lat !== 0 && lng !== 0 ? "103%" : "100%",
           zIndex: loading ? 99 : -1,
         }}
       />
       {!error ? (
-        <AMap
-          onSave={saveRLocation}
-          noButton
-          onMapClick={lngLatSelected}
-          lat={lat}
-          lng={lng}
-          point={{ lat, lng }}
-          onChange={onChangeMap}
-          onChangeLat={(newValue) => setLat(newValue)}
-          onChangeLng={(newValue) => setLng(newValue)}
-        />
+        <Box sx={{ width: "100%", height: "100%" }}>
+          {lat !== 0 && lng !== 0 ? (
+            <AMap
+              onSave={saveRLocation}
+              noButton
+              onMapClick={lngLatSelected}
+              lat={lat}
+              lng={lng}
+              point={{ lat, lng }}
+              onChange={onChangeMap}
+              onChangeLat={(newValue) => setLat(newValue)}
+              onChangeLng={(newValue) => setLng(newValue)}
+            />
+          ) : null}
+        </Box>
       ) : (
         <Error onRetry={retry} />
       )}
