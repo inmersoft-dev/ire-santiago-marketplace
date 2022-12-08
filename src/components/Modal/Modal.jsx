@@ -57,12 +57,16 @@ const Modal = (props) => {
 
   const [count, setCount] = useState(1);
 
-  const localAddCount = useCallback(() => {
-    addCount(count, item);
-    onClose();
-    setShow(false);
-    setCount(1);
-  }, [count, addCount]);
+  const localAddCount = useCallback(
+    (e) => {
+      e.preventDefault();
+      addCount(count, item);
+      onClose();
+      setShow(false);
+      setCount(1);
+    },
+    [count, addCount]
+  );
 
   useEffect(() => {
     setShow(visible);
@@ -80,11 +84,6 @@ const Modal = (props) => {
     if (show) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "inherit";
   }, [show]);
-
-  const localSubmit = (e) => {
-    e.preventDefault();
-    localAddCount();
-  };
 
   return (
     <Box
@@ -161,7 +160,7 @@ const Modal = (props) => {
           </Typography>
           <Typography
             variant="body"
-            sx={{ width: "75%", textAlign: "center", marginTop: "10px" }}
+            sx={{ width: "80%", textAlign: "center", marginTop: "10px" }}
           >
             {item.description}
           </Typography>
@@ -181,13 +180,22 @@ const Modal = (props) => {
               display="flex"
               alignItems="center"
               component="form"
-              onSubmit={localSubmit}
+              onSubmit={localAddCount}
             >
               <FormControl sx={{ width: "100%" }} variant="outlined">
                 <InputLabel>
                   {languageState.texts.Settings.Inputs.Contact.Count.Label}
                 </InputLabel>
                 <OutlinedInput
+                  onKeydown={(event) =>
+                    event.key === "." ? event.preventDefault() : ""
+                  }
+                  onInput={(event) => {
+                    event.target.value = event.target.value.replace(
+                      /[^0-9]*/g,
+                      ""
+                    );
+                  }}
                   type="number"
                   id="count"
                   min={1}
@@ -218,9 +226,17 @@ const Modal = (props) => {
                 />
               </FormControl>
               <Typography
-                sx={{ marginLeft: "20px", width: "200px", color: "gray" }}
+                sx={{
+                  marginLeft: `${String(count).length * 5 * 2 + 20}px`,
+                  color: "gray",
+                  maxWidth: "200px",
+                  minWidth: "55px",
+                  textAlign: "end",
+                  position: "absolute",
+                  marginTop: "1px",
+                }}
               >
-                {count * item.price} CUP
+                ({count * item.price} CUP)
               </Typography>
             </Box>
           </Box>

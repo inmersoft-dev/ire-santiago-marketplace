@@ -482,7 +482,7 @@ const Edit = () => {
                                 </Box>
                                 <Typography
                                   variant="body2"
-                                  sx={{ fontWeight: "bold", width: "75%" }}
+                                  sx={{ fontWeight: "bold", width: "80%" }}
                                 >
                                   {jtem.price} CUP
                                 </Typography>

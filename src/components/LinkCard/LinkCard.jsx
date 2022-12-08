@@ -91,7 +91,7 @@ const LinkCard = (props) => {
           {item.price !== undefined ? (
             <Typography
               variant="body2"
-              sx={{ fontWeight: "bold", width: "75%" }}
+              sx={{ fontWeight: "bold", width: "80%" }}
             >
               {item.price} CUP
             </Typography>

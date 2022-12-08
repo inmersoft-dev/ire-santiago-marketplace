@@ -62,7 +62,7 @@ const ProductCard = (props) => {
           <Box sx={productDescriptionBox}>
             <Typography variant="body1">{item.description}</Typography>
           </Box>
-          <Typography variant="body2" sx={{ fontWeight: "bold", width: "75%" }}>
+          <Typography variant="body2" sx={{ fontWeight: "bold", width: "80%" }}>
             {item.price} CUP
           </Typography>
         </Box>
