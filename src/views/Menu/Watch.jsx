@@ -304,6 +304,7 @@ const Watch = () => {
       {toOrder.length ? (
         <OrderModal
           menu={menu}
+          phone={phone}
           visible={showOrder}
           order={toOrder}
           onClose={showOrderOff}

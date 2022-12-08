@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable no-undef */
 import { useState, useEffect, useCallback } from "react";
 import useOnclickOutside from "react-cool-onclickoutside";
 
@@ -34,9 +37,6 @@ import {
   productImageBox,
 } from "../../assets/styles/styles";
 
-// services
-import { executeOrder as executeOrderService } from "../../services/payment";
-
 // context
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
@@ -53,7 +53,7 @@ const OrderModal = (props) => {
 
   const { languageState } = useLanguage();
 
-  const { order, visible, onClose, cleanOrder, menu } = props;
+  const { order, visible, onClose, cleanOrder, menu, phone } = props;
 
   const [show, setShow] = useState(visible);
 
@@ -149,18 +149,38 @@ const OrderModal = (props) => {
     }
   };
 
-  const [orderState, setOrderState] = useState(false);
+  const [messageContent, setMessageContent] = useState("");
 
-  const executeOrder = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await executeOrderService(order, menu);
-      console.log("hola");
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
+  const [active, setActive] = useState(false);
+
+  const executeOrder = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        let message = `${menu} ${languageState.texts.Settings.Inputs.Contact.Count.ToWhatsapp.order} \n`;
+        order.forEach((item) => {
+          message += `${item.count} x ${item.product} ${item.cost} CUP\n`;
+        });
+        message += `${languageState.texts.Settings.Inputs.Contact.Count.CustomerName.Short}: ${customerName} \n${languageState.texts.Settings.Inputs.Contact.Phone.Short}:${customerPhone}\n`;
+        if (remote)
+          message += `${languageState.texts.Map.Short}: https://www.google.com/maps/dir//${lat},${lng}/@${lat},${lng},21z`;
+        setMessageContent(message);
+        setActive(true);
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
+      }
+    },
+    [remote]
+  );
+
+  useEffect(() => {
+    if (messageContent.length && active) {
+      const link = document.getElementById("to-wa.me");
+      if (link) link.click();
+      setActive(false);
     }
-  };
+  }, [messageContent]);
 
   return (
     <Box
@@ -186,6 +206,20 @@ const OrderModal = (props) => {
           background: theme.palette.background.paper,
         }}
       >
+        {console.log(
+          `https://wa.me/${phone.replace(/\s/g, "")}?text=${encodeURIComponent(
+            messageContent
+          )}`
+        )}
+        <a
+          href={`https://wa.me/${phone.replace(
+            /\s/g,
+            ""
+          )}?text=${encodeURIComponent(messageContent)}`}
+          target="_blank"
+          rel="noreferrer"
+          id="to-wa.me"
+        />
         <IconButton
           sx={{ position: "absolute", top: "10px", right: "10px" }}
           color="error"
@@ -435,6 +469,7 @@ OrderModal.propTypes = {
     })
   ),
   menu: PropTypes.string,
+  phone: PropTypes.string,
   visible: PropTypes.bool,
   onClose: PropTypes.func,
   cleanOrder: PropTypes.func,

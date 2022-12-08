@@ -7,6 +7,36 @@ import { dashesToSpace } from "../utils/functions";
 /**
  *
  * @param {string} menu
+ * @param {string} customerName
+ * @param {string} customerPhone
+ * @returns
+ */
+export const sendOrderCookie = async (menu, customerName, customerPhone) => {
+  if (
+    getCookie(config.acceptCookie) &&
+    !getCookie(`${menu}${config.customerName}${config.orderCookie}`)
+  ) {
+    try {
+      const response = await axios.post(
+        // @ts-ignore
+        `${config.apiUrl}trigger/add`,
+        { event: "order", menu: dashesToSpace(menu) },
+        {
+          headers: getAuth,
+        }
+      );
+      createCookie(`${menu}${config.orderCookie}`, 1, true);
+      const data = await response.data;
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
+
+/**
+ *
+ * @param {string} menu
  * @returns
  */
 export const sendQrCookie = async (menu) => {
