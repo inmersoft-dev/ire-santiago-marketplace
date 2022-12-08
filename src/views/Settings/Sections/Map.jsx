@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Box } from "@mui/material";
 
 // components
+import AMap from "../../../components/Map/Map";
 import Error from "../../../components/Error/Error";
 import Loading from "../../../components/Loading/Loading";
 
@@ -17,11 +18,13 @@ import { getUserName } from "../../../utils/auth";
 
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
+import { useSettings } from "../../../context/SettingsProvider";
 import { useNotification } from "../../../context/NotificationProvider";
 
 const Map = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
+  const { settingsState, setSettingsState } = useSettings();
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -64,11 +67,13 @@ const Map = () => {
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
-      if (data) {
-        if (data.location) {
-          setLng(data.location.longitude);
-          setLat(data.location.latitude);
-        }
+      if (data && data.location) {
+        setLng(data.location.longitude);
+        setLat(data.location.latitude);
+        setSettingsState({
+          type: "set-map",
+          location: data.location,
+        });
       }
     } catch (err) {
       setError(true);
@@ -80,21 +85,28 @@ const Map = () => {
 
   const retry = () => fetch();
 
+  const init = () => {
+    setLng(settingsState.location.longitude);
+    setLat(settingsState.location.latitude);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    retry();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!settingsState.location) retry();
+    else init();
   }, []);
 
   return (
-    <Box sx={{ marginTop: "20px" }}>
+    <Box sx={{ marginTop: "20px", position: "relative" }}>
       <Loading
         visible={loading}
         sx={{
+          position: "absolute",
           zIndex: loading ? 99 : -1,
         }}
       />
       {!error ? (
-        <Map
+        <AMap
           onSave={saveRLocation}
           noButton
           onMapClick={lngLatSelected}

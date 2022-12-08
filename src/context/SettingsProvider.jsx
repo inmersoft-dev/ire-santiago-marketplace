@@ -17,6 +17,10 @@ const settingsReducer = (settingsState, action) => {
       const { socialMedia, description } = action;
       return { ...settingsState, socialMedia, description };
     }
+    case "set-map": {
+      const { location } = action;
+      return { ...settingsState, location };
+    }
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }

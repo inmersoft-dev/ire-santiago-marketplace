@@ -141,6 +141,11 @@ const Socials = () => {
               "success",
               languageState.texts.Messages.SaveSuccessful
             );
+            setSettingsState({
+              type: "set-socials",
+              description: description || "",
+              socialMedia: socialMedia || [],
+            });
             setLoading(false);
             return true;
           } else

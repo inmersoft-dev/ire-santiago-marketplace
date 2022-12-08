@@ -182,6 +182,14 @@ const Generals = () => {
               "success",
               languageState.texts.Messages.SaveSuccessful
             );
+            setSettingsState({
+              type: "set-generals",
+              menu: menu,
+              phone: phone || "",
+              preview: photo ? photo.url : "",
+              photo: photo || "",
+              business: types || [],
+            });
             setLoading(false);
             return true;
           } else {

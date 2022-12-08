@@ -186,7 +186,7 @@ const Security = () => {
         }}
       />
       {/* Password */}
-      <SitoContainer sx={{ marginTop: "10px" }}>
+      <SitoContainer>
         <FormControl
           sx={{ width: "100%", marginTop: "20px" }}
           color={passwordHelperText.length > 0 ? "error" : "primary"}
