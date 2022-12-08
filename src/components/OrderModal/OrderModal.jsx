@@ -21,7 +21,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 
 // components
-import Map from "../Map/Map/Map";
+import Map from "../Map/Map";
 
 // sito components
 import SitoImage from "sito-image";

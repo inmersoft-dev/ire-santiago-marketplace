@@ -34,12 +34,12 @@ import { Box, Button, TextField } from "@mui/material";
 import MapIcon from "@mui/icons-material/Map";
 
 // contexts
-import { useLanguage } from "../../../context/LanguageProvider";
+import { useLanguage } from "../../context/LanguageProvider";
 
 // images
-import pointImage from "../../../assets/images/point.webp";
+import pointImage from "../../assets/images/point.webp";
 // import Crash from "assets/images/crash";
-import config from "../../../config";
+import config from "../../config";
 import { useCallback } from "react";
 
 const Map = (props) => {
