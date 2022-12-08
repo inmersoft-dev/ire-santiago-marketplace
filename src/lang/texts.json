@@ -32,6 +32,7 @@
         "Categories": "Categorias",
         "Menus": "Catálogos"
       },
+      "NoHistory": "No hay búsquedas recientes...",
       "Models": {
         "menus": "Lugares",
         "products": "Productos"

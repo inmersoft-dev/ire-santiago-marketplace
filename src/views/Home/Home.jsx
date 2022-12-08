@@ -21,6 +21,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 
 // own components
@@ -104,25 +105,67 @@ const Home = () => {
   const preventDefault = (event) => event.preventDefault();
 
   const [showFilters, setShowFilters] = useState(false);
+  const [showHistory, setShowHistory] = useState("");
+
+  const historyReducer = (historyState, action) => {
+    const { type } = action;
+    switch (type) {
+      case "add": {
+        const { newHistory } = action;
+        if (historyState.indexOf(newHistory) === -1)
+          return [...historyState, newHistory];
+        return historyState;
+      }
+      case "set": {
+        const { newArray } = action;
+        return newArray;
+      }
+      default:
+        return [];
+    }
+  };
+  const [history, setHistory] = useReducer(historyReducer, []);
+
+  useEffect(() => {
+    localStorage.setItem("search-history", JSON.stringify(history));
+  }, [history]);
+
+  useEffect(() => {
+    const exist = localStorage.getItem("search-history");
+    if (exist !== null && exist !== "")
+      setHistory({ type: "set", newArray: JSON.parse(exist) });
+  }, []);
+
   const toggleFilters = () => setShowFilters(!showFilters);
 
   const topBarHeight = useCallback(() => {
-    if (biggerThanMD && !showFilters) return "60px";
-    if (showSearch && showFilters)
-      if (biggerThanMD) return "120px";
-      else return "180px";
-    if (showSearch) return "120px";
-    return "60px";
-  }, [biggerThanMD, showSearch, showFilters]);
+    let returnHeight = 60;
+    if (biggerThanMD) {
+      if (showFilters) returnHeight += 60;
+      if (showHistory) returnHeight += 50;
+    } else {
+      if (showSearch) returnHeight += 55;
+      if (showFilters) returnHeight += 55;
+      if (showHistory) {
+        if (history.length) returnHeight += 50;
+        else returnHeight += 40;
+      }
+    }
+    return `${returnHeight}px`;
+  }, [biggerThanMD, showSearch, showFilters, showHistory, history]);
 
   const marginTopBar = useCallback(() => {
-    if (biggerThanMD && !showFilters) return "60px";
-    if (showSearch && showFilters)
-      if (biggerThanMD) return "100px";
-      else return "160px";
-    if (showSearch) return "100px";
-    return "40px";
-  }, [biggerThanMD, showSearch, showFilters]);
+    let returnHeight = 60;
+    if (biggerThanMD) {
+      if (showFilters) returnHeight += 60;
+      if (showHistory) returnHeight += 50;
+    } else {
+      if (showSearch) returnHeight += 55;
+      if (showFilters) returnHeight += 55;
+      if (showHistory) returnHeight += 40;
+    }
+    return `${returnHeight}px`;
+  }, [biggerThanMD, showSearch, showFilters, showHistory]);
 
   const fetch = async () => {
     setLoading(1);
@@ -166,6 +209,8 @@ const Home = () => {
         });
         const data = await response.list;
         setSearchResult({ type: "set", newArray: data });
+        if (history.indexOf("data") === -1 && data.length > 0)
+          setHistory({ type: "add", newHistory: toSearch });
         setLoading(0);
       }
     } catch (err) {
@@ -174,7 +219,7 @@ const Home = () => {
       setError(true);
       setLoading(-1);
     }
-  });
+  }, [toSearch, history]);
 
   useEffect(() => {
     filter();
@@ -267,9 +312,8 @@ const Home = () => {
               width: "100%",
               display: "flex",
               alignItems: "center",
-              marginBottom: "20px",
+              marginBottom: biggerThanMD ? "20px" : "10px",
               position: "relative",
-
               justifyContent: "space-between",
             }}
           >
@@ -301,6 +345,7 @@ const Home = () => {
                   id="search"
                   size="small"
                   value={toSearch}
+                  onClick={() => setShowHistory(true)}
                   placeholder={languageState.texts.Navbar.Search}
                   onChange={handleToSearch}
                   type="search"
@@ -376,6 +421,7 @@ const Home = () => {
                 value={toSearch}
                 placeholder={languageState.texts.Navbar.Search}
                 onChange={handleToSearch}
+                onClick={() => setShowHistory(true)}
                 type="search"
                 startAdornment={
                   <InputAdornment position="start">
@@ -416,6 +462,36 @@ const Home = () => {
               />
             </FormControl>
           ) : null}
+          {history.length > 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                marginTop: "20px",
+                marginLeft: 0,
+                gap: "10px",
+                width: "100vw",
+                overflow: "auto",
+              }}
+            >
+              {history.map((item) => (
+                <Chip
+                  icon={<AccessTimeIcon fontSize="small" />}
+                  label={item}
+                  onClick={() => setToSearch(item)}
+                />
+              ))}
+            </Box>
+          ) : (
+            <Typography
+              sx={{
+                color: "gray",
+                marginTop: biggerThanMD ? 0 : "20px",
+                marginLeft: biggerThanMD ? 0 : "5px",
+              }}
+            >
+              {languageState.texts.Navbar.NoHistory}
+            </Typography>
+          )}
           <Box
             sx={{
               display: "flex",
