@@ -102,14 +102,6 @@ const Watch = () => {
   }, [toOrder]);
 
   const addToOrder = (count, product) => {
-    console.log({
-      count,
-      productId: product.id,
-      product: product.name,
-      price: product.price,
-      cost: Number(product.price) * Number(count),
-      photo: product.photo,
-    });
     setToOrder({
       type: "add",
       newProduct: {

@@ -74,7 +74,7 @@ const Map = (props) => {
     try {
       setApiMap(config.mapBoxAPI);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

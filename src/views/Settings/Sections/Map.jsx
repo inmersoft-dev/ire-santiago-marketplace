@@ -72,7 +72,6 @@ const Map = () => {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data && data.location) {
-        console.log(data.location);
         setLng(data.location.longitude);
         setLat(data.location.latitude);
         setSettingsState({

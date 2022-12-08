@@ -267,7 +267,6 @@ const OrderModal = (props) => {
                     justifyContent: "space-between",
                   }}
                 >
-                  {console.log(item.count, item.product, item.cost)}
                   <Typography>
                     {item.count} x {item.product}
                   </Typography>

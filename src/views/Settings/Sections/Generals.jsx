@@ -100,7 +100,6 @@ const Generals = () => {
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
-      console.log(data);
       if (data) {
         if (data.photo) {
           setPhoto(data.photo);
@@ -169,14 +168,6 @@ const Generals = () => {
         setMenuNameHelperText("");
         setPhoneHelperText("");
         setLoading(true);
-        console.log({
-          user: getUserName(),
-          oldName,
-          menu,
-          phone,
-          photo,
-          types,
-        });
         try {
           const response = await saveProfile(
             getUserName(),
