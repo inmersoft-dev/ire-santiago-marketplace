@@ -44,6 +44,9 @@ import { useNotification } from "../../context/NotificationProvider";
 // utils
 import { findFirstLowerLetter, findFirstUpperLetter } from "../../utils/auth";
 
+// services
+import { sendOrderCookie } from "../../services/analytics";
+
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
@@ -162,6 +165,7 @@ const OrderModal = (props) => {
           message += `${item.count} x ${item.product} ${item.cost} CUP\n`;
         });
         message += `${languageState.texts.Settings.Inputs.Contact.Count.CustomerName.Short}: ${customerName} \n${languageState.texts.Settings.Inputs.Contact.Phone.Short}:${customerPhone}\n`;
+        console.log(lat, lng);
         if (remote)
           message += `${languageState.texts.Map.Short}: https://www.google.com/maps/dir//${lat},${lng}/@${lat},${lng},21z`;
         setMessageContent(message);
@@ -177,7 +181,10 @@ const OrderModal = (props) => {
   useEffect(() => {
     if (messageContent.length && active) {
       const link = document.getElementById("to-wa.me");
-      if (link) link.click();
+      if (link) {
+        sendOrderCookie(menu, customerName, customerPhone);
+        link.click();
+      }
       setActive(false);
     }
   }, [messageContent]);
