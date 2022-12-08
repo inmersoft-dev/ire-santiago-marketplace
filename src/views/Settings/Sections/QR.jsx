@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { QRCode } from "react-qrcode-logo";
 import { useState, useEffect } from "react";
 
@@ -19,6 +20,7 @@ import Loading from "../../../components/Loading/Loading";
 
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
+import { useSettings } from "../../../context/SettingsProvider";
 import { useNotification } from "../../../context/NotificationProvider";
 
 // utils
@@ -33,6 +35,7 @@ import config from "../../../config";
 const QR = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
+  const { settingsState, setSettingsState } = useSettings();
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -58,6 +61,11 @@ const QR = () => {
       if (data) {
         setMenu(data.menu);
         if (data.photo) setPreview(data.photo.url);
+        setSettingsState({
+          type: "set-qr",
+          menu: data.menu,
+          preview: data.photo ? data.photo.url : "",
+        });
       }
     } catch (err) {
       console.error(err);
@@ -69,9 +77,15 @@ const QR = () => {
 
   const retry = () => fetch();
 
+  const init = () => {
+    setPreview(settingsState.preview);
+    setMenu(settingsState.menu);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    retry();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!settingsState.preview || !settingsState.menu) retry();
+    else init();
   }, []);
 
   const onQrDownload = () => {

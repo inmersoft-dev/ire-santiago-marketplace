@@ -21,6 +21,10 @@ const settingsReducer = (settingsState, action) => {
       const { location } = action;
       return { ...settingsState, location };
     }
+    case "set-qr": {
+      const { menu, preview } = action;
+      return { ...settingsState, menu, preview };
+    }
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
