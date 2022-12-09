@@ -11,7 +11,12 @@ import { dashesToSpace } from "../utils/functions";
  * @param {string} customerPhone
  * @returns
  */
-export const sendOrderCookie = async (menu, customerName, customerPhone) => {
+export const sendOrderCookie = async (
+  menu,
+  customerName,
+  customerPhone,
+  products
+) => {
   if (
     getCookie(config.acceptCookie) &&
     !getCookie(`${menu}${config.customerName}${config.orderCookie}`)
@@ -20,7 +25,13 @@ export const sendOrderCookie = async (menu, customerName, customerPhone) => {
       const response = await axios.post(
         // @ts-ignore
         `${config.apiUrl}trigger/add`,
-        { event: "order", menu: dashesToSpace(menu) },
+        {
+          event: "order",
+          menu: dashesToSpace(menu),
+          customerName,
+          customerPhone,
+          products,
+        },
         {
           headers: getAuth,
         }

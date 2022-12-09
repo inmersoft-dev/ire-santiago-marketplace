@@ -182,7 +182,12 @@ const OrderModal = (props) => {
     if (messageContent.length && active) {
       const link = document.getElementById("to-wa.me");
       if (link) {
-        sendOrderCookie(menu, customerName, customerPhone);
+        sendOrderCookie(
+          menu,
+          customerName,
+          customerPhone,
+          order.map((item) => item.productId)
+        );
         link.click();
       }
       setActive(false);
