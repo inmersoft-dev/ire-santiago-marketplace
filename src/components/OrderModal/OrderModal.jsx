@@ -165,7 +165,6 @@ const OrderModal = (props) => {
           message += `${item.count} x ${item.product} ${item.cost} CUP\n`;
         });
         message += `${languageState.texts.Settings.Inputs.Contact.Count.CustomerName.Short}: ${customerName} \n${languageState.texts.Settings.Inputs.Contact.Phone.Short}:${customerPhone}\n`;
-        console.log(lat, lng);
         if (remote)
           message += `${languageState.texts.Map.Short}: https://www.google.com/maps/dir//${lat},${lng}/@${lat},${lng},21z`;
         setMessageContent(message);
@@ -218,11 +217,6 @@ const OrderModal = (props) => {
           background: theme.palette.background.paper,
         }}
       >
-        {console.log(
-          `https://wa.me/${phone.replace(/\s/g, "")}?text=${encodeURIComponent(
-            messageContent
-          )}`
-        )}
         <a
           href={`https://wa.me/${phone.replace(
             /\s/g,

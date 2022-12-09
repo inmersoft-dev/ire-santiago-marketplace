@@ -11,9 +11,6 @@ const historyReducer = (historyState, action) => {
   switch (action.type) {
     case "add": {
       const { newHistory } = action;
-      console.log(
-        historyState !== null && historyState.indexOf(newHistory) === -1
-      );
       if (historyState !== null && historyState.indexOf(newHistory) === -1) {
         localStorage.setItem(
           "search-history",

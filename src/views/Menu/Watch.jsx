@@ -259,7 +259,6 @@ const Watch = () => {
       const params = queryParams.split("&");
       params.forEach((item) => {
         const [paramName, paramValue] = item.split("=");
-        console.log(paramName, paramValue);
         if (paramValue)
           switch (paramName) {
             case "search": {
