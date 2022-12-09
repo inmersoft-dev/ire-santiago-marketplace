@@ -187,7 +187,7 @@ const Modal = (props) => {
                   {languageState.texts.Settings.Inputs.Contact.Count.Label}
                 </InputLabel>
                 <OutlinedInput
-                  onKeydown={(event) =>
+                  onKeyDown={(event) =>
                     event.key === "." ? event.preventDefault() : ""
                   }
                   onInput={(event) => {

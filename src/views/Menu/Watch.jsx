@@ -31,8 +31,9 @@ import {
 } from "../../services/analytics";
 
 // contexts
-import { useNotification } from "../../context/NotificationProvider";
+import { useHistory } from "../../context/HistoryProvider";
 import { useLanguage } from "../../context/LanguageProvider";
+import { useNotification } from "../../context/NotificationProvider";
 
 // components
 import OrderModal from "../../components/OrderModal/OrderModal";
@@ -57,6 +58,7 @@ const Watch = () => {
   const location = useLocation();
 
   const { languageState } = useLanguage();
+  const { setHistoryState } = useHistory();
 
   const orderReducer = (orderStates, action) => {
     const { type } = action;
@@ -257,8 +259,22 @@ const Watch = () => {
       const params = queryParams.split("&");
       params.forEach((item) => {
         const [paramName, paramValue] = item.split("=");
+        console.log(paramName, paramValue);
         if (paramValue)
           switch (paramName) {
+            case "search": {
+              const exist = localStorage.getItem("search-history");
+              if (exist !== null && exist !== "")
+                setHistoryState({
+                  type: "set",
+                  newArray: JSON.parse(exist).filter(
+                    (item) => item !== null && item.trim().length > 0
+                  ),
+                });
+              if (paramValue.length > 0)
+                setHistoryState({ type: "add", newHistory: paramValue });
+              break;
+            }
             case "visited":
               if (menuName.length) {
                 sendQrCookie(menuName);

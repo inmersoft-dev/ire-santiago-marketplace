@@ -25,7 +25,7 @@ import {
 } from "../../assets/styles/styles";
 
 const LinkCard = (props) => {
-  const { item, link } = props;
+  const { item, link, onClick } = props;
   const theme = useTheme();
 
   const linkStyle = css({
@@ -36,7 +36,11 @@ const LinkCard = (props) => {
   });
 
   return (
-    <Link to={link} className={linkStyle}>
+    <Link
+      to={link}
+      className={linkStyle}
+      onClick={onClick ? (e) => onClick(e) : () => {}}
+    >
       <Paper
         id={`obj-${item.user}`}
         elevation={1}
@@ -104,6 +108,7 @@ const LinkCard = (props) => {
 
 LinkCard.propTypes = {
   link: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
   item: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

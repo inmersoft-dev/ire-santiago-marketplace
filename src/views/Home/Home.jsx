@@ -4,15 +4,15 @@ import { useLocation } from "react-router-dom";
 
 // @mui components
 import {
-  useMediaQuery,
   Box,
+  Chip,
+  useTheme,
+  useMediaQuery,
   Typography,
   IconButton,
   FormControl,
   InputAdornment,
   OutlinedInput,
-  Chip,
-  useTheme,
 } from "@mui/material";
 
 // @mui/icons-material
@@ -37,6 +37,7 @@ import { fetchAll } from "../../services/menu.js";
 
 // contexts
 import { useMode } from "../../context/ModeProvider";
+import { useHistory } from "../../context/HistoryProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
@@ -107,33 +108,17 @@ const Home = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [showHistory, setShowHistory] = useState("");
 
-  const historyReducer = (historyState, action) => {
-    const { type } = action;
-    switch (type) {
-      case "add": {
-        const { newHistory } = action;
-        if (historyState.indexOf(newHistory) === -1)
-          return [...historyState, newHistory];
-        return historyState;
-      }
-      case "set": {
-        const { newArray } = action;
-        return newArray;
-      }
-      default:
-        return [];
-    }
-  };
-  const [history, setHistory] = useReducer(historyReducer, []);
-
-  useEffect(() => {
-    localStorage.setItem("search-history", JSON.stringify(history));
-  }, [history]);
+  const { historyState, setHistoryState } = useHistory();
 
   useEffect(() => {
     const exist = localStorage.getItem("search-history");
     if (exist !== null && exist !== "")
-      setHistory({ type: "set", newArray: JSON.parse(exist) });
+      setHistoryState({
+        type: "set",
+        newArray: JSON.parse(exist).filter(
+          (item) => item !== null && item.trim().length > 0
+        ),
+      });
   }, []);
 
   const toggleFilters = () => setShowFilters(!showFilters);
@@ -147,12 +132,12 @@ const Home = () => {
       if (showSearch) returnHeight += 55;
       if (showFilters) returnHeight += 55;
       if (showHistory) {
-        if (history.length) returnHeight += 50;
+        if (historyState.length) returnHeight += 50;
         else returnHeight += 40;
       }
     }
     return `${returnHeight}px`;
-  }, [biggerThanMD, showSearch, showFilters, showHistory, history]);
+  }, [biggerThanMD, showSearch, showFilters, showHistory, historyState]);
 
   const marginTopBar = useCallback(() => {
     let returnHeight = 60;
@@ -177,8 +162,8 @@ const Home = () => {
         const arrayData = Object.values(data.users);
         setList(arrayData.filter((item) => item.photo));
         setAllData(Object.keys(data.users));
-        setLoading(0);
       }
+      setLoading(0);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
@@ -209,17 +194,15 @@ const Home = () => {
         });
         const data = await response.list;
         setSearchResult({ type: "set", newArray: data });
-        if (history.indexOf("data") === -1 && data.length > 0)
-          setHistory({ type: "add", newHistory: toSearch });
-        setLoading(0);
       }
+      setLoading(0);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
       setError(true);
       setLoading(-1);
     }
-  }, [toSearch, history]);
+  }, [toSearch, historyState]);
 
   useEffect(() => {
     filter();
@@ -227,17 +210,24 @@ const Home = () => {
 
   const handleToSearch = (e) => setToSearch(e.target.value);
 
-  const getLinkCard = (item, type) => {
-    if (type === "menu") {
-      if (userLogged() && item.user === getUserName()) return "/menu/edit";
-      return `/menu/${spaceToDashes(item.name)}`;
-    } else {
-      if (userLogged() && item.user === getUserName()) return "/menu/edit";
-      return `/menu/${spaceToDashes(item.menu)}?product=${spaceToDashes(
-        parserAccents(item.name)
-      )}`;
-    }
-  };
+  const getLinkCard = useCallback(
+    (item, type) => {
+      if (type === "menu") {
+        if (userLogged() && item.user === getUserName())
+          return `/menu/edit?search=${toSearch}`;
+        return `/menu/${spaceToDashes(item.name)}?search=${toSearch}`;
+      } else {
+        if (userLogged() && item.user === getUserName())
+          return `/menu/edit?search=${toSearch}`;
+        if (item.menu !== item.name)
+          return `/menu/${spaceToDashes(item.menu)}?product=${spaceToDashes(
+            parserAccents(item.name)
+          )}&search=${toSearch}`;
+        else return `/menu/${spaceToDashes(item.menu)}?search=${toSearch}`;
+      }
+    },
+    [toSearch]
+  );
 
   const searchResultIsEmpty = useCallback(() => {
     if (searchResult && (searchResult[0] || searchResult[1]))
@@ -462,7 +452,7 @@ const Home = () => {
               />
             </FormControl>
           ) : null}
-          {history.length > 0 ? (
+          {historyState.length > 0 ? (
             <Box
               sx={{
                 display: "flex",
@@ -473,11 +463,12 @@ const Home = () => {
                 overflow: "auto",
               }}
             >
-              {history.map((item) => (
+              {historyState.map((item, i) => (
                 <Chip
-                  icon={<AccessTimeIcon fontSize="small" />}
+                  key={i}
                   label={item}
                   onClick={() => setToSearch(item)}
+                  icon={<AccessTimeIcon fontSize="small" />}
                 />
               ))}
             </Box>
@@ -501,19 +492,19 @@ const Home = () => {
             }}
           >
             <Chip
-              label={languageState.texts.Navbar.Filters.Products}
-              color={searchingProducts ? "primary" : undefined}
               onClick={toggleSearchingProducts}
+              color={searchingProducts ? "primary" : undefined}
+              label={languageState.texts.Navbar.Filters.Products}
             />
             <Chip
-              label={languageState.texts.Navbar.Filters.Categories}
-              color={searchingCategories ? "primary" : undefined}
               onClick={toggleSearchingCategories}
+              color={searchingCategories ? "primary" : undefined}
+              label={languageState.texts.Navbar.Filters.Categories}
             />
             <Chip
-              label={languageState.texts.Navbar.Filters.Menus}
-              color={searchingMenus ? "primary" : undefined}
               onClick={toggleSearchingMenus}
+              color={searchingMenus ? "primary" : undefined}
+              label={languageState.texts.Navbar.Filters.Menus}
             />
           </Box>
         </Box>
@@ -532,9 +523,9 @@ const Home = () => {
           <Loading
             visible={loading === 1}
             sx={{
+              height: "100px",
               background: "none",
               position: "absolute",
-              height: "100px",
               zIndex: loading === 1 ? 10 : -1,
             }}
           />
@@ -546,12 +537,18 @@ const Home = () => {
                       key={i}
                       delay={`0.${1 * (item.index + 1)}s`}
                       sx={{
+                        width: "100%",
                         display: "flex",
                         justifyContent: "center",
-                        width: "100%",
                       }}
                     >
                       <LinkCard
+                        onClick={() =>
+                          setHistoryState({
+                            type: "add",
+                            newHistory: toSearch,
+                          })
+                        }
                         item={item}
                         link={
                           userLogged() && item.user === getUserName()
@@ -571,19 +568,25 @@ const Home = () => {
                         >
                           {languageState.texts.Navbar.Models[item.type]}
                         </Typography>
-                        {item.list.map((jtem, i) => (
+                        {item.list.map((jtem, j) => (
                           <InViewComponent
-                            key={jtem.id}
+                            key={j}
                             delay={`0.${1 * (jtem.index + 1)}s`}
                             sx={{
+                              width: "100%",
                               display: "flex",
                               justifyContent: "center",
-                              width: "100%",
                             }}
                           >
                             <LinkCard
                               item={jtem}
                               link={getLinkCard(jtem, item.type)}
+                              onClick={() =>
+                                setHistoryState({
+                                  type: "add",
+                                  newHistory: toSearch,
+                                })
+                              }
                             />
                           </InViewComponent>
                         ))}
