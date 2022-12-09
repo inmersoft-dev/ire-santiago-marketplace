@@ -164,7 +164,7 @@ const OrderModal = (props) => {
         order.forEach((item) => {
           message += `${item.count} x ${item.product} ${item.cost} CUP\n`;
         });
-        message += `${languageState.texts.Settings.Inputs.Contact.Count.CustomerName.Short}: ${customerName} \n${languageState.texts.Settings.Inputs.Contact.Phone.Short}:${customerPhone}\n`;
+        message += `${languageState.texts.Settings.Inputs.Contact.Count.CustomerName.Short}: ${customerName} \n${languageState.texts.Settings.Inputs.Contact.Phone.Short}: ${customerPhone}\n`;
         if (remote)
           message += `${languageState.texts.Map.Short}: https://www.google.com/maps/dir//${lat},${lng}/@${lat},${lng},21z`;
         setMessageContent(message);

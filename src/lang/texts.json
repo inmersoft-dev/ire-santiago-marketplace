@@ -207,7 +207,7 @@
             "Label": "Cantidad"
           },
           "Phone": {
-            "Short": "Tel:",
+            "Short": "Tel",
             "Label": "Teléfono",
             "Placeholder": "ej: +53 56174215"
           },
