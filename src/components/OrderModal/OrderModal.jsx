@@ -159,8 +159,13 @@ const OrderModal = (props) => {
   const executeOrder = useCallback(
     async (e) => {
       e.preventDefault();
+      const date = new Date();
       try {
-        let message = `${menu} ${languageState.texts.Settings.Inputs.Contact.Count.ToWhatsapp.order} \n`;
+        let message = `${menu} ${
+          languageState.texts.Settings.Inputs.Contact.Count.ToWhatsapp.order
+        } ${date.getHours()}:${date.getMinutes()} ${date.getDate()}/${
+          date.getMonth() + 1
+        }/${date.getFullYear()}\n`;
         order.forEach((item) => {
           message += `${item.count} x ${item.product} ${item.cost} CUP\n`;
         });
