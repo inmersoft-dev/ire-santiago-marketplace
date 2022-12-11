@@ -263,6 +263,7 @@ const Watch = () => {
           switch (paramName) {
             case "search": {
               const exist = localStorage.getItem("search-history");
+              console.log(paramValue);
               if (exist !== null && exist !== "")
                 setHistoryState({
                   type: "set",

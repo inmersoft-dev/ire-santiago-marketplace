@@ -542,10 +542,12 @@ const Home = () => {
                     >
                       <LinkCard
                         onClick={() =>
-                          setHistoryState({
-                            type: "add",
-                            newHistory: toSearch,
-                          })
+                          toSearch.length > 0
+                            ? setHistoryState({
+                                type: "add",
+                                newHistory: toSearch,
+                              })
+                            : {}
                         }
                         item={item}
                         link={
@@ -580,10 +582,12 @@ const Home = () => {
                               item={jtem}
                               link={getLinkCard(jtem, item.type)}
                               onClick={() =>
-                                setHistoryState({
-                                  type: "add",
-                                  newHistory: toSearch,
-                                })
+                                toSearch.length > 0
+                                  ? setHistoryState({
+                                      type: "add",
+                                      newHistory: toSearch,
+                                    })
+                                  : {}
                               }
                             />
                           </InViewComponent>

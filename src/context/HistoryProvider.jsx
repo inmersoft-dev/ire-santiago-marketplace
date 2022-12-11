@@ -11,7 +11,12 @@ const historyReducer = (historyState, action) => {
   switch (action.type) {
     case "add": {
       const { newHistory } = action;
-      if (historyState !== null && historyState.indexOf(newHistory) === -1) {
+      console.log(historyState);
+      if (
+        historyState !== null &&
+        typeof historyState === "object" &&
+        historyState.indexOf(newHistory) === -1
+      ) {
         localStorage.setItem(
           "search-history",
           JSON.stringify([...historyState, newHistory])
@@ -30,7 +35,7 @@ const historyReducer = (historyState, action) => {
 };
 
 const HistoryProvider = ({ children }) => {
-  const [historyState, setHistoryState] = React.useReducer(historyReducer, {});
+  const [historyState, setHistoryState] = React.useReducer(historyReducer, []);
 
   const value = { historyState, setHistoryState };
   return (
