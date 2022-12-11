@@ -1,4 +1,310 @@
 {
+  "en": {
+    "AppName": "Marketplace",
+    "Map": {
+      "Short": "Position",
+      "Placeholder": "Introduce the address",
+      "Save": "Save",
+      "Tooltip": "How to get?",
+      "Title": "Map",
+      "Inputs": {
+        "Longitude": {
+          "label": "Longitude",
+          "placeholder": "ex: -75.7119726"
+        },
+        "Latitude": {
+          "label": "Latitude",
+          "placeholder": "ex 19.7521939"
+        }
+      },
+      "SearchAddressPlaceholder": "Type to search an address"
+    },
+    "CookieBox": {
+      "Description": "Our site uses cookies to analyze traffic information and thus improve your experience",
+      "Link": "Cookies policy",
+      "Accept": "Accept",
+      "Decline": "Decline"
+    },
+    "Navbar": {
+      "Search": "Search...",
+      "Filters": {
+        "Products": "Products",
+        "Categories": "Categories",
+        "Menus": "Catalogs"
+      },
+      "NoHistory": "No recent searches...",
+      "Models": {
+        "menus": "Places",
+        "products": "Products"
+      }
+    },
+    "Title": "Catalog List",
+    "Tooltips": {
+      "ToLogin": "Sign in",
+      "ToSettings": "Settings",
+      "ToLogout": "Sign out",
+      "ToTop": "Go top",
+      "RegisterNewUser": "Sign up new user"
+    },
+    "NotFound": {
+      "Title": "404 Not Found",
+      "Description": "The page you are looking for cannot be found or has been removed",
+      "Link": "Go back"
+    },
+    "Errors": {
+      "NotConnected": "No connected to the server",
+      "NoProducts": "There are no products",
+      "NoResults": "There are no results",
+      "NoMenu": "There are no catalogs",
+      "UsernameTaken": "Username taken",
+      "MenuNameTaken": "Catalog name taken",
+      "InvalidMenuName": "Invalid catalog name, only can contain numbers and letters",
+      "SomeWrong": "Something went wrong",
+      "Wrong": "User or password wrong",
+      "NameRequired": "Name required",
+      "PriceRequired": "Price required",
+      "PhoneRequired": "Phone required",
+      "TypeRequired": "At least one category required",
+      "InvalidPhone": "Invalid phone",
+      "DescriptionRequired": "Description required",
+      "PasswordLengthValidation": "Password length must be between 8 and 25 characters",
+      "PasswordCharacterValidation": "Password must contain at least one upper letter, lower letter and a number",
+      "PasswordNameValidation": "Password can't contain the user name",
+      "NoEmptyPassword": "Password required",
+      "DifferentPassword": "Passwords don't match"
+    },
+    "Messages": {
+      "LoginSuccessful": "Signed in successfully",
+      "RegisterSuccessful": "Signed up successfully",
+      "SaveSuccessful": "Saved successfully"
+    },
+    "Register": {
+      "Title": "Sign Up"
+    },
+    "Settings": {
+      "ImageSuggestion": "It is recommended that the logo be a square image",
+      "Tabs": ["Generals", "Social", "Map", "Security", "QR"],
+      "PasswordTitle": "Change password",
+      "Qr": "Catalog QR code",
+      "ShowLogoOnQr": "Show logo on QR",
+      "Inputs": {
+        "CenterTypes": {
+          "Label": "Business types",
+          "Placeholder": "Bar",
+          "Types": [
+            {
+              "id": 2,
+              "name": "Old House",
+              "icon": "oldHouse"
+            },
+            {
+              "id": 3,
+              "name": "Restaurant",
+              "icon": "restaurant"
+            },
+            {
+              "id": 4,
+              "name": "Rent House",
+              "icon": "rentHouse"
+            },
+            {
+              "id": 5,
+              "name": "Bar",
+              "icon": "bar"
+            },
+            {
+              "id": 7,
+              "name": "Cafeteria",
+              "icon": "cafeteria"
+            },
+            {
+              "id": 9,
+              "name": "Gym",
+              "icon": "gym"
+            },
+            {
+              "id": 10,
+              "name": "Art",
+              "icon": "art"
+            },
+            {
+              "id": 11,
+              "name": "Museum",
+              "icon": "museum"
+            },
+            {
+              "id": 12,
+              "name": "Library",
+              "icon": "library"
+            },
+            {
+              "id": 13,
+              "name": "Night Life",
+              "icon": "nightLife"
+            },
+            {
+              "id": 14,
+              "name": "Mall",
+              "icon": "mall"
+            },
+            {
+              "id": 15,
+              "name": "Store",
+              "icon": "shop"
+            },
+            {
+              "id": 16,
+              "name": "Beauty",
+              "icon": "beauty"
+            },
+            {
+              "id": 17,
+              "name": "Electronic",
+              "icon": "electronic"
+            },
+            {
+              "id": 18,
+              "name": "Cloth",
+              "icon": "cloth"
+            },
+            {
+              "id": 19,
+              "name": "Hotel",
+              "icon": "hotel"
+            },
+            {
+              "id": 20,
+              "name": "Fuel",
+              "icon": "fuel"
+            },
+            {
+              "id": 21,
+              "name": "Car Rental",
+              "icon": "carRental"
+            }
+          ]
+        },
+        "Contact": {
+          "Count": {
+            "ToWhatsapp": {
+              "order": "order: "
+            },
+            "Clean": "Clear order",
+            "Submit": "To Order",
+            "Remote": "Domicile",
+            "Share": "Share",
+            "CustomerName": {
+              "Short": "Name",
+              "Label": "Receiver name",
+              "Placeholder": "ex: Jose Andres Perez Meriño"
+            },
+            "Order": {
+              "Title": "Order",
+              "Total": "total: "
+            },
+            "CartTooltip": "Order",
+            "Title": "To Order",
+            "Label": "Count"
+          },
+          "Phone": {
+            "Short": "Phone",
+            "Label": "Phone",
+            "Placeholder": "ex: +53 56174215"
+          },
+          "SocialMedia": {
+            "Label": "Social Media",
+            "Placeholder": "https://mi-red-social.com",
+            "WhatsApp": "Whatsapp",
+            "Icons": {
+              "any": "Web Site",
+              "facebook": "Facebook",
+              "instagram": "Instagram",
+              "twitter": "Twitter",
+              "linkedIn": "LinkedIn",
+              "pinterest": "Pinterest",
+              "youtube": "Youtube"
+            }
+          }
+        },
+        "Menu": {
+          "Label": "Place Name",
+          "Placeholder": "ex: El Rincón dulce"
+        },
+        "Description": {
+          "Label": "Place description",
+          "Placeholder": "Some description"
+        }
+      }
+    },
+    "Insert": {
+      "Title": "Create your catalog",
+      "Categories": "Create new products to filter by categories",
+      "Inputs": {
+        "Product": {
+          "Label": "Product Name",
+          "Placeholder": "ex: Red Wine"
+        },
+        "Description": {
+          "Label": "Product Description",
+          "Placeholder": "Some description"
+        },
+        "Price": {
+          "Label": "Price",
+          "Placeholder": "ex: 100"
+        },
+        "Type": {
+          "Add": "Add",
+          "Label": "Category",
+          "Placeholder": "ex: Drink"
+        }
+      },
+      "Buttons": {
+        "Retry": "Reload",
+        "Insert": "New Product",
+        "Save": "Save",
+        "Edit": "Edit catalog"
+      }
+    },
+    "Login": {
+      "Title": "Sign In",
+      "Inputs": {
+        "User": {
+          "Label": "User",
+          "Placeholder": "ex: user"
+        },
+        "Password": {
+          "Label": "Password",
+          "Placeholder": "ex: *********"
+        },
+        "RPassword": {
+          "Label": "Confirm password",
+          "Placeholder": "ex: *********"
+        }
+      },
+      "Remember": "Remember me",
+      "Buttons": {
+        "Login": "Sign In",
+        "Register": "Sign Up"
+      }
+    },
+    "Inputs": [
+      {
+        "id": "title",
+        "type": "text",
+        "label": "Title",
+        "placeholder": "ej: Mi nota"
+      },
+      {
+        "id": "content",
+        "type": "text",
+        "label": "Content",
+        "placeholder": "Write here...",
+        "multiline": true,
+        "minRows": 4,
+        "maxRows": 4
+      }
+    ]
+  },
   "es": {
     "AppName": "Marketplace",
     "Map": {
@@ -250,7 +556,7 @@
         },
         "Price": {
           "Label": "Precio",
-          "Placeholder": "ej 100"
+          "Placeholder": "ej: 100"
         },
         "Type": {
           "Add": "Añadir",
@@ -270,7 +576,7 @@
       "Inputs": {
         "User": {
           "Label": "Usuario",
-          "Placeholder": "ej: tusuario"
+          "Placeholder": "ej: usuario"
         },
         "Password": {
           "Label": "Contraseña",
