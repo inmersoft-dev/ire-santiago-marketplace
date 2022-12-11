@@ -205,8 +205,8 @@ const Watch = () => {
             : [],
         });
         setProducts(data.list ? data.list : []);
-        setLoading(0);
       }
+      setLoading(0);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));

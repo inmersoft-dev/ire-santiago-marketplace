@@ -186,15 +186,13 @@ const Home = () => {
     setLoading(1);
     setError(false);
     try {
-      if (toSearch.length) {
-        const response = await search(toSearch, {
-          searchingProducts,
-          searchingCategories,
-          searchingMenus,
-        });
-        const data = await response.list;
-        setSearchResult({ type: "set", newArray: data });
-      }
+      const response = await search(toSearch, {
+        searchingProducts,
+        searchingCategories,
+        searchingMenus,
+      });
+      const data = await response.list;
+      setSearchResult({ type: "set", newArray: data });
       setLoading(0);
     } catch (err) {
       console.error(err);
@@ -205,7 +203,7 @@ const Home = () => {
   }, [toSearch, historyState]);
 
   useEffect(() => {
-    filter();
+    if (toSearch.length) filter();
   }, [toSearch, searchingProducts, searchingCategories, searchingMenus]);
 
   const handleToSearch = (e) => setToSearch(e.target.value);
