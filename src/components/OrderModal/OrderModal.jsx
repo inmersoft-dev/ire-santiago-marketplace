@@ -25,6 +25,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 // components
 import Map from "../Map/Map";
+import Loading from "../Loading/Loading";
 
 // sito components
 import SitoImage from "sito-image";
@@ -45,6 +46,7 @@ import { useNotification } from "../../context/NotificationProvider";
 import { findFirstLowerLetter, findFirstUpperLetter } from "../../utils/auth";
 
 // services
+import { saveOrder } from "../../services/menu";
 import { sendOrderCookie } from "../../services/analytics";
 
 // images
@@ -55,7 +57,7 @@ const OrderModal = (props) => {
   const biggerThanMD = useMediaQuery("(min-width:900px)");
 
   const { languageState } = useLanguage();
-
+  const [loading, setLoading] = useState(false);
   const { order, visible, onClose, cleanOrder, menu, phone } = props;
 
   const [show, setShow] = useState(visible);
@@ -159,6 +161,7 @@ const OrderModal = (props) => {
   const executeOrder = useCallback(
     async (e) => {
       e.preventDefault();
+      setLoading(true);
       const date = new Date();
       try {
         let message = `${menu} ${
@@ -182,20 +185,27 @@ const OrderModal = (props) => {
     [remote]
   );
 
-  useEffect(() => {
+  const toWhatsapp = async () => {
     if (messageContent.length && active) {
       const link = document.getElementById("to-wa.me");
       if (link) {
-        sendOrderCookie(
+        await saveOrder(menu, order);
+        await sendOrderCookie(
           menu,
           customerName,
           customerPhone,
           order.map((item) => item.productId)
         );
+        setLoading(false);
+        cleanOrder();
         link.click();
       }
       setActive(false);
     }
+  };
+
+  useEffect(() => {
+    toWhatsapp();
   }, [messageContent]);
 
   return (
@@ -210,6 +220,7 @@ const OrderModal = (props) => {
         opacity: show ? 1 : -1,
       }}
     >
+      <Loading visible={loading} sx={{ zIndex: loading ? 1000 : -1 }} />
       <Box
         ref={ref}
         sx={{
