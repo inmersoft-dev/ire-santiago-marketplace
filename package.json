@@ -1,6 +1,6 @@
 {
-  "name": "digital-menu",
-  "version": "1.0.0",
+  "name": "marketplace",
+  "version": "1.0.1",
   "private": false,
   "homepage": "https://digitalmenu-bb1a1.web.app/",
   "dependencies": {
