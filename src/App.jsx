@@ -33,6 +33,7 @@ import CookieBox from "./components/CookieBox/CookieBox";
 
 // contexts
 import { useMode } from "./context/ModeProvider";
+import { useLanguage } from "./context/LanguageProvider";
 import { SettingsProvider } from "./context/SettingsProvider";
 
 // services
@@ -42,10 +43,21 @@ import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 const App = () => {
   const { modeState } = useMode();
   const biggerThanMD = useMediaQuery("(min-width:900px)");
+  const { setLanguageState } = useLanguage();
 
   useEffect(() => {
     document.body.style.overflowX = "hidden";
     document.body.style.transition = "all 200ms ease";
+  }, []);
+
+  useEffect(() => {
+    try {
+      const userLang = navigator.language || navigator.userLanguage;
+      if (userLang)
+        setLanguageState({ type: "set", lang: userLang.split("-")[0] });
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   const fetch = async () => {
