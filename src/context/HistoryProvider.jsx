@@ -11,7 +11,6 @@ const historyReducer = (historyState, action) => {
   switch (action.type) {
     case "add": {
       const { newHistory } = action;
-      console.log(historyState);
       if (
         historyState !== null &&
         typeof historyState === "object" &&
