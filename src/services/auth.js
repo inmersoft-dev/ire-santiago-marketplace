@@ -7,10 +7,15 @@ import { getCookie } from "../utils/auth";
 
 import md5 from "md5";
 
-export const validateBasicKey = async () => {
+/**
+ *
+ * @param {string} type
+ * @returns
+ */
+export const validateBasicKey = async (type) => {
   const response = await axios.post(
     // @ts-ignore
-    `${config.apiUrl}user/validate`,
+    `${config.apiUrl}user/${type === "admin" ? "is-admin" : "validate"}`,
     {},
     {
       headers: {
@@ -20,7 +25,7 @@ export const validateBasicKey = async () => {
     }
   );
   const data = await response.data;
-  if (data.data.message) return true;
+  if (data.data.user) return data.data.user;
   return false;
 };
 

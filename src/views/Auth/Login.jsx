@@ -87,6 +87,7 @@ const Login = () => {
           response.data.expiration,
           response.data.token
         );
+        sessionStorage.setItem("user", user);
         showNotification(
           "success",
           languageState.texts.Messages.LoginSuccessful

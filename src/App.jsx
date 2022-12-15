@@ -67,7 +67,7 @@ const App = () => {
       setTimeout(() => {
         window.location.reload();
       }, 1000);
-    }
+    } else sessionStorage.setItem("user", value);
   };
 
   useEffect(() => {
