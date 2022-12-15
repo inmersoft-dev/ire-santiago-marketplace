@@ -107,7 +107,7 @@ const OrderModal = (props) => {
 
   useEffect(() => {
     const name = document.getElementById("name");
-    if (name !== null) name.focus();
+    if (name !== null && show) name.focus();
     if (show) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "inherit";
   }, [show]);
