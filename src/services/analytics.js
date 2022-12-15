@@ -36,7 +36,7 @@ export const sendOrderCookie = async (
           headers: getAuth,
         }
       );
-      createCookie(`${menu}${config.orderCookie}`, 1, true);
+      createCookie(`${menu}_${config.orderCookie}`, 1, true);
       const data = await response.data;
       return data;
     } catch (err) {
@@ -64,7 +64,7 @@ export const sendQrCookie = async (menu) => {
           headers: getAuth,
         }
       );
-      createCookie(`${menu}${config.visitCookie}`, 90, true);
+      createCookie(`${menu}_${config.visitCookie}`, 1, true);
       const data = await response.data;
       return data;
     } catch (err) {
@@ -92,7 +92,7 @@ export const sendVisitCookie = async (menu) => {
           headers: getAuth,
         }
       );
-      createCookie(`${menu}${config.visitCookie}`, 90, true);
+      createCookie(`${menu}_${config.visitCookie}`, 1, true);
       const data = await response.data;
       return data;
     } catch (err) {
@@ -125,7 +125,7 @@ export const sendDescriptionCookie = async (menu, product) => {
           headers: getAuth,
         }
       );
-      createCookie(`${product.id}${getCookie.descriptionCookie}`, 90, true);
+      createCookie(`${product.id}_${getCookie.descriptionCookie}`, 10, true);
       const data = await response.data;
       return data;
     } catch (err) {
@@ -148,7 +148,7 @@ export const sendMobileCookie = async () => {
           headers: getAuth,
         }
       );
-      createCookie(config.viewCookie, 90, true);
+      createCookie(config.viewCookie, 1, true);
       const data = await response.data;
       return data;
     } catch (err) {
@@ -171,7 +171,7 @@ export const sendPcCookie = async () => {
           headers: getAuth,
         }
       );
-      createCookie(config.viewCookie, 90, true);
+      createCookie(config.viewCookie, 1, true);
       const data = await response.data;
       return data;
     } catch (err) {
