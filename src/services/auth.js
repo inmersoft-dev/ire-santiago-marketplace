@@ -15,7 +15,7 @@ export const validateBasicKey = async () => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );

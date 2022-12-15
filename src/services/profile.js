@@ -37,7 +37,7 @@ export const saveProfile = async (
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );
@@ -61,7 +61,7 @@ export const changePassword = async (user, password) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );
@@ -87,7 +87,7 @@ export const saveLocation = async (user, longitude, latitude) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );
@@ -113,7 +113,7 @@ export const saveSocial = async (user, socialMedia, description) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );

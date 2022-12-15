@@ -40,7 +40,7 @@ export const logoutUser = () => {
   // @ts-ignore
   sessionStorage.removeItem(config.userCookie);
   // @ts-ignore
-  deleteCookie(config.basicKey);
+  deleteCookie(config.basicKeyCookie);
 };
 
 /**

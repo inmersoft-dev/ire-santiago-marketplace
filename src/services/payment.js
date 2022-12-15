@@ -20,7 +20,7 @@ export const executeOrder = async (order, menu) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );

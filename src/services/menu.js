@@ -74,7 +74,7 @@ export const saveMenu = async (user, menuName, menu, types) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );

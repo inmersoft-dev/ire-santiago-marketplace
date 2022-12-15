@@ -20,7 +20,7 @@ export const search = async (text, models) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );
@@ -41,7 +41,7 @@ export const searchIds = async (ids, models) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );

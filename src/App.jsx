@@ -106,6 +106,16 @@ const App = () => {
             />
             <Route exact path="/menu/*" element={<Watch />} />
             <Route exact path="/menu/edit" element={<Edit />} />
+            <Route
+              exact
+              path="/cookie-policy"
+              element={<MDPrinter text="cookies" />}
+            />
+            <Route
+              exact
+              path="/terms-conditions"
+              element={<MDPrinter text="terms" />}
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

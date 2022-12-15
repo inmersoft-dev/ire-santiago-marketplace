@@ -84,10 +84,14 @@ const Login = () => {
       if (response.status === 200) {
         logUser(remember, user);
         createCookie(
-          config.basicKey,
+          config.basicKeyCookie,
           response.data.expiration,
           response.data.token
         );
+        if (remember) {
+          createCookie(config.passwordSignedCookie, 30);
+          createCookie(config.userCookie, 30);
+        }
         showNotification(
           "success",
           languageState.texts.Messages.LoginSuccessful
