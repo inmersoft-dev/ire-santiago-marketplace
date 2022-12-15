@@ -30,11 +30,11 @@ export const validateBasicKey = async () => {
  * @param {string} password - the user password
  * @returns The response from the server.
  */
-export const login = async (user, password) => {
+export const login = async (user, password, remember) => {
   const response = await axios.post(
     // @ts-ignore
     `${config.apiUrl}user/login`,
-    { user, password: md5(password) },
+    { user, password: md5(password), remember },
     {
       headers: getAuth,
     }

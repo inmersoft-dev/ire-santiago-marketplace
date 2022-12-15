@@ -1,6 +1,6 @@
 const {
   REACT_APP_API_URL,
-  
+
   REACT_APP_IMAGEKIT_URL,
   REACT_APP_IMAGEKIT_PUBLIC_KEY,
   REACT_APP_IMAGEKIT_AUTH_URL,
@@ -46,8 +46,6 @@ const config = {
   // cookie
   apiUrl: REACT_APP_API_URL,
   basicKeyCookie: REACT_APP_BASIC_KEY,
-  userCookie: REACT_APP_USER_COOKIE,
-  passwordSignedCookie: REACT_APP_PASSWORD_SIGNED,
   acceptCookie: REACT_APP_ACCEPT_COOKIE,
   declineCookie: REACT_APP_DECLINE_COOKIE,
   visitCookie: REACT_APP_VISIT_COOKIE,

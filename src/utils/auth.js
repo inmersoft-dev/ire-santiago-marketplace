@@ -22,18 +22,6 @@ export const userLogged = () =>
   // @ts-ignore
   sessionStorage.getItem(config.userCookie) !== null;
 
-/**
- * If remember is true, it stores user data to localStorage, otherwise it stores it in sessionStorage
- * @param {boolean} remember - a boolean value that determines whether the user should be remembered or not.
- * @param {string} user - The user object that you want to store in the browser.
- */
-export const logUser = (remember, user) => {
-  // @ts-ignore
-  if (remember) localStorage.setItem(config.userCookie, user);
-  // @ts-ignore
-  else sessionStorage.setItem(config.userCookie, user);
-};
-
 export const logoutUser = () => {
   // @ts-ignore
   localStorage.removeItem(config.userCookie);

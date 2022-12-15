@@ -36,7 +36,11 @@ export const sendOrderCookie = async (
           headers: getAuth,
         }
       );
-      createCookie(`${menu}_${config.customerName}_${config.orderCookie}`, 1, true);
+      createCookie(
+        `${menu}_${config.customerName}_${config.orderCookie}`,
+        1,
+        true
+      );
       const data = await response.data;
       return data;
     } catch (err) {
