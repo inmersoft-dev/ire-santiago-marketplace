@@ -19,7 +19,7 @@ export const sendOrderCookie = async (
 ) => {
   if (
     getCookie(config.acceptCookie) &&
-    !getCookie(`${menu}${config.customerName}${config.orderCookie}`)
+    !getCookie(`${menu}_${config.customerName}_${config.orderCookie}`)
   ) {
     try {
       const response = await axios.post(
@@ -36,7 +36,7 @@ export const sendOrderCookie = async (
           headers: getAuth,
         }
       );
-      createCookie(`${menu}_${config.orderCookie}`, 1, true);
+      createCookie(`${menu}_${config.customerName}_${config.orderCookie}`, 1, true);
       const data = await response.data;
       return data;
     } catch (err) {
