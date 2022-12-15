@@ -18,6 +18,7 @@ import Empty from "../../components/Empty/Empty";
 import MainContent from "./components/MainContent";
 import NotFound from "../../views/NotFound/NotFound";
 import Loading from "../../components/Loading/Loading";
+import CookieBox from "../../components/CookieBox/CookieBox";
 import WatchAppBar from "../../components/AppBar/WatchAppBar";
 import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
@@ -316,6 +317,7 @@ const Watch = () => {
 
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
+      <CookieBox />
       {toOrder.length ? (
         <OrderModal
           menu={menu}

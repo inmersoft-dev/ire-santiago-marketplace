@@ -29,7 +29,7 @@ import NotFound from "./views/NotFound/NotFound";
 import { userLogged, logoutUser } from "./utils/auth";
 
 // components
-import CookieBox from "./components/CookieBox/CookieBox";
+import MUIPrinter from "./components/MUIPrinter/MUIPrinter";
 
 // contexts
 import { useMode } from "./context/ModeProvider";
@@ -43,7 +43,7 @@ import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 const App = () => {
   const { modeState } = useMode();
   const biggerThanMD = useMediaQuery("(min-width:900px)");
-  const { setLanguageState } = useLanguage();
+  const { languageState, setLanguageState } = useLanguage();
 
   useEffect(() => {
     document.body.style.overflowX = "hidden";
@@ -87,7 +87,6 @@ const App = () => {
     >
       <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
         <Notification />
-        <CookieBox />
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
@@ -109,12 +108,12 @@ const App = () => {
             <Route
               exact
               path="/cookie-policy"
-              element={<MDPrinter text="cookies" />}
+              element={<MUIPrinter text={languageState.texts.CookiePolicy} />}
             />
             <Route
               exact
               path="/terms-conditions"
-              element={<MDPrinter text="terms" />}
+              element={<MUIPrinter text={languageState.texts.Terms} />}
             />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -29,6 +29,7 @@ import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
 import Loading from "../../components/Loading/Loading";
 import LinkCard from "../../components/LinkCard/LinkCard";
+import CookieBox from "../../components/CookieBox/CookieBox";
 import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
@@ -276,6 +277,7 @@ const Home = () => {
 
   return (
     <Box sx={mainWindow} flexDirection="column">
+      <CookieBox />
       <FabButtons />
       <Box sx={{ minHeight: "100vh" }}>
         <Box

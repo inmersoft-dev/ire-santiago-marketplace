@@ -1,6 +1,82 @@
 {
   "en": {
     "AppName": "Marketplace",
+    "Terms": [],
+    "CookiePolicy": [
+      {
+        "variant": "h3",
+        "content": "Cookie Policy"
+      },
+      {
+        "variant": "body1",
+        "content": "This page describes the types of cookies and other technologies used by the Marketplace."
+      },
+      {
+        "variant": "h5",
+        "content": "Cookies"
+      },
+      {
+        "variant": "body1",
+        "content": "Cookies are small pieces of text sent to your browser by a website you visit. They help the website remember information about your visit, which can make it easier to visit the site again and do make the site more useful to you. Other technologies, including unique identifiers used to identify a browser, application or device, pixels, and local storage, may also be used for these purposes. Cookies and other technologies described throughout this page may be used for the purposes described below."
+      },
+      {
+        "variant": "h5",
+        "content": "Functionality"
+      },
+      {
+        "variant": "body1",
+        "content": "Cookies and other technologies used for functionality allow you to access features that are essential to a service. Things that are considered essential to a service include preferences, such as your choice of language, information related to your session, such as the content of a shopping cart and product optimizations that help maintain and improve that service."
+      },
+      {
+        "variant": "body1",
+        "content": "Marketplace uses the 'AC' and 'DC' cookies, which last for 2 years, to store a user's status regarding their cookie choices."
+      },
+      {
+        "variant": "h5",
+        "content": "Security"
+      },
+      {
+        "variant": "body1",
+        "content": "Cookies and other technologies used for security help authenticate users, prevent fraud, and protect you while you interact with a service."
+      },
+      {
+        "variant": "body1",
+        "content": "Marketplace uses the 'UC' and 'PS' cookies that last 30 days for the remember user service. It also uses 'BK' for site access to the server, this lasts 30 minutes, and is created each time which logs in."
+      },
+      {
+        "variant": "h5",
+        "content": "Analytics"
+      },
+      {
+        "variant": "body1",
+        "content": "Cookies and other technologies used for analytics help collect data that allows services to understand how you interact with a particular service. This information allows services to improve content and create better features that enhance your experience. "
+      },
+      {
+        "variant": "body1",
+        "content": "Some cookies and other technologies help sites and apps understand how their visitors interact with their services. For example, Marketplace uses a set of cookies to collect information and report site usage statistics without personally identifying users individual visitors. 'ANM', is the suffix of the main cookie used by Marketplace, allows a service to distinguish one visitor from another. 'ANM' Cookie Types:"
+      },
+      {
+        "variant": "body1",
+        "content": "- ANM VWC: Cookie that is created when a user visits the Marketplace website. It lasts one day"
+      },
+      {
+        "variant": "body1",
+        "content": "- ANM VTC: Cookie that is created when a user enters the catalog of a business, it lasts one day, it is created by catalog with the structure: [Catalog] ANM VTC."
+      },
+      {
+        "variant": "body1",
+        "content": "- ANMDC: Cookie that is created when a user reviews the description of a product, lasts 10 days, it is created per product with the structure: [Product] ANM DC."
+      },
+
+      {
+        "variant": "body1",
+        "content": "- ANM HTG: Cookie that is created when a user presses the how to get there button, lasts one day."
+      },
+      {
+        "variant": "body1",
+        "content": "- ANM OC: Cookie that is created when a user clicks on the button to send order (order), lasts 1 day, it is created by order and by receiving customer with the structure: [Catalog] [Customer] ANM OC."
+      }
+    ],
     "Map": {
       "Short": "Position",
       "Placeholder": "Introduce the address",
@@ -306,6 +382,82 @@
     ]
   },
   "es": {
+    "CookiePolicy": [
+      {
+        "variant": "h3",
+        "content": "Política de Cookies"
+      },
+      {
+        "variant": "body1",
+        "content": "Esta página describe los tipos de cookies y otras tecnologías utilizadas por Marketplace."
+      },
+      {
+        "variant": "h5",
+        "content": "Cookies"
+      },
+      {
+        "variant": "body1",
+        "content": "Las cookies son pequeños fragmentos de texto enviados a su navegador por un sitio web que visita. Ayudan a que el sitio web recuerde información sobre su visita, lo que puede hacer que sea más fácil volver a visitar el sitio y hacer que el sitio le resulte más útil. Otras tecnologías, incluidos los identificadores únicos utilizados para identificar un navegador, una aplicación o un dispositivo, píxeles y almacenamiento local, también se pueden utilizar para estos fines. Las cookies y otras tecnologías descritas a lo largo de esta página se pueden utilizar para los fines que se describen a continuación."
+      },
+      {
+        "variant": "h5",
+        "content": "Funcionalidad"
+      },
+      {
+        "variant": "body1",
+        "content": "Las cookies y otras tecnologías utilizadas para la funcionalidad le permiten acceder a funciones que son fundamentales para un servicio. Las cosas que se consideran fundamentales para un servicio incluyen preferencias, como su elección de idioma, información relacionada con su sesión, como el contenido de un carrito de compras y optimizaciones de productos que ayudan a mantener y mejorar ese servicio."
+      },
+      {
+        "variant": "body1",
+        "content": "Marketplace utiliza las cookies 'AC' y 'DC', que duran 2 años, para almacenar el estado de un usuario con respecto a sus opciones de cookies. "
+      },
+      {
+        "variant": "h5",
+        "content": "Seguridad"
+      },
+      {
+        "variant": "body1",
+        "content": "Las cookies y otras tecnologías utilizadas para la seguridad ayudan a autenticar a los usuarios, prevenir el fraude y protegerlo mientras interactúa con un servicio."
+      },
+      {
+        "variant": "body1",
+        "content": "Marketplace utiliza la cookie 'UC' y 'PS' que duran 30 días para el servicio de recordar usuario. También utiliza 'BK' para el acceso del sitio al servidor, esta dura 30 minutos, y se crea cada vez que se inicia sesión."
+      },
+      {
+        "variant": "h5",
+        "content": "Analíticas"
+      },
+      {
+        "variant": "body1",
+        "content": "Las cookies y otras tecnologías utilizadas para el análisis ayudan a recopilar datos que permiten a los servicios comprender cómo interactúa con un servicio en particular. Esta información permite que los servicios mejoren el contenido y creen mejores características que mejoren su experiencia."
+      },
+      {
+        "variant": "body1",
+        "content": "Algunas cookies y otras tecnologías ayudan a los sitios y aplicaciones a comprender cómo sus visitantes interactúan con sus servicios. Por ejemplo, Marketplace utiliza un conjunto de cookies para recopilar información y reportar estadísticas de uso del sitio sin identificar personalmente a los visitantes individuales. 'ANM', es el sufijo de la cookie principal utilizada por Marketplace, permite que un servicio distinga a un visitante de otro. Tipos de cookies 'ANM':"
+      },
+      {
+        "variant": "body1",
+        "content": "- ANM VWC: Cookie que se crea cuando un usuario visita el sitio web de Marketplace. Dura un día"
+      },
+      {
+        "variant": "body1",
+        "content": "- ANM VTC: Cookie que se crea cuando un usuario entra en el catálogo de un negocio, dura un día, esta se crea por catálogo con la estructura: [Catálogo] ANM VTC."
+      },
+      {
+        "variant": "body1",
+        "content": "- ANMDC: Cookie que se crea cuando un usuario revisa la descripción de un producto, dura 10 días, esta se crea por producto con la estructura: [Producto] ANM DC."
+      },
+
+      {
+        "variant": "body1",
+        "content": "- ANM HTG: Cookie que se crea cuando un usuario presiona el botón de ¿cómo llegar?, dura un día."
+      },
+      {
+        "variant": "body1",
+        "content": "- ANM OC: Cookie que se crea cuando un usuario presiona en el botón de enviar orden (pedido), dura 1 día, esta se crea por orden y por cliente receptor con la estructura: [Catálogo] [Cliente] ANM OC."
+      }
+    ],
+    "Terms": [],
     "AppName": "Marketplace",
     "Map": {
       "Short": "Posición",
