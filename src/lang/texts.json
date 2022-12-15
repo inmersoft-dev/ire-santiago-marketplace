@@ -41,7 +41,7 @@
       },
       {
         "variant": "body1",
-        "content": "Marketplace uses the 'UC' and 'PS' cookies that last 30 days for the remember user service. It also uses 'BK' for site access to the server, this lasts 30 minutes, and is created each time which logs in."
+        "content": "Marketplace uses 'BK' for site access to the server, this lasts 30 minutes (30 days if remember me is activated), and is created each time which logs in."
       },
       {
         "variant": "h5",
@@ -421,7 +421,7 @@
       },
       {
         "variant": "body1",
-        "content": "Marketplace utiliza la cookie 'UC' y 'PS' que duran 30 días para el servicio de recordar usuario. También utiliza 'BK' para el acceso del sitio al servidor, esta dura 30 minutos, y se crea cada vez que se inicia sesión."
+        "content": "Marketplace utiliza 'BK' para el acceso del sitio al servidor, esta dura 30 minutos (30 días si recordar usuario está activo), y se crea cada vez que se inicia sesión."
       },
       {
         "variant": "h5",
