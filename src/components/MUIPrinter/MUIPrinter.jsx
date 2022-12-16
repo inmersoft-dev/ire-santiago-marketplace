@@ -21,12 +21,9 @@ const MUIPrinter = (props) => {
     >
       <AppBar />
       <FabButtons />
+      {console.log(text)}
       {text.map((item, i) => (
-        <Typography
-          variant={item.variant}
-          key={i}
-          sx={{ textAlign: "justify" }}
-        >
+        <Typography variant={item.variant} key={i} sx={{ ...item.sx }}>
           {item.content}
         </Typography>
       ))}
