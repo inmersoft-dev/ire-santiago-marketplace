@@ -414,6 +414,7 @@ const Watch = () => {
                               }}
                             >
                               <ProductCard
+                                addToOrder={addToOrder}
                                 item={jtem}
                                 onClick={() => {
                                   setVisible(true);

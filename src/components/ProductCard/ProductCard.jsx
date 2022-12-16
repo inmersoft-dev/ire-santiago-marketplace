@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useTheme, Paper, Box, Typography, Button } from "@mui/material";
 
 // @mui/icons-material
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import AddIcon from "@mui/icons-material/Add";
 
 // sito components
 import SitoImage from "sito-image";
@@ -24,7 +24,7 @@ import noProduct from "../../assets/images/no-product.webp";
 const ProductCard = (props) => {
   const theme = useTheme();
 
-  const { onClick, item } = props;
+  const { onClick, item, addToOrder } = props;
 
   return (
     <Paper
@@ -71,6 +71,10 @@ const ProductCard = (props) => {
         </Box>
       </Box>
       <Button
+        onClick={(e) => {
+          e.preventDefault();
+          addToOrder(1, item);
+        }}
         variant="contained"
         color="primary"
         sx={{
@@ -78,9 +82,11 @@ const ProductCard = (props) => {
           borderRadius: "100%",
           padding: "5px",
           position: "absolute",
+          right: "10px",
+          bottom: "10px",
         }}
       >
-        <AddShoppingCartIcon />
+        <AddIcon />
       </Button>
     </Paper>
   );
@@ -88,6 +94,7 @@ const ProductCard = (props) => {
 
 ProductCard.propTypes = {
   onClick: PropTypes.func.isRequired,
+  addToOrder: PropTypes.func.isRequired,
   item: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
