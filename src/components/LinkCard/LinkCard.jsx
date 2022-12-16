@@ -35,6 +35,15 @@ const LinkCard = (props) => {
     justifyContent: "center",
   });
 
+  const parseImage = (url) => {
+    const split = url.split("/");
+    split[3] = split[3] + "/tr:w-500";
+    let result = "";
+    split.forEach((item, i) => (result += i === 0 ? `${item}//` : `${item}/`));
+    result = result.substring(0, result.length - 1);
+    return result;
+  };
+
   return (
     <Link
       to={link}
@@ -52,7 +61,11 @@ const LinkCard = (props) => {
         <SitoContainer sx={{ marginRight: "20px" }}>
           <Box sx={{ ...productImageBox, position: "relative" }}>
             <SitoImage
-              src={item.photo && item.photo !== "" ? item.photo.url : noProduct}
+              src={
+                item.photo && item.photo !== ""
+                  ? parseImage(item.photo.url)
+                  : noProduct
+              }
               alt={item.menu}
               sx={productImage}
             />
