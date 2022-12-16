@@ -9,7 +9,7 @@
       },
       {
         "variant": "body1",
-        "content": "This page describes the types of cookies and other technologies used by the Marketplace."
+        "content": "This page describes the types of cookies and other technologies used by the Inmersoft Marketplace."
       },
       {
         "variant": "h5",
@@ -29,7 +29,7 @@
       },
       {
         "variant": "body1",
-        "content": "Marketplace uses the 'AC' and 'DC' cookies, which last for 2 years, to store a user's status regarding their cookie choices."
+        "content": "Inmersoft Marketplace uses the 'AC' and 'DC' cookies, which last for 2 years, to store a user's status regarding their cookie choices."
       },
       {
         "variant": "h5",
@@ -41,7 +41,7 @@
       },
       {
         "variant": "body1",
-        "content": "Marketplace uses 'BK' for site access to the server, this lasts 30 minutes (30 days if remember me is activated), and is created each time which logs in."
+        "content": "Inmersoft Marketplace uses 'BK' for site access to the server, this lasts 30 minutes (30 days if remember me is activated), and is created each time which logs in."
       },
       {
         "variant": "h5",
@@ -53,11 +53,11 @@
       },
       {
         "variant": "body1",
-        "content": "Some cookies and other technologies help sites and apps understand how their visitors interact with their services. For example, Marketplace uses a set of cookies to collect information and report site usage statistics without personally identifying users individual visitors. 'ANM', is the suffix of the main cookie used by Marketplace, allows a service to distinguish one visitor from another. 'ANM' Cookie Types:"
+        "content": "Some cookies and other technologies help sites and apps understand how their visitors interact with their services. For example, Inmersoft Marketplace uses a set of cookies to collect information and report site usage statistics without personally identifying users individual visitors. 'ANM', is the suffix of the main cookie used by Inmersoft Marketplace, allows a service to distinguish one visitor from another. 'ANM' Cookie Types:"
       },
       {
         "variant": "body1",
-        "content": "- ANM VWC: Cookie that is created when a user visits the Marketplace website. It lasts one day"
+        "content": "- ANM VWC: Cookie that is created when a user visits the Inmersoft Marketplace website. It lasts one day"
       },
       {
         "variant": "body1",
@@ -389,7 +389,7 @@
       },
       {
         "variant": "body1",
-        "content": "Esta página describe los tipos de cookies y otras tecnologías utilizadas por Marketplace."
+        "content": "Esta página describe los tipos de cookies y otras tecnologías utilizadas por Inmersoft Marketplace."
       },
       {
         "variant": "h5",
@@ -409,7 +409,7 @@
       },
       {
         "variant": "body1",
-        "content": "Marketplace utiliza las cookies 'AC' y 'DC', que duran 2 años, para almacenar el estado de un usuario con respecto a sus opciones de cookies. "
+        "content": "Inmersoft Marketplace utiliza las cookies 'AC' y 'DC', que duran 2 años, para almacenar el estado de un usuario con respecto a sus opciones de cookies. "
       },
       {
         "variant": "h5",
@@ -421,7 +421,7 @@
       },
       {
         "variant": "body1",
-        "content": "Marketplace utiliza 'BK' para el acceso del sitio al servidor, esta dura 30 minutos (30 días si recordar usuario está activo), y se crea cada vez que se inicia sesión."
+        "content": "Inmersoft Marketplace utiliza 'BK' para el acceso del sitio al servidor, esta dura 30 minutos (30 días si recordar usuario está activo), y se crea cada vez que se inicia sesión."
       },
       {
         "variant": "h5",
@@ -433,11 +433,11 @@
       },
       {
         "variant": "body1",
-        "content": "Algunas cookies y otras tecnologías ayudan a los sitios y aplicaciones a comprender cómo sus visitantes interactúan con sus servicios. Por ejemplo, Marketplace utiliza un conjunto de cookies para recopilar información y reportar estadísticas de uso del sitio sin identificar personalmente a los visitantes individuales. 'ANM', es el sufijo de la cookie principal utilizada por Marketplace, permite que un servicio distinga a un visitante de otro. Tipos de cookies 'ANM':"
+        "content": "Algunas cookies y otras tecnologías ayudan a los sitios y aplicaciones a comprender cómo sus visitantes interactúan con sus servicios. Por ejemplo, Inmersoft Marketplace utiliza un conjunto de cookies para recopilar información y reportar estadísticas de uso del sitio sin identificar personalmente a los visitantes individuales. 'ANM', es el sufijo de la cookie principal utilizada por Inmersoft Marketplace, permite que un servicio distinga a un visitante de otro. Tipos de cookies 'ANM':"
       },
       {
         "variant": "body1",
-        "content": "- ANM VWC: Cookie que se crea cuando un usuario visita el sitio web de Marketplace. Dura un día"
+        "content": "- ANM VWC: Cookie que se crea cuando un usuario visita el sitio web de Inmersoft Marketplace. Dura un día"
       },
       {
         "variant": "body1",
@@ -458,7 +458,7 @@
       }
     ],
     "Terms": [],
-    "AppName": "Marketplace",
+    "AppName": "Inmersoft Marketplace",
     "Map": {
       "Short": "Posición",
       "Placeholder": "Introduce la dirección",
