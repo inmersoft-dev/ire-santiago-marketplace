@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 
 // @mui/material
-import { useTheme, Paper, Box, Typography } from "@mui/material";
+import { useTheme, Paper, Box, Typography, Button } from "@mui/material";
+
+// @mui/icons-material
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 // sito components
 import SitoImage from "sito-image";
@@ -67,6 +70,18 @@ const ProductCard = (props) => {
           </Typography>
         </Box>
       </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{
+          minWidth: 0,
+          borderRadius: "100%",
+          padding: "5px",
+          position: "absolute",
+        }}
+      >
+        <AddShoppingCartIcon />
+      </Button>
     </Paper>
   );
 };
