@@ -106,7 +106,7 @@ const FabButtons = (props) => {
               </motion.div>
             </InViewComponent>
           ) : null}
-          {location !== "settings" && !userLogged() ? (
+          {location !== "settings" ? (
             <InViewComponent delay="0.1s">
               <motion.div className={active ? "appear" : "hidden"}>
                 <ToLogin />

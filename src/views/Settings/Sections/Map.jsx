@@ -139,8 +139,8 @@ const Map = () => {
               lng={lng}
               point={{ lat, lng }}
               onChange={onChangeMap}
-              onChangeLat={(newValue) => setLat(newValue)}
-              onChangeLng={(newValue) => setLng(newValue)}
+              onChangeLat={(e) => setLat(Number(e.target.value))}
+              onChangeLng={(e) => setLng(Number(e.target.value))}
             />
           ) : null}
         </Box>
