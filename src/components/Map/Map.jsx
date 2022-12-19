@@ -10,7 +10,13 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 /* eslint-disable no-shadow */
 /* eslint-disable react/function-component-definition */
-import { useLayoutEffect, useEffect, useState, useRef } from "react";
+import {
+  useLayoutEffect,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -38,9 +44,7 @@ import { useLanguage } from "../../context/LanguageProvider";
 
 // images
 import pointImage from "../../assets/images/point.webp";
-// import Crash from "assets/images/crash";
 import config from "../../config";
-import { useCallback } from "react";
 
 const Map = (props) => {
   const {
@@ -67,7 +71,6 @@ const Map = (props) => {
 
   const [zoom, setZoom] = useState(15);
 
-  const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const [showMap, setShowMap] = useState(true);
 
   const init = async () => {

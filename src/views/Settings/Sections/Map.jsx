@@ -36,13 +36,13 @@ const Map = () => {
       message,
     });
 
+  const [lng, setLng] = useState(0); // useState(-75.82956791534245);
+  const [lat, setLat] = useState(0); //  useState(20.022421136021567);
+
   const onChangeMap = (which, value) => {
     if (which === "lng") return setLng(value);
     return setLat(value);
   };
-
-  const [lng, setLng] = useState(0); // useState(-75.82956791534245);
-  const [lat, setLat] = useState(0); //  useState(20.022421136021567);
 
   const lngLatSelected = (point, lngLat) => {
     setLng(lngLat.lng);
@@ -71,9 +71,17 @@ const Map = () => {
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
+      console.log(data);
       if (data && data.location) {
         setLng(data.location.longitude);
         setLat(data.location.latitude);
+        setSettingsState({
+          type: "set-map",
+          location: data.location,
+        });
+      } else {
+        setLng(-75.8287579);
+        setLat(20.0210691);
         setSettingsState({
           type: "set-map",
           location: data.location,
@@ -119,6 +127,7 @@ const Map = () => {
           zIndex: loading ? 99 : -1,
         }}
       />
+      {console.log(error, lat, lng)}
       {!error ? (
         <Box sx={{ width: "100%", height: "100%" }}>
           {lat !== 0 && lng !== 0 ? (
