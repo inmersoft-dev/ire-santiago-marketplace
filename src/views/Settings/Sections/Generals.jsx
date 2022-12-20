@@ -272,7 +272,7 @@ const Generals = () => {
     if (getValues("menu") && getValues("menu").length) {
       const value = await onSubmit({
         menu: getValues("menu"),
-        description: getValues("description"),
+        phone: getValues("phone"),
       });
       if (value) navigate("/menu/edit/");
     } else {
