@@ -33,7 +33,7 @@ const ProductCard = (props) => {
       sx={{
         position: "relative",
         marginTop: "20px",
-        width: { md: "800px", sm: "630px", xs: "90%" },
+        width: { sm: "630px", xs: "90%" },
         padding: "1rem",
         borderRadius: "1rem",
         background: theme.palette.background.paper,

@@ -399,7 +399,9 @@ const Watch = () => {
                       </Box>
                       <Box>
                         {products
-                          .filter((jtem) => jtem.type === item.name)
+                          .filter(
+                            (jtem) => jtem.type === item.name && jtem.visibility
+                          )
                           .map((jtem, j) => (
                             <InViewComponent
                               key={jtem.id}
