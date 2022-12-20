@@ -21,7 +21,9 @@ import {
 } from "@mui/material";
 
 // @mui icons
-import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 // own components
 import Error from "../../components/Error/Error";
@@ -114,6 +116,12 @@ const Edit = () => {
         const { index } = action;
         const newArray = [...productsState];
         newArray.splice(index, 1);
+        return newArray.map((item, i) => ({ ...item, index: i }));
+      }
+      case "change-visibility": {
+        const { index } = action;
+        const newArray = [...productsState];
+        newArray[index].visibility = !newArray[index].visibility;
         return newArray.map((item, i) => ({ ...item, index: i }));
       }
       case "modify": {
@@ -212,6 +220,25 @@ const Edit = () => {
     [productTypes]
   );
 
+  const changeVisibility = async (index) => {
+    setLoading(1);
+    try {
+      const newProducts = [...products];
+      newProducts[index].visibility = !newProducts[index].visibility;
+      await saveMenu(
+        getUserName(),
+        menuName,
+        newProducts,
+        productTypes.map((item) => item.name)
+      );
+      setProducts({ type: "change-visibility", index });
+      setLoading(0);
+    } catch (err) {
+      console.error(err);
+      showNotification("error", String(err));
+    }
+  };
+
   const deleteProduct = async (index) => {
     setLoading(1);
     try {
@@ -250,6 +277,7 @@ const Edit = () => {
           description,
           price,
           photo,
+          visibility: true,
         };
         setProducts({
           type: "add",
@@ -432,17 +460,30 @@ const Edit = () => {
                               alignItems: "center",
                             }}
                           >
-                            <IconButton
+                            <Box
                               sx={{
                                 position: "absolute",
                                 top: "1px",
                                 right: "1px",
                               }}
-                              color="error"
-                              onClick={() => deleteProduct(jtem.index)}
                             >
-                              <CloseIcon />
-                            </IconButton>
+                              <IconButton
+                                color="primary"
+                                onClick={() => changeVisibility(jtem.index)}
+                              >
+                                {jtem.visibility ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                              <IconButton
+                                color="error"
+                                onClick={() => deleteProduct(jtem.index)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Box>
                             <Box
                               sx={{ cursor: "pointer", display: "flex" }}
                               onClick={() => {

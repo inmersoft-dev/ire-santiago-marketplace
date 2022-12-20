@@ -50,8 +50,7 @@ const Map = () => {
   };
 
   const saveRLocation = useCallback(async () => {
-    try {
-      setLoading(true);
+    try { 
       await saveLocation(getUserName(), lng, lat);
       showNotification("success", languageState.texts.Messages.SaveSuccessful);
       setSettingsState({
