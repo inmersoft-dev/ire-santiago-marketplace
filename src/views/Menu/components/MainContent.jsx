@@ -40,6 +40,7 @@ import {
   productImageBox,
   productImage,
   mainContent,
+  imageTitleBox,
 } from "../../../assets/styles/styles";
 
 // context
@@ -64,11 +65,11 @@ const MainContent = (props) => {
 
   return (
     <Box sx={mainContent}>
-      <Box sx={productImageBox}>
+      <Box sx={imageTitleBox}>
         <SitoImage
           src={photo && photo !== "" ? photo : noProduct}
           alt={menu}
-          sx={productImage}
+          sx={{ ...productImage, borderRadius: "100%" }}
         />
       </Box>
       <Box display="flex" alignItems="center" sx={{ marginTop: "10px" }}>

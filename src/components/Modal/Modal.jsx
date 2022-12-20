@@ -29,8 +29,10 @@ import {
 
 // styles
 import {
+  imageTitleBox,
   modal,
   modalContent,
+  productImage,
   productImageBox,
 } from "../../assets/styles/styles";
 
@@ -116,16 +118,11 @@ const Modal = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Box sx={productImageBox}>
+          <Box sx={imageTitleBox}>
             <SitoImage
               src={preview ? preview : noProduct}
               alt={item.name}
-              sx={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "100%",
-                objectFit: "cover",
-              }}
+              sx={{ ...productImage, borderRadius: "100%" }}
             />
           </Box>
         </SitoContainer>

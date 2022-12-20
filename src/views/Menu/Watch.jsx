@@ -404,7 +404,6 @@ const Watch = () => {
                           width: "100%",
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "center",
                           flexWrap: "wrap",
                           gap: "10px",
                         }}

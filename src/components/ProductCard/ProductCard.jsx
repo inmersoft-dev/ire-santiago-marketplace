@@ -17,7 +17,12 @@ import AddIcon from "@mui/icons-material/Add";
 import SitoImage from "sito-image";
 
 // styles
-import { productDescriptionBox } from "../../assets/styles/styles";
+import {
+  productDescriptionBox,
+  productImage,
+  productImageBox,
+  productPaper,
+} from "../../assets/styles/styles";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
@@ -33,13 +38,8 @@ const ProductCard = (props) => {
       id={`obj-${item.id}`}
       elevation={1}
       sx={{
-        position: "relative",
-        marginTop: "20px",
-        width: { md: "350px", sm: "630px", xs: "90%" },
-        height: { md: "350px", xs: "auto" },
-        borderRadius: "1rem",
+        ...productPaper,
         background: theme.palette.background.paper,
-        alignItems: "center",
       }}
     >
       <Box
@@ -51,25 +51,15 @@ const ProductCard = (props) => {
         }}
         onClick={onClick}
       >
-        <Box
-          sx={{
-            width: { md: "100%", sm: "120px", xs: "100px" },
-            height: { md: "160px", sm: "120px", xs: "100px" },
-            minWidth: { md: "100%", sm: "120px", xs: "100px" },
-            minHeight: { md: "160px", sm: "120px", xs: "100px" },
-            marginRight: { md: 0, xs: "20px" },
-          }}
-        >
+        <Box sx={productImageBox}>
           <SitoImage
             src={
               item.photo && item.photo.url !== "" ? item.photo.url : noProduct
             }
             alt={item.name}
             sx={{
-              objectFit: "cover",
-              width: "100%",
-              height: "100%",
-              borderRadius: biggerThanMD ? 0 : "100%",
+              ...productImage,
+              borderRadius: biggerThanMD ? "1rem 1rem 0 0" : "100%",
             }}
           />
         </Box>
