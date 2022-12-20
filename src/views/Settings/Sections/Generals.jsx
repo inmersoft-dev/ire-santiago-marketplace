@@ -100,6 +100,7 @@ const Generals = () => {
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
+      console.log(data);
       if (data) {
         if (data.photo) {
           setPhoto(data.photo);
@@ -107,6 +108,7 @@ const Generals = () => {
         }
         if (data.business) setTypes(data.business);
         setOldName(data.menu);
+
         reset({
           menu: data.menu,
           phone: data.phone,

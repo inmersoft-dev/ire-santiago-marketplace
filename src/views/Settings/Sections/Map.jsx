@@ -50,7 +50,7 @@ const Map = () => {
   };
 
   const saveRLocation = useCallback(async () => {
-    try { 
+    try {
       await saveLocation(getUserName(), lng, lat);
       showNotification("success", languageState.texts.Messages.SaveSuccessful);
       setSettingsState({
@@ -138,8 +138,12 @@ const Map = () => {
               lng={lng}
               point={{ lat, lng }}
               onChange={onChangeMap}
-              onChangeLat={(e) => setLat(Number(e.target.value))}
-              onChangeLng={(e) => setLng(Number(e.target.value))}
+              onChangeLat={(e) =>
+                setLat(e && e.target ? Number(e.target.value) : e)
+              }
+              onChangeLng={(e) =>
+                setLng(e && e.target ? Number(e.target.value) : e)
+              }
             />
           ) : null}
         </Box>
