@@ -7,18 +7,10 @@ import inViewport from "in-viewport";
 import md5 from "md5";
 
 // sito components
-import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
 
 // @mui components
-import {
-  Box,
-  Paper,
-  Button,
-  useTheme,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, Paper, useTheme, IconButton, Typography } from "@mui/material";
 
 // @mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -140,7 +132,31 @@ const Edit = () => {
         return [];
     }
   };
+
   const [products, setProducts] = useReducer(productsReducer, []);
+
+  const autoSave = async () => {
+    // setLoading(1);
+    try {
+      const newProducts = [...products];
+      await saveMenu(
+        getUserName(),
+        menuName,
+        newProducts,
+        productTypes.map((item) => item.name)
+      );
+      // setLoading(0);
+    } catch (err) {
+      console.error(err);
+      showNotification("error", String(err));
+    }
+  };
+
+  const [fetched, setFetched] = useState(false);
+
+  useEffect(() => {
+    if (fetched) autoSave();
+  }, [products]);
 
   const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
@@ -165,6 +181,7 @@ const Edit = () => {
 
   const fetch = async () => {
     setLoading(1);
+    setLoading(1);
     setError(false);
     try {
       const response = await fetchMenu(getUserName());
@@ -186,11 +203,14 @@ const Edit = () => {
         });
         setProducts({ type: "set", newArray: data.list ? data.list : [] });
         setLoading(0);
+        setLoading(0);
+        setFetched(true);
       }
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
       setError(true);
+      setLoading(-1);
       setLoading(-1);
     }
   };
@@ -220,39 +240,13 @@ const Edit = () => {
     [productTypes]
   );
 
-  const changeVisibility = async (index) => {
-    setLoading(1);
-    try {
-      const newProducts = [...products];
-      newProducts[index].visibility = !newProducts[index].visibility;
-      await saveMenu(
-        getUserName(),
-        menuName,
-        newProducts,
-        productTypes.map((item) => item.name)
-      );
-      setProducts({ type: "change-visibility", index });
-      setLoading(0);
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
-    }
-  };
+  const changeVisibility = (index) =>
+    setProducts({ type: "change-visibility", index });
 
   const deleteProduct = async (index) => {
-    setLoading(1);
     try {
       if (products[index].photo) await removeImage(productTypes.photo.fileId);
-      const newProducts = [...products];
-      newProducts.splice(index, 1);
-      await saveMenu(
-        getUserName(),
-        menuName,
-        newProducts,
-        productTypes.map((item) => item.name)
-      );
       setProducts({ type: "delete", index });
-      setLoading(0);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
@@ -328,6 +322,7 @@ const Edit = () => {
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
+      setLoading(-1);
     }
   };
 
@@ -397,29 +392,18 @@ const Edit = () => {
         description={description}
         geolocation={geolocation}
         editing
+        onAction={() => {
+          setSelected({
+            id: "",
+            photo: "",
+            name: "",
+            description: "",
+            price: "",
+            type: "",
+          });
+          setVisible(true);
+        }}
       />
-      {/* shouldScroll */}
-      <SitoContainer
-        sx={{ width: "100%", marginTop: "65px" }}
-        justifyContent="center"
-      >
-        <Button
-          variant="contained"
-          onClick={() => {
-            setSelected({
-              id: "",
-              photo: "",
-              name: "",
-              description: "",
-              price: "",
-              type: "",
-            });
-            setVisible(true);
-          }}
-        >
-          {languageState.texts.Insert.Buttons.Insert}
-        </Button>
-      </SitoContainer>
       {error && loading === -1 && <Error onRetry={retry} />}
       {loading === -1 && !error && <Empty />}
       {!error && loading === 0 && (
@@ -456,7 +440,9 @@ const Edit = () => {
                               width: { sm: "630px", xs: "100%" },
                               padding: "1rem",
                               borderRadius: "1rem",
-                              background: theme.palette.background.paper,
+                              background: jtem.visibility
+                                ? theme.palette.background.paper
+                                : theme.palette.background.default,
                               alignItems: "center",
                             }}
                           >
@@ -509,7 +495,10 @@ const Edit = () => {
                               <Box sx={productContentBox}>
                                 <Typography
                                   variant="h3"
-                                  sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                                  sx={{
+                                    fontWeight: "bold",
+                                    fontSize: "1rem",
+                                  }}
                                 >
                                   {jtem.name}
                                 </Typography>

@@ -59,7 +59,7 @@ export const typeBoxCss = {
   display: "flex",
 };
 
-export const headerBox = { width: { md: "800px", sm: "630px", xs: "90%" } };
+export const headerBox = { width: { sm: "630px", xs: "90%" } };
 
 export const productPaper = {
   cursor: "pointer",

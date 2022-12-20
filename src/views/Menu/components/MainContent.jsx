@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 // @mui/material
 import {
   Box,
+  Button,
   Tooltip,
   IconButton,
   Link as MUILink,
@@ -51,6 +52,7 @@ const MainContent = (props) => {
     photo,
     editing,
     business,
+    onAction,
     description,
     geolocation,
     socialMedia,
@@ -147,6 +149,13 @@ const MainContent = (props) => {
           </InViewComponent>
         ) : null}
       </Box>
+      {editing ? (
+        <Box sx={{ marginTop: "20px" }}>
+          <Button variant="contained" onClick={onAction}>
+            {languageState.texts.Insert.Buttons.Insert}
+          </Button>
+        </Box>
+      ) : null}
     </Box>
   );
 };
@@ -171,6 +180,7 @@ MainContent.propTypes = {
     lng: PropTypes.number,
   }).isRequired,
   editing: PropTypes.bool,
+  onAction: PropTypes.func.isRequired,
 };
 
 export default MainContent;
