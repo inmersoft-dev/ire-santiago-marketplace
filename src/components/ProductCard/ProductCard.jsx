@@ -1,28 +1,30 @@
 import PropTypes from "prop-types";
 
 // @mui/material
-import { useTheme, Paper, Box, Typography, Button } from "@mui/material";
+import {
+  useMediaQuery,
+  useTheme,
+  Paper,
+  Box,
+  Typography,
+  Button,
+} from "@mui/material";
 
 // @mui/icons-material
 import AddIcon from "@mui/icons-material/Add";
 
 // sito components
 import SitoImage from "sito-image";
-import SitoContainer from "sito-container";
 
 // styles
-import {
-  productImage,
-  productImageBox,
-  productContentBox,
-  productDescriptionBox,
-} from "../../assets/styles/styles";
+import { productDescriptionBox } from "../../assets/styles/styles";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
 const ProductCard = (props) => {
   const theme = useTheme();
+  const biggerThanMD = useMediaQuery("(min-width:900px)");
 
   const { onClick, item, addToOrder } = props;
 
@@ -33,26 +35,53 @@ const ProductCard = (props) => {
       sx={{
         position: "relative",
         marginTop: "20px",
-        width: { sm: "630px", xs: "90%" },
-        padding: "1rem",
+        width: { md: "350px", sm: "630px", xs: "90%" },
+        height: { md: "350px", xs: "auto" },
         borderRadius: "1rem",
         background: theme.palette.background.paper,
         alignItems: "center",
       }}
     >
-      <Box sx={{ cursor: "pointer", display: "flex" }} onClick={onClick}>
-        <SitoContainer sx={{ marginRight: "20px" }}>
-          <Box sx={productImageBox}>
-            <SitoImage
-              src={
-                item.photo && item.photo.url !== "" ? item.photo.url : noProduct
-              }
-              alt={item.name}
-              sx={productImage}
-            />
-          </Box>
-        </SitoContainer>
-        <Box sx={productContentBox}>
+      <Box
+        sx={{
+          padding: { md: 0, xs: "1rem" },
+          display: "flex",
+          cursor: "pointer",
+          flexDirection: { md: "column", xs: "row" },
+        }}
+        onClick={onClick}
+      >
+        <Box
+          sx={{
+            width: { md: "100%", sm: "120px", xs: "100px" },
+            height: { md: "160px", sm: "120px", xs: "100px" },
+            minWidth: { md: "100%", sm: "120px", xs: "100px" },
+            minHeight: { md: "160px", sm: "120px", xs: "100px" },
+            marginRight: { md: 0, xs: "20px" },
+          }}
+        >
+          <SitoImage
+            src={
+              item.photo && item.photo.url !== "" ? item.photo.url : noProduct
+            }
+            alt={item.name}
+            sx={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              borderRadius: biggerThanMD ? 0 : "100%",
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            overflow: "hidden",
+            width: "100%",
+            padding: { xs: 0, md: "1rem" },
+          }}
+        >
           <Typography
             variant="h3"
             sx={{

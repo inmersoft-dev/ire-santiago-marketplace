@@ -44,7 +44,6 @@ import noProduct from "../../assets/images/no-product.webp";
 
 // styles
 import {
-  headerBox,
   mainWindow,
   productContentBox,
   productDescriptionBox,
@@ -413,7 +412,7 @@ const Edit = () => {
               .filter((item) => hasProducts(item))
               .map((item) => (
                 <Box key={item.name} sx={typeBoxCss}>
-                  <Box id={`title-${item.name}`} sx={headerBox}>
+                  <Box id={`title-${item.name}`}>
                     <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
                       {item.name}
                     </Typography>

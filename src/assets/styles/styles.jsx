@@ -47,19 +47,22 @@ export const mainContent = {
 };
 
 export const productList = {
-  padding: "20px 0",
   width: "100%",
+  padding: "20px 0",
   flexDirection: "column",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 export const typeBoxCss = {
+  width: { sm: "630px", xs: "90%" },
   flexDirection: "column",
   marginTop: "20px",
   alignItems: "center",
+  justifyContent: "center",
   display: "flex",
 };
-
-export const headerBox = { width: { sm: "630px", xs: "90%" } };
 
 export const productPaper = {
   cursor: "pointer",

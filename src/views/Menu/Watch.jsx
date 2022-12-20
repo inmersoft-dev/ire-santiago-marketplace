@@ -50,7 +50,6 @@ import { scrollTo, spaceToDashes } from "../../utils/functions";
 // styles
 import {
   typeBoxCss,
-  headerBox,
   productList,
   mainWindow,
 } from "../../assets/styles/styles";
@@ -392,12 +391,24 @@ const Watch = () => {
                   .filter((item) => hasProducts(item))
                   .map((item) => (
                     <Box key={item.name} sx={typeBoxCss}>
-                      <Box id={`title-${item.name}`} sx={headerBox}>
-                        <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                      <Box id={`title-${item.name}`} sx={{ width: "100%" }}>
+                        <Typography
+                          sx={{ fontSize: "1.5rem", textAlign: "left" }}
+                          variant="h3"
+                        >
                           {item.name}
                         </Typography>
                       </Box>
-                      <Box>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexWrap: "wrap",
+                          gap: "10px",
+                        }}
+                      >
                         {products
                           .filter(
                             (jtem) => jtem.type === item.name && jtem.visibility
