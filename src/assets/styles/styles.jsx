@@ -6,7 +6,7 @@ export const loadingPhotoSpinner = {
 };
 
 export const mainWindow = {
-  width: { sm: "630px", xs: "100%" },
+  width: "100%",
   display: "flex",
   minHeight: "100vh",
   padding: { xs: "25px", sm: "20px" },
@@ -90,7 +90,7 @@ export const productContentBox = {
 };
 
 export const productDescriptionBox = {
-  height: { xs: "50px", sm: "100px", md: "100%" },
+  height: { xs: "50px", sm: "100px" },
   lineHeight: "20px",
   boxOrient: "vertical",
   overflow: "hidden",

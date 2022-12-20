@@ -81,7 +81,7 @@ const App = () => {
 
   return (
     <SitoContainer
-      sx={{ minWidth: "100vw", minHeight: "100vh" }}
+      sx={{ minHeight: "100vh" }}
       alignItems="center"
       justifyContent="center"
     >
