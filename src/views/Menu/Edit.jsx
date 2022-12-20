@@ -6,16 +6,8 @@ import inViewport from "in-viewport";
 
 import md5 from "md5";
 
-// sito components
-import SitoImage from "sito-image";
-
 // @mui components
-import { Box, Paper, useTheme, IconButton, Typography } from "@mui/material";
-
-// @mui icons
-import DeleteIcon from "@mui/icons-material/Delete";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Box, Typography } from "@mui/material";
 
 // own components
 import Error from "../../components/Error/Error";
@@ -25,6 +17,7 @@ import Modal from "../../components/Modal/EditModal";
 import Loading from "../../components/Loading/Loading";
 import WatchAppBar from "../../components/AppBar/WatchAppBar";
 import FabButtons from "../../components/FabButtons/FabButtons";
+import ProductEditCard from "../../components/ProductCard/ProductEditCard";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // functions
@@ -35,26 +28,17 @@ import { removeImage } from "../../services/photo";
 import { fetchMenu, saveMenu } from "../../services/menu";
 
 // contexts
-
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
-
-// images
-import noProduct from "../../assets/images/no-product.webp";
 
 // styles
 import {
   mainWindow,
-  productContentBox,
-  productDescriptionBox,
-  productImage,
-  productImageBox,
   productList,
   typeBoxCss,
 } from "../../assets/styles/styles";
 
 const Edit = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const [selected, setSelected] = useState();
@@ -430,94 +414,15 @@ const Edit = () => {
                             width: "100%",
                           }}
                         >
-                          <Paper
-                            id={`obj-${jtem.id}`}
-                            elevation={1}
-                            sx={{
-                              position: "relative",
-                              marginTop: "20px",
-                              width: { sm: "630px", xs: "100%" },
-                              padding: "1rem",
-                              borderRadius: "1rem",
-                              background: jtem.visibility
-                                ? theme.palette.background.paper
-                                : theme.palette.background.default,
-                              alignItems: "center",
+                          <ProductEditCard
+                            item={jtem}
+                            deleteProduct={deleteProduct}
+                            changeVisibility={changeVisibility}
+                            onClick={(obj) => {
+                              setVisible(true);
+                              setSelected(item);
                             }}
-                          >
-                            <Box
-                              sx={{
-                                position: "absolute",
-                                top: "1px",
-                                right: "1px",
-                              }}
-                            >
-                              <IconButton
-                                color="primary"
-                                onClick={() => changeVisibility(jtem.index)}
-                              >
-                                {jtem.visibility ? (
-                                  <Visibility />
-                                ) : (
-                                  <VisibilityOff />
-                                )}
-                              </IconButton>
-                              <IconButton
-                                color="error"
-                                onClick={() => deleteProduct(jtem.index)}
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                            </Box>
-                            <Box
-                              sx={{ cursor: "pointer", display: "flex" }}
-                              onClick={() => {
-                                setVisible(true);
-                                setSelected(jtem);
-                              }}
-                            >
-                              <Box
-                                sx={{ marginRight: "20px", display: "flex" }}
-                              >
-                                <Box sx={productImageBox}>
-                                  <SitoImage
-                                    src={
-                                      jtem.photo && jtem.photo.url !== ""
-                                        ? jtem.photo.url
-                                        : noProduct
-                                    }
-                                    alt={jtem.name}
-                                    sx={productImage}
-                                  />
-                                </Box>
-                              </Box>
-                              <Box sx={productContentBox}>
-                                <Typography
-                                  variant="h3"
-                                  sx={{
-                                    fontWeight: "bold",
-                                    fontSize: "1rem",
-                                  }}
-                                >
-                                  {jtem.name}
-                                </Typography>
-                                <Box sx={productDescriptionBox}>
-                                  <Typography
-                                    variant="body1"
-                                    sx={{ textAlign: "justify" }}
-                                  >
-                                    {jtem.description}
-                                  </Typography>
-                                </Box>
-                                <Typography
-                                  variant="body2"
-                                  sx={{ fontWeight: "bold", width: "80%" }}
-                                >
-                                  {jtem.price} CUP
-                                </Typography>
-                              </Box>
-                            </Box>
-                          </Paper>
+                          />
                         </InViewComponent>
                       ))}
                   </Box>

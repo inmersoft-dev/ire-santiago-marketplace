@@ -33,7 +33,6 @@ import {
   modal,
   modalContent,
   productImage,
-  productImageBox,
 } from "../../assets/styles/styles";
 
 // context

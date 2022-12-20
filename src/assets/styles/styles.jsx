@@ -98,6 +98,7 @@ export const productContentBox = {
   justifyContent: "flex-start",
   overflow: "hidden",
   width: "100%",
+  padding: { xs: 0, md: "1rem" },
 };
 
 export const productDescriptionBox = {

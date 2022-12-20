@@ -37,7 +37,6 @@ import noProduct from "../../../assets/images/no-product.webp";
 
 // styles
 import {
-  productImageBox,
   productImage,
   mainContent,
   imageTitleBox,

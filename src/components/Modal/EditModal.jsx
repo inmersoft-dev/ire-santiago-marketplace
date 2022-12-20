@@ -40,7 +40,6 @@ import {
   modal,
   modalContent,
   productImage,
-  productImageBox,
   loadingPhotoSpinner,
   imageTitleBox,
 } from "../../assets/styles/styles";

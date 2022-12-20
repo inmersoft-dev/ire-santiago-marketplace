@@ -18,6 +18,7 @@ import SitoImage from "sito-image";
 
 // styles
 import {
+  productContentBox,
   productDescriptionBox,
   productImage,
   productImageBox,
@@ -63,15 +64,7 @@ const ProductCard = (props) => {
             }}
           />
         </Box>
-        <Box
-          sx={{
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            overflow: "hidden",
-            width: "100%",
-            padding: { xs: 0, md: "1rem" },
-          }}
-        >
+        <Box sx={productContentBox}>
           <Typography
             variant="h3"
             sx={{
