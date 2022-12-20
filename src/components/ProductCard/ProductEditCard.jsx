@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 // @mui/material
@@ -37,6 +38,8 @@ const ProductEditCard = (props) => {
 
   const { item, changeVisibility, deleteProduct, onClick } = props;
 
+  const [visibility, setVisibility] = useState(false);
+
   return (
     <Paper
       id={`obj-${item.id}`}
@@ -47,6 +50,8 @@ const ProductEditCard = (props) => {
           ? theme.palette.background.paper
           : theme.palette.background.default,
       }}
+      onMouseEnter={() => setVisibility(true)}
+      onMouseLeave={() => setVisibility(false)}
     >
       <Box
         sx={{
@@ -54,16 +59,13 @@ const ProductEditCard = (props) => {
           top: "1px",
           right: "1px",
           borderRadius: "1rem",
-          opacity: 0,
+          opacity: visibility ? 1 : 0,
           transition: "opacity 500ms ease",
-          "&:hover": {
-            opacity: 1,
-          },
           background: { md: "#222222aa", xs: "none" },
         }}
       >
         <IconButton
-          color="primary"
+          color="secondary"
           onClick={() => changeVisibility(item.index)}
         >
           {item.visibility ? <Visibility /> : <VisibilityOff />}
