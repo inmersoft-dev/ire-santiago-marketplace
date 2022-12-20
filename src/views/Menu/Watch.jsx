@@ -415,7 +415,7 @@ const Watch = () => {
                               sx={{
                                 display: "flex",
                                 justifyContent: "center",
-                                width: "100 %",
+                                width: { md: "350px", xs: "100%" },
                               }}
                             >
                               <ProductCard

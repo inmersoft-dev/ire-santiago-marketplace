@@ -81,7 +81,7 @@ export const responsiveGrid = {
 export const productPaper = {
   position: "relative",
   marginTop: "20px",
-  width: { md: "350px", xs: "auto" },
+  width: { md: "350px", xs: "100%" },
   height: { md: "350px", xs: "auto" },
   borderRadius: "1rem",
   alignItems: "center",
