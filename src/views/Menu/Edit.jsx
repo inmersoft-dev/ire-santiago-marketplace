@@ -35,6 +35,7 @@ import { useNotification } from "../../context/NotificationProvider";
 import {
   mainWindow,
   productList,
+  responsiveGrid,
   typeBoxCss,
 } from "../../assets/styles/styles";
 
@@ -396,12 +397,15 @@ const Edit = () => {
               .filter((item) => hasProducts(item))
               .map((item) => (
                 <Box key={item.name} sx={typeBoxCss}>
-                  <Box id={`title-${item.name}`}>
-                    <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                  <Box id={`title-${item.name}`} sx={{ width: "100%" }}>
+                    <Typography
+                      sx={{ fontSize: "1.5rem", textAlign: "left" }}
+                      variant="h3"
+                    >
                       {item.name}
                     </Typography>
                   </Box>
-                  <Box sx={{ width: "100%" }}>
+                  <Box sx={responsiveGrid}>
                     {products
                       .filter((jtem) => jtem.type === item.name)
                       .map((jtem, j) => (

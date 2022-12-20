@@ -18,6 +18,7 @@ import SitoImage from "sito-image";
 
 // styles
 import {
+  mainBox,
   productContentBox,
   productDescriptionBox,
   productImage,
@@ -43,15 +44,7 @@ const ProductCard = (props) => {
         background: theme.palette.background.paper,
       }}
     >
-      <Box
-        sx={{
-          padding: { md: 0, xs: "1rem" },
-          display: "flex",
-          cursor: "pointer",
-          flexDirection: { md: "column", xs: "row" },
-        }}
-        onClick={onClick}
-      >
+      <Box sx={mainBox} onClick={onClick}>
         <Box sx={productImageBox}>
           <SitoImage
             src={

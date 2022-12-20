@@ -70,6 +70,14 @@ export const typeBoxCss = {
   display: "flex",
 };
 
+export const responsiveGrid = {
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  flexWrap: "wrap",
+  gap: "10px",
+};
+
 export const productPaper = {
   position: "relative",
   marginTop: "20px",
@@ -77,6 +85,13 @@ export const productPaper = {
   height: { md: "350px", xs: "auto" },
   borderRadius: "1rem",
   alignItems: "center",
+};
+
+export const mainBox = {
+  padding: { md: 0, xs: "1rem" },
+  display: "flex",
+  cursor: "pointer",
+  flexDirection: { md: "column", xs: "row" },
 };
 
 export const productImageBox = {

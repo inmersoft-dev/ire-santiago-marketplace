@@ -52,6 +52,7 @@ import {
   typeBoxCss,
   productList,
   mainWindow,
+  responsiveGrid,
 } from "../../assets/styles/styles";
 
 const Watch = () => {
@@ -399,15 +400,7 @@ const Watch = () => {
                           {item.name}
                         </Typography>
                       </Box>
-                      <Box
-                        sx={{
-                          width: "100%",
-                          display: "flex",
-                          alignItems: "center",
-                          flexWrap: "wrap",
-                          gap: "10px",
-                        }}
-                      >
+                      <Box sx={responsiveGrid}>
                         {products
                           .filter(
                             (jtem) => jtem.type === item.name && jtem.visibility

@@ -25,6 +25,7 @@ import {
   productImageBox,
   productContentBox,
   productDescriptionBox,
+  mainBox,
 } from "../../assets/styles/styles";
 
 // images
@@ -52,6 +53,13 @@ const ProductEditCard = (props) => {
           position: "absolute",
           top: "1px",
           right: "1px",
+          borderRadius: "1rem",
+          opacity: 0,
+          transition: "opacity 500ms ease",
+          "&:hover": {
+            opacity: 1,
+          },
+          background: { md: "#222222aa", xs: "none" },
         }}
       >
         <IconButton
@@ -64,23 +72,18 @@ const ProductEditCard = (props) => {
           <DeleteIcon />
         </IconButton>
       </Box>
-      <Box
-        sx={{ cursor: "pointer", display: "flex" }}
-        onClick={() => onClick(item)}
-      >
-        <Box sx={{ marginRight: "20px", display: "flex" }}>
-          <Box sx={productImageBox}>
-            <SitoImage
-              src={
-                item.photo && item.photo.url !== "" ? item.photo.url : noProduct
-              }
-              alt={item.name}
-              sx={{
-                ...productImage,
-                borderRadius: biggerThanMD ? "1rem 1rem 0 0" : "100%",
-              }}
-            />
-          </Box>
+      <Box sx={mainBox} onClick={() => onClick(item)}>
+        <Box sx={productImageBox}>
+          <SitoImage
+            src={
+              item.photo && item.photo.url !== "" ? item.photo.url : noProduct
+            }
+            alt={item.name}
+            sx={{
+              ...productImage,
+              borderRadius: biggerThanMD ? "1rem 1rem 0 0" : "100%",
+            }}
+          />
         </Box>
         <Box sx={productContentBox}>
           <Typography
