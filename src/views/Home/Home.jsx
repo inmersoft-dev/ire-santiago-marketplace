@@ -48,7 +48,7 @@ import { spaceToDashes, dashesToSpace } from "../../utils/functions";
 import { getUserName, userLogged } from "../../utils/auth";
 
 // styles
-import { mainWindow } from "../../assets/styles/styles";
+import { mainWindow, responsiveGrid } from "../../assets/styles/styles";
 
 // services
 import { search } from "../../services/search";
@@ -530,16 +530,23 @@ const Home = () => {
             }}
           />
           {!error && list.length > 0 && loading === 0 && (
-            <Box>
+            <Box
+              sx={{
+                ...responsiveGrid,
+                gap: "20px",
+                justifyContent: "flex-start",
+              }}
+            >
               {toSearch.length === 0
                 ? list.map((item, i) => (
                     <InViewComponent
                       key={i}
                       delay={`0.${1 * (item.index + 1)}s`}
                       sx={{
-                        width: "100%",
                         display: "flex",
                         justifyContent: "center",
+                        flex: { md: "1 1 0", xs: "inherit" },
+                        width: { md: "350px", xs: "100%" },
                       }}
                     >
                       <LinkCard

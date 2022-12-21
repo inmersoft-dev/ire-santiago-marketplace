@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { css } from "@emotion/css";
 
 // @mui/material
-import { useTheme, Paper, Box, Typography } from "@mui/material";
+import { useMediaQuery, useTheme, Paper, Box, Typography } from "@mui/material";
 
 // sito components
 import SitoImage from "sito-image";
@@ -17,6 +17,7 @@ import noProduct from "../../assets/images/no-product.webp";
 
 // styles
 import {
+  mainBox,
   productContentBox,
   productDescriptionBox,
   productImage,
@@ -25,15 +26,9 @@ import {
 } from "../../assets/styles/styles";
 
 const LinkCard = (props) => {
-  const { item, link, onClick } = props;
+  const { item, link, onClick, sx } = props;
   const theme = useTheme();
-
-  const linkStyle = css({
-    width: "100%",
-    textDecoration: "none",
-    display: "flex",
-    justifyContent: "center",
-  });
+  const biggerThanMD = useMediaQuery("(min-width:900px)");
 
   const parseImage = (url) => {
     const split = url.split("/");
@@ -47,7 +42,10 @@ const LinkCard = (props) => {
   return (
     <Link
       to={link}
-      className={linkStyle}
+      className={css({
+        textDecoration: "none",
+        width: biggerThanMD ? "auto" : "100%",
+      })}
       onClick={onClick ? (e) => onClick(e) : () => {}}
     >
       <Paper
@@ -56,9 +54,10 @@ const LinkCard = (props) => {
         sx={{
           ...productPaper,
           background: theme.palette.background.paper,
+          ...sx,
         }}
       >
-        <SitoContainer sx={{ marginRight: "20px" }}>
+        <Box sx={mainBox}>
           <Box sx={{ ...productImageBox, position: "relative" }}>
             <SitoImage
               src={
@@ -67,7 +66,10 @@ const LinkCard = (props) => {
                   : noProduct
               }
               alt={item.menu}
-              sx={productImage}
+              sx={{
+                ...productImage,
+                borderRadius: biggerThanMD ? "1rem 1rem 0 0" : "100%",
+              }}
             />
             {item.name && item.menu && item.name !== item.menu ? (
               <Box
@@ -91,7 +93,7 @@ const LinkCard = (props) => {
               </Box>
             ) : null}
           </Box>
-        </SitoContainer>
+        </Box>
         <Box sx={productContentBox}>
           <Typography
             variant="h3"
