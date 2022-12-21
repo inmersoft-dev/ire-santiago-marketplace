@@ -10,7 +10,6 @@ import { useMediaQuery, useTheme, Paper, Box, Typography } from "@mui/material";
 
 // sito components
 import SitoImage from "sito-image";
-import SitoContainer from "sito-container";
 
 // image
 import noProduct from "../../assets/images/no-product.webp";
