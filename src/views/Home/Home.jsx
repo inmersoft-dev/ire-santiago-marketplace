@@ -543,6 +543,7 @@ const Home = () => {
                 ...responsiveGrid,
                 gap: "20px",
                 justifyContent: "flex-start",
+                padding: { xs: "10px 20px", md: "10px 40px", lg: "10px 10rem" },
               }}
             >
               {toSearch.length === 0
