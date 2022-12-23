@@ -67,6 +67,10 @@ const Home = () => {
   const [showSearch, setShowSearch] = useState(false);
   const toggleSearchInput = () => setShowSearch(!showSearch);
 
+  useEffect(() => {
+    if (!showSearch) setShowFilters(false);
+  }, [showSearch]);
+
   const showNotification = (ntype, message) =>
     setNotificationState({
       type: "set",
