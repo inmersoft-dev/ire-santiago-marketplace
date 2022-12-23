@@ -40,7 +40,8 @@
     "deploy": "gh-pages -d build",
     "firebase-deploy": "firebase deploy",
     "init": "firebase init",
-    "login": "firebase login"
+    "login": "firebase login",
+    "logout": "firebase logout"
   },
   "eslintConfig": {
     "extends": [

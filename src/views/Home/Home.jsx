@@ -112,14 +112,18 @@ const Home = () => {
   const { historyState, setHistoryState } = useHistory();
 
   useEffect(() => {
-    const exist = localStorage.getItem("search-history");
-    if (exist !== null && exist !== "")
-      setHistoryState({
-        type: "set",
-        newArray: JSON.parse(exist).filter(
-          (item) => item !== null && item.trim().length > 0
-        ),
-      });
+    try {
+      const exist = localStorage.getItem("search-history");
+      if (exist !== null && exist !== "")
+        setHistoryState({
+          type: "set",
+          newArray: JSON.parse(exist).filter(
+            (item) => item !== null && item.trim().length > 0
+          ),
+        });
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   const toggleFilters = () => setShowFilters(!showFilters);
@@ -236,40 +240,44 @@ const Home = () => {
   }, [searchResult]);
 
   useEffect(() => {
-    if (location.search) {
-      const queryParams = location.search.substring(1);
-      const params = queryParams.split("&");
-      params.forEach((item) => {
-        const [paramName, paramValue] = item.split("=");
-        if (paramValue)
-          switch (paramName) {
-            case "business":
-              setSearchingProducts(false);
-              setSearchingCategories(false);
-              setSearchingMenus(true);
-              setToSearch(dashesToSpace(paramValue));
-              setShowSearch(true);
-              break;
-            case "product": {
-              setSearchingProducts(true);
-              setSearchingCategories(false);
-              setSearchingMenus(false);
-              setToSearch(dashesToSpace(paramValue));
-              setShowSearch(true);
-              break;
+    try {
+      if (location.search) {
+        const queryParams = location.search.substring(1);
+        const params = queryParams.split("&");
+        params.forEach((item) => {
+          const [paramName, paramValue] = item.split("=");
+          if (paramValue)
+            switch (paramName) {
+              case "business":
+                setSearchingProducts(false);
+                setSearchingCategories(false);
+                setSearchingMenus(true);
+                setToSearch(dashesToSpace(paramValue));
+                setShowSearch(true);
+                break;
+              case "product": {
+                setSearchingProducts(true);
+                setSearchingCategories(false);
+                setSearchingMenus(false);
+                setToSearch(dashesToSpace(paramValue));
+                setShowSearch(true);
+                break;
+              }
+              case "category": {
+                setSearchingProducts(false);
+                setSearchingCategories(true);
+                setSearchingMenus(false);
+                setToSearch(dashesToSpace(paramValue));
+                setShowSearch(true);
+                break;
+              }
+              default:
+                break;
             }
-            case "category": {
-              setSearchingProducts(false);
-              setSearchingCategories(true);
-              setSearchingMenus(false);
-              setToSearch(dashesToSpace(paramValue));
-              setShowSearch(true);
-              break;
-            }
-            default:
-              break;
-          }
-      });
+        });
+      }
+    } catch (err) {
+      console.error(err);
     }
   }, [location]);
 

@@ -41,8 +41,9 @@ import { validateBasicKey } from "./services/auth";
 import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 
 const App = () => {
-  const { modeState } = useMode();
   const biggerThanMD = useMediaQuery("(min-width:900px)");
+
+  const { modeState } = useMode();
   const { languageState, setLanguageState } = useLanguage();
 
   useEffect(() => {
@@ -61,13 +62,20 @@ const App = () => {
   }, []);
 
   const fetch = async () => {
-    const value = await validateBasicKey();
-    if (!value) {
+    try {
+      const value = await validateBasicKey();
+      if (!value) {
+        logoutUser();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else sessionStorage.setItem("user", value);
+    } catch (err) {
       logoutUser();
       setTimeout(() => {
         window.location.reload();
       }, 1000);
-    } else sessionStorage.setItem("user", value);
+    }
   };
 
   useEffect(() => {
