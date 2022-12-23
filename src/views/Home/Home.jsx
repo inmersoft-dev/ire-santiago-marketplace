@@ -107,20 +107,22 @@ const Home = () => {
   const preventDefault = (event) => event.preventDefault();
 
   const [showFilters, setShowFilters] = useState(false);
-  const [showHistory, setShowHistory] = useState("");
+  const [showHistory, setShowHistory] = useState(false);
 
   const { historyState, setHistoryState } = useHistory();
 
   useEffect(() => {
     try {
       const exist = localStorage.getItem("search-history");
-      if (exist !== null && exist !== "")
+      if (exist !== null && exist !== "") {
         setHistoryState({
           type: "set",
           newArray: JSON.parse(exist).filter(
             (item) => item !== null && item.trim().length > 0
           ),
         });
+        setShowHistory(true);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -131,8 +133,8 @@ const Home = () => {
   const topBarHeight = useCallback(() => {
     let returnHeight = 60;
     if (biggerThanMD) {
-      if (showFilters) returnHeight += 60;
-      if (showHistory) returnHeight += 50;
+      if (showHistory && showSearch) returnHeight += 50;
+      if (showFilters) returnHeight += 55;
     } else {
       if (showSearch) returnHeight += 55;
       if (showFilters) returnHeight += 55;
@@ -141,12 +143,14 @@ const Home = () => {
         else returnHeight += 40;
       }
     }
+    console.log(returnHeight, showHistory, showSearch, showFilters);
     return `${returnHeight}px`;
   }, [biggerThanMD, showSearch, showFilters, showHistory, historyState]);
 
   const marginTopBar = useCallback(() => {
     let returnHeight = 60;
     if (biggerThanMD) {
+      if (showSearch) returnHeight += 55;
       if (showFilters) returnHeight += 60;
       if (showHistory) returnHeight += 50;
     } else {
