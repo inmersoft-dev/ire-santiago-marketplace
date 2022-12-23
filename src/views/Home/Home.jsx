@@ -136,27 +136,32 @@ const Home = () => {
       if (showHistory && showSearch) returnHeight += 50;
       if (showFilters) returnHeight += 55;
     } else {
-      if (showSearch) returnHeight += 55;
       if (showFilters) returnHeight += 55;
-      if (showHistory) {
-        if (historyState.length) returnHeight += 50;
-        else returnHeight += 40;
+      if (showSearch) {
+        returnHeight += 55;
+        if (showHistory) {
+          if (historyState.length) returnHeight += 50;
+          else returnHeight += 40;
+        }
       }
     }
-    console.log(returnHeight, showHistory, showSearch, showFilters);
     return `${returnHeight}px`;
   }, [biggerThanMD, showSearch, showFilters, showHistory, historyState]);
 
   const marginTopBar = useCallback(() => {
     let returnHeight = 60;
     if (biggerThanMD) {
-      if (showSearch) returnHeight += 55;
-      if (showFilters) returnHeight += 60;
-      if (showHistory) returnHeight += 50;
-    } else {
-      if (showSearch) returnHeight += 55;
+      if (showHistory && showSearch) returnHeight += 50;
       if (showFilters) returnHeight += 55;
-      if (showHistory) returnHeight += 40;
+    } else {
+      if (showFilters) returnHeight += 55;
+      if (showSearch) {
+        returnHeight += 55;
+        if (showHistory) {
+          if (historyState.length) returnHeight += 50;
+          else returnHeight += 40;
+        }
+      }
     }
     return `${returnHeight}px`;
   }, [biggerThanMD, showSearch, showFilters, showHistory]);
