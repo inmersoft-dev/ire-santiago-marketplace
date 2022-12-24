@@ -53,7 +53,9 @@ const App = () => {
 
   useEffect(() => {
     try {
-      const userLang = navigator.language || navigator.userLanguage;
+      let userLang = navigator.language || navigator.userLanguage;
+      if (userLang.indexOf("en") < 0 && userLang.indexOf("es") < 0)
+        userLang = "en-US";
       if (userLang)
         setLanguageState({ type: "set", lang: userLang.split("-")[0] });
     } catch (err) {
