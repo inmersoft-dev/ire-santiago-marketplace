@@ -206,13 +206,19 @@ const Watch = () => {
             : [],
         });
         setProducts(data.list ? data.list : []);
+        setLoading(0);
+      } else {
+        setError(true);
+        setLoading(-1);
+        setNotFound(true);
       }
-      setLoading(0);
     } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
-      setError(true);
-      setLoading(-1);
+      if (String(err).indexOf(422)) setNotFound(true);
+      else {
+        showNotification("error", String(err));
+        setError(true);
+        setLoading(-1);
+      }
     }
   };
 
@@ -317,7 +323,8 @@ const Watch = () => {
 
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
-      <CookieBox />
+      {!notFound ? <CookieBox /> : null}
+      {!notFound ? <FabButtons /> : null}
       {toOrder.length ? (
         <OrderModal
           menu={menu}
@@ -353,8 +360,6 @@ const Watch = () => {
           </Button>
         </Tooltip>
       ) : null}
-
-      <FabButtons />
       {selected && (
         <Modal
           addCount={addToOrder}
