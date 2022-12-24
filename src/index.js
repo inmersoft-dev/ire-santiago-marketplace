@@ -17,6 +17,8 @@ import { LanguageProvider } from "./context/LanguageProvider";
 import { NotificationProvider } from "./context/NotificationProvider";
 
 import App from "./App";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "./components/ErrorBoundary/ErrorBoundary";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -24,7 +26,14 @@ root.render(
     <ModeProvider>
       <NotificationProvider>
         <HistoryProvider>
-          <App />
+          <ErrorBoundary
+            FallbackComponent={ErrorFallback}
+            onReset={() => {
+              // reset the state of your app so the error doesn't happen again
+            }}
+          >
+            <App />
+          </ErrorBoundary>
         </HistoryProvider>
       </NotificationProvider>
     </ModeProvider>
