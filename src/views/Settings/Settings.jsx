@@ -32,7 +32,6 @@ const Settings = () => {
 
   useEffect(() => {
     if (!userLogged()) navigate("/");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

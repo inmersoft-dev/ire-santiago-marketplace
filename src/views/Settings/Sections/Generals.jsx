@@ -45,6 +45,7 @@ import {
   getUserName,
   findFirstLowerLetter,
   findFirstUpperLetter,
+  userLogged,
 } from "../../../utils/auth";
 
 // services
@@ -95,39 +96,41 @@ const Generals = () => {
   const [menuNameHelperText, setMenuNameHelperText] = useState(false);
 
   const fetch = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const response = await fetchMenu(getUserName());
-      const data = await response.data;
-      console.log(data);
-      if (data) {
-        if (data.photo) {
-          setPhoto(data.photo);
-          setPreview(data.photo.url);
-        }
-        if (data.business) setTypes(data.business);
-        setOldName(data.menu);
+    if (userLogged()) {
+      setLoading(true);
+      setError(false);
+      try {
+        const response = await fetchMenu(getUserName());
+        const data = await response.data;
+        console.log(data);
+        if (data) {
+          if (data.photo) {
+            setPhoto(data.photo);
+            setPreview(data.photo.url);
+          }
+          if (data.business) setTypes(data.business);
+          setOldName(data.menu);
 
-        reset({
-          menu: data.menu,
-          phone: data.phone,
-        });
-        setSettingsState({
-          type: "set-generals",
-          menu: data.menu,
-          phone: data.phone,
-          preview: data.photo ? data.photo.url : "",
-          photo: data.photo,
-          business: data.business,
-        });
+          reset({
+            menu: data.menu,
+            phone: data.phone,
+          });
+          setSettingsState({
+            type: "set-generals",
+            menu: data.menu,
+            phone: data.phone,
+            preview: data.photo ? data.photo.url : "",
+            photo: data.photo,
+            business: data.business,
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
+        setError(true);
       }
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
-      setError(true);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const uploadPhoto = useCallback((e) => {

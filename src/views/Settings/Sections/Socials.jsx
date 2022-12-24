@@ -47,7 +47,7 @@ import { fetchMenu } from "../../../services/menu.js";
 import { saveSocial } from "../../../services/profile";
 
 // utils
-import { getUserName } from "../../../utils/auth";
+import { getUserName, userLogged } from "../../../utils/auth";
 
 const Socials = () => {
   const navigate = useNavigate();
@@ -171,28 +171,30 @@ const Socials = () => {
   const [menu, setMenu] = useState("");
 
   const fetch = async () => {
-    setLoading(true);
-    try {
-      const response = await fetchMenu(getUserName());
-      const data = await response.data;
-      if (data) {
-        setMenu(data.menu);
-        if (data.socialMedia)
-          setSocialMedia({ type: "set", newArray: data.socialMedia });
-        reset({
-          description: data.description,
-        });
-        setSettingsState({
-          type: "set-socials",
-          description: data.description,
-          socialMedia: data.socialMedia,
-        });
+    if (!userLogged()) {
+      setLoading(true);
+      try {
+        const response = await fetchMenu(getUserName());
+        const data = await response.data;
+        if (data) {
+          setMenu(data.menu);
+          if (data.socialMedia)
+            setSocialMedia({ type: "set", newArray: data.socialMedia });
+          reset({
+            description: data.description,
+          });
+          setSettingsState({
+            type: "set-socials",
+            description: data.description,
+            socialMedia: data.socialMedia,
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
       }
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const preventDefault = (event) => event.preventDefault();

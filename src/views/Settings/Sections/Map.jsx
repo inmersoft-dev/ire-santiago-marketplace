@@ -14,7 +14,7 @@ import { saveLocation } from "../../../services/profile";
 import { fetchMenu } from "../../../services/menu.js";
 
 // utils
-import { getUserName } from "../../../utils/auth";
+import { getUserName, userLogged } from "../../../utils/auth";
 
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
@@ -65,33 +65,35 @@ const Map = () => {
   }, [lng, lat]);
 
   const fetch = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const response = await fetchMenu(getUserName());
-      const data = await response.data;
-      console.log(data);
-      if (data && data.location) {
-        setLng(data.location.longitude);
-        setLat(data.location.latitude);
-        setSettingsState({
-          type: "set-map",
-          location: data.location,
-        });
-      } else {
-        setLng(-75.8287579);
-        setLat(20.0210691);
-        setSettingsState({
-          type: "set-map",
-          location: data.location,
-        });
+    if (userLogged()) {
+      setLoading(true);
+      setError(false);
+      try {
+        const response = await fetchMenu(getUserName());
+        const data = await response.data;
+        console.log(data);
+        if (data && data.location) {
+          setLng(data.location.longitude);
+          setLat(data.location.latitude);
+          setSettingsState({
+            type: "set-map",
+            location: data.location,
+          });
+        } else {
+          setLng(-75.8287579);
+          setLat(20.0210691);
+          setSettingsState({
+            type: "set-map",
+            location: data.location,
+          });
+        }
+      } catch (err) {
+        setError(true);
+        console.error(err);
+        showNotification("error", String(err));
       }
-    } catch (err) {
-      setError(true);
-      console.error(err);
-      showNotification("error", String(err));
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const retry = () => fetch();
