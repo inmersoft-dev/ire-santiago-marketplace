@@ -22,6 +22,7 @@ import Map from "./Sections/Map";
 import Socials from "./Sections/Socials";
 import Generals from "./Sections/Generals";
 import Security from "./Sections/Security";
+import Schedule from "./Sections/Schedule";
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -63,7 +64,14 @@ const Settings = () => {
           value={tab}
           onChange={(e, newTab) => setTab(newTab)}
           tabs={languageState.texts.Settings.Tabs}
-          content={[<Generals />, <Socials />, <Map />, <Security />, <QR />]}
+          content={[
+            <Generals />,
+            <Schedule />,
+            <Socials />,
+            <Map />,
+            <Security />,
+            <QR />,
+          ]}
         />
       </Paper>
     </Box>

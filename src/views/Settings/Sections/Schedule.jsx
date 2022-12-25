@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 // @emotion
 import { css } from "@emotion/css";
@@ -103,21 +103,14 @@ const Generals = () => {
         );
         setSettingsState({
           type: "set-generals",
-          menu: menu,
-          phone: phone || "",
-          preview: photo ? photo.url : "",
-          photo: photo || "",
-          business: types || [],
+          schedule,
         });
         setLoading(false);
         return true;
       } else {
         const { error } = response.data;
-        if (error.indexOf("menu") > -1) {
-          setMenuNameHelperText(languageState.texts.Errors.MenuNameTaken);
-          const menuInput = document.getElementById("menu");
-          if (menuInput !== null) menuInput.focus();
-        } else showNotification("error", languageState.texts.Errors.SomeWrong);
+        console.error(error);
+        showNotification("error", languageState.texts.Errors.SomeWrong);
       }
     } catch (err) {
       console.error(err);
@@ -132,10 +125,6 @@ const Generals = () => {
     setPreview(settingsState.preview);
     setTypes(settingsState.business);
     setOldName(settingsState.menu);
-    reset({
-      menu: settingsState.menu,
-      phone: settingsState.phone,
-    });
     setLoading(false);
   };
 
