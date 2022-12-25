@@ -948,6 +948,12 @@
         "Description": {
           "Label": "Place description",
           "Placeholder": "Some description"
+        },
+        "Schedule": {
+          "FullTime": "Full-Time",
+          "Start": "Start",
+          "End": "Close",
+          "Title": "Schedule"
         }
       }
     },
@@ -1965,8 +1971,9 @@
         },
         "Schedule": {
           "FullTime": "24 horas",
-          "Start": "Fecha apertura",
-          "End": "Fecha de cierre"
+          "Start": "Abre",
+          "End": "Cierra",
+          "Title": "Horario"
         }
       }
     },

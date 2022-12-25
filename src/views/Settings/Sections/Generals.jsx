@@ -18,6 +18,7 @@ import {
   useTheme,
   Box,
   Button,
+  Checkbox,
   TextField,
   Typography,
   InputLabel,
@@ -26,6 +27,7 @@ import {
   OutlinedInput,
   InputAdornment,
   FormHelperText,
+  FormControlLabel,
 } from "@mui/material";
 
 //@mui/x-date-pickers
@@ -471,20 +473,46 @@ const Generals = () => {
             />
           </SitoContainer>
           {/* Schedule */}
-          <SitoContainer sx={{ marginTop: "10px" }}>
-            <TimePicker
-              label={languageState.Settings.Schedule.Start}
-              value={startDate}
-              onChange={handleStartDate}
-              renderInput={(params) => <TextField {...params} />}
+          <Box sx={{ marginTop: "10px" }}>
+            <Typography>
+              {languageState.texts.Settings.Inputs.Schedule.Title}
+            </Typography>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={fullTime}
+                  onChange={() => setFullTime(!fullTime)}
+                />
+              }
+              label={languageState.texts.Settings.Inputs.Schedule.FullTime}
             />
-            <TimePicker
-              label={languageState.Settings.Schedule.End}
-              value={endDate}
-              onChange={handleEndDate}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </SitoContainer>
+            <SitoContainer
+              sx={{
+                marginTop: "10px",
+                gap: "10px",
+                svg: {
+                  color: theme.palette.secondary.main,
+                },
+                div: {
+                  flex: 1,
+                },
+              }}
+            >
+              <TimePicker
+                value={startDate}
+                onChange={handleStartDate}
+                renderInput={(params) => <TextField {...params} />}
+                label={languageState.texts.Settings.Inputs.Schedule.Start}
+              />
+              <TimePicker
+                value={endDate}
+                onChange={handleEndDate}
+                renderInput={(params) => <TextField {...params} />}
+                label={languageState.texts.Settings.Inputs.Schedule.End}
+              />
+            </SitoContainer>
+          </Box>
+
           {/* Buttons */}
           <SitoContainer
             justifyContent="flex-end"
