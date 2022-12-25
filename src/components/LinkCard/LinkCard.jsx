@@ -23,6 +23,7 @@ import {
   productImageBox,
   productPaper,
 } from "../../assets/styles/styles";
+import Badge from "../Badge/Badge";
 
 const LinkCard = (props) => {
   const { item, link, onClick, sx } = props;
@@ -70,6 +71,8 @@ const LinkCard = (props) => {
                 borderRadius: biggerThanMD ? "1rem 1rem 0 0" : "100%",
               }}
             />
+            <Badge />
+
             {item.name && item.menu && item.name !== item.menu ? (
               <Box
                 sx={{
