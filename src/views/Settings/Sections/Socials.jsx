@@ -171,7 +171,7 @@ const Socials = () => {
   const [menu, setMenu] = useState("");
 
   const fetch = async () => {
-    if (!userLogged()) {
+    if (userLogged()) {
       setLoading(true);
       try {
         const response = await fetchMenu(getUserName());
@@ -390,10 +390,10 @@ const Socials = () => {
         sx={{ width: "100%", marginTop: "20px" }}
       >
         <Button type="submit" variant="contained" sx={{ marginRight: "10px" }}>
-          {languageState.texts.Insert.Buttons.Save}
+          {languageState.texts.Buttons.Save}
         </Button>
         <Button type="button" variant="outlined" onClick={goToEdit}>
-          {languageState.texts.Insert.Buttons.Edit}
+          {languageState.texts.Buttons.Edit}
         </Button>
       </SitoContainer>
     </form>

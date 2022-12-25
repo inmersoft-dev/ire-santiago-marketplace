@@ -398,7 +398,7 @@ const Modal = (props) => {
               sx={{ marginTop: "10px" }}
               disabled={loadingPhoto}
             >
-              {languageState.texts.Insert.Buttons.Save}
+              {languageState.texts.Buttons.Save}
             </Button>
           </form>
         </SitoContainer>

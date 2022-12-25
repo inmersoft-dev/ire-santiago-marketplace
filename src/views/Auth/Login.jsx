@@ -233,7 +233,7 @@ const Login = () => {
             variant="contained"
             sx={{ marginRight: "20px" }}
           >
-            {languageState.texts.Login.Buttons.Login}
+            {languageState.texts.Buttons.Login}
           </Button>
         </SitoContainer>
       </form>

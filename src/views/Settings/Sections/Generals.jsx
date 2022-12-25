@@ -28,6 +28,9 @@ import {
   FormHelperText,
 } from "@mui/material";
 
+//@mui/x-date-pickers
+import { TimePicker } from "@mui/x-date-pickers";
+
 // @mui/icons-material
 import WhatsApp from "@mui/icons-material/WhatsApp";
 
@@ -57,6 +60,7 @@ import { saveProfile } from "../../../services/profile";
 import noProduct from "../../../assets/images/no-product.webp";
 
 import config from "../../../config";
+import dayjs from "dayjs";
 
 const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
 
@@ -85,6 +89,13 @@ const Generals = () => {
   const [types, setTypes] = useState([]);
   const handleTypes = (event, newValue) => setTypes(newValue);
 
+  const [fullTime, setFullTime] = useState(false);
+  const [startDate, setStartDate] = useState(dayjs());
+  const handleStartDate = (e) => {};
+
+  const [endDate, setEndDate] = useState(dayjs());
+  const handleEndDate = (e) => {};
+
   const { control, handleSubmit, reset, getValues, watch } = useForm({
     defaultValues: {
       menu: "",
@@ -102,7 +113,6 @@ const Generals = () => {
       try {
         const response = await fetchMenu(getUserName());
         const data = await response.data;
-        console.log(data);
         if (data) {
           if (data.photo) {
             setPhoto(data.photo);
@@ -460,6 +470,21 @@ const Generals = () => {
               )}
             />
           </SitoContainer>
+          {/* Schedule */}
+          <SitoContainer sx={{ marginTop: "10px" }}>
+            <TimePicker
+              label={languageState.Settings.Schedule.Start}
+              value={startDate}
+              onChange={handleStartDate}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <TimePicker
+              label={languageState.Settings.Schedule.End}
+              value={endDate}
+              onChange={handleEndDate}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </SitoContainer>
           {/* Buttons */}
           <SitoContainer
             justifyContent="flex-end"
@@ -470,10 +495,10 @@ const Generals = () => {
               variant="contained"
               sx={{ marginRight: "10px" }}
             >
-              {languageState.texts.Insert.Buttons.Save}
+              {languageState.texts.Buttons.Save}
             </Button>
             <Button type="button" variant="outlined" onClick={goToEdit}>
-              {languageState.texts.Insert.Buttons.Edit}
+              {languageState.texts.Buttons.Edit}
             </Button>
           </SitoContainer>
         </>

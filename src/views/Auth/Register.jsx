@@ -264,7 +264,7 @@ const Register = () => {
             variant="contained"
             sx={{ marginRight: "20px" }}
           >
-            {languageState.texts.Login.Buttons.Register}
+            {languageState.texts.Buttons.Register}
           </Button>
         </SitoContainer>
       </form>

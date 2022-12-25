@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 // @mui/material
-import { useTheme, Box, Tooltip } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 
 // @mui/icons-material
 

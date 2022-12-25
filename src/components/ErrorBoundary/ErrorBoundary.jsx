@@ -1,9 +1,8 @@
+// components
+import Error from "../Error/Error";
+
 const ErrorFallback = ({ error, resetErrorBoundary }) => (
-  <div role="alert">
-    <p>Something went wrong:</p>
-    <pre>{error.message}</pre>
-    <button onClick={resetErrorBoundary}>Try again</button>
-  </div>
+  <Error onAction={resetErrorBoundary} text={error.message} />
 );
 
 export default ErrorFallback;

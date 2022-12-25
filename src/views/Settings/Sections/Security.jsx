@@ -266,7 +266,7 @@ const Security = () => {
         sx={{ width: "100%", marginTop: "20px" }}
       >
         <Button type="submit" variant="contained" sx={{ marginRight: "10px" }}>
-          {languageState.texts.Insert.Buttons.Save}
+          {languageState.texts.Buttons.Save}
         </Button>
       </SitoContainer>
     </form>

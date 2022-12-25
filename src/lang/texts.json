@@ -753,6 +753,14 @@
       "ToTop": "Go top",
       "RegisterNewUser": "Sign up new user"
     },
+    "Buttons": {
+      "Save": "Save",
+      "Retry": "Reload",
+      "Login": "Sign In",
+      "Register": "Sign Up",
+      "Edit": "Edit catalog",
+      "Insert": "New Product"
+    },
     "NotFound": {
       "Title": "404 Not Found",
       "Description": "The page you are looking for cannot be found or has been removed",
@@ -964,12 +972,6 @@
           "Label": "Category",
           "Placeholder": "ex: Drink"
         }
-      },
-      "Buttons": {
-        "Retry": "Reload",
-        "Insert": "New Product",
-        "Save": "Save",
-        "Edit": "Edit catalog"
       }
     },
     "Login": {
@@ -988,11 +990,7 @@
           "Placeholder": "ex: *********"
         }
       },
-      "Remember": "Remember me",
-      "Buttons": {
-        "Login": "Sign In",
-        "Register": "Sign Up"
-      }
+      "Remember": "Remember me"
     },
     "Inputs": [
       {
@@ -1769,6 +1767,14 @@
       "ToTop": "Ir arriba",
       "RegisterNewUser": "Registrar nuevo usuario"
     },
+    "Buttons": {
+      "Save": "Guardar",
+      "Retry": "Recargar",
+      "Register": "Registrar",
+      "Insert": "Nuevo Producto",
+      "Edit": "Editar catálogo",
+      "Login": "Iniciar sesión"
+    },
     "NotFound": {
       "Title": "404 No encontrado",
       "Description": "La página que buscas no se encuentra o ha sido eliminada",
@@ -1956,6 +1962,11 @@
         "Description": {
           "Label": "Descripción del centro",
           "Placeholder": "Alguna descripción"
+        },
+        "Schedule": {
+          "FullTime": "24 horas",
+          "Start": "Fecha apertura",
+          "End": "Fecha de cierre"
         }
       }
     },
@@ -1980,12 +1991,6 @@
           "Label": "Categoría",
           "Placeholder": "ej: Bebidas"
         }
-      },
-      "Buttons": {
-        "Retry": "Recargar",
-        "Insert": "Nuevo Producto",
-        "Save": "Guardar",
-        "Edit": "Editar catálogo"
       }
     },
     "Login": {
@@ -2004,11 +2009,7 @@
           "Placeholder": "ej: *********"
         }
       },
-      "Remember": "Recordarme",
-      "Buttons": {
-        "Login": "Iniciar sesión",
-        "Register": "Registrar"
-      }
+      "Remember": "Recordarme"
     },
     "Inputs": [
       {

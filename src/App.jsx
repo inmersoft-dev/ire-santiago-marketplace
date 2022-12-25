@@ -9,7 +9,9 @@ import SitoContainer from "sito-container";
 import Notification from "./components/Notification/Notification";
 
 // @mui
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useMediaQuery, ThemeProvider, CssBaseline } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 // themes
 import dark from "./assets/theme/dark";
@@ -90,46 +92,48 @@ const App = () => {
   }, []);
 
   return (
-    <SitoContainer
-      sx={{ minHeight: "100vh" }}
-      alignItems="center"
-      justifyContent="center"
-    >
-      <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
-        <Notification />
-        <CssBaseline />
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route exact path="/auth/" element={<Login />} />
-            <Route exact path="/auth/register-user" element={<Register />} />
-            <Route exact path="/auth/logout" element={<Logout />} />
-            <Route
-              exact
-              path="/settings/"
-              element={
-                <SettingsProvider>
-                  <Settings />
-                </SettingsProvider>
-              }
-            />
-            <Route exact path="/menu/*" element={<Watch />} />
-            <Route exact path="/menu/edit" element={<Edit />} />
-            <Route
-              exact
-              path="/cookie-policy"
-              element={<MUIPrinter text={languageState.texts.CookiePolicy} />}
-            />
-            <Route
-              exact
-              path="/terms-conditions"
-              element={<MUIPrinter text={languageState.texts.Terms} />}
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </SitoContainer>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <SitoContainer
+        sx={{ minHeight: "100vh" }}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
+          <Notification />
+          <CssBaseline />
+          <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route exact path="/auth/" element={<Login />} />
+              <Route exact path="/auth/register-user" element={<Register />} />
+              <Route exact path="/auth/logout" element={<Logout />} />
+              <Route
+                exact
+                path="/settings/"
+                element={
+                  <SettingsProvider>
+                    <Settings />
+                  </SettingsProvider>
+                }
+              />
+              <Route exact path="/menu/*" element={<Watch />} />
+              <Route exact path="/menu/edit" element={<Edit />} />
+              <Route
+                exact
+                path="/cookie-policy"
+                element={<MUIPrinter text={languageState.texts.CookiePolicy} />}
+              />
+              <Route
+                exact
+                path="/terms-conditions"
+                element={<MUIPrinter text={languageState.texts.Terms} />}
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </SitoContainer>
+    </LocalizationProvider>
   );
 };
 
