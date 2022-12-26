@@ -52,7 +52,7 @@ const FabButtons = (props) => {
     try {
       const value = await isAdmin();
       if (value) setIsAdminState(true);
-      setIsAdminState(false);
+      else setIsAdminState(false);
     } catch (err) {
       setIsAdminState(false);
     }
@@ -102,6 +102,7 @@ const FabButtons = (props) => {
           {isAdminState ? (
             <InViewComponent delay="0.3s">
               <motion.div className={active ? "appear" : "hidden"}>
+                {console.log("hola")}
                 <RegisterNewUser />
               </motion.div>
             </InViewComponent>
