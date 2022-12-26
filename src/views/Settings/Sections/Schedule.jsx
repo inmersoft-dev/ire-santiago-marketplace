@@ -69,8 +69,13 @@ const Generals = () => {
     languageState.texts.Settings.Inputs.Schedule.Days[0].id || ""
   );
 
-  const startDate = dayjs();
-  const endDate = dayjs();
+  const thisDate = new Date();
+  const startDate = dayjs(
+    `${thisDate.getFullYear()}-${thisDate.getMonth()}-${thisDate.getDate()}T${thisDate.getHours()}:${thisDate.getMinutes()}:${thisDate.getSeconds()}`
+  );
+  const endDate = dayjs(
+    `${thisDate.getFullYear()}-${thisDate.getMonth()}-${thisDate.getDate()}T${thisDate.getHours()}:${thisDate.getMinutes()}:${thisDate.getSeconds()}`
+  );
 
   const createScheduleObject = useCallback(() => {
     const newDaysState = {};
@@ -106,7 +111,7 @@ const Generals = () => {
         const { activeDay, newStartTime } = action;
         const newDaysState = { ...daysState };
         if (daysState[activeDay])
-          newDaysState[activeDay].startTime = newStartTime;
+          newDaysState[activeDay].startTime = dayjs(newStartTime);
         else newDaysState[activeDay] = { startTime: newStartTime };
         return newDaysState;
       }
@@ -136,10 +141,20 @@ const Generals = () => {
         const data = await response.data;
         if (data) {
           if (data.schedule) {
-            setSchedule({ type: "set", newSchedule: data.schedule });
+            const parsedSchedule = {};
+            Object.keys(data.schedule).forEach((item) => {
+              const { type, startTime, endTime } = data.schedule[item];
+              console.log(item, new Date(startTime), startTime);
+              parsedSchedule[item] = {
+                type,
+                startTime: dayjs(startTime),
+                endTime: dayjs(endTime),
+              };
+            });
+            setSchedule({ type: "set", newSchedule: parsedSchedule });
             setSettingsState({
               type: "set-schedule",
-              schedule: data.schedule,
+              schedule: parsedSchedule,
             });
           }
         }
@@ -155,29 +170,42 @@ const Generals = () => {
   const retry = () => fetch();
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await saveSchedule(getUserName(), schedule);
-      if (response.status === 200) {
-        showNotification(
-          "success",
-          languageState.texts.Messages.SaveSuccessful
-        );
-        setSettingsState({
-          type: "set-generals",
-          schedule,
+    if (userLogged()) {
+      e.preventDefault();
+      setLoading(true);
+      try {
+        const parsedSchedule = {};
+        Object.keys(schedule).forEach((item) => {
+          const { type, startTime, endTime } = schedule[item];
+          console.log(item, new Date(startTime.valueOf()));
+          parsedSchedule[item] = {
+            type,
+            startTime: dayjs(startTime).valueOf(),
+            endTime: dayjs(endTime).valueOf(),
+          };
         });
-        setLoading(false);
-        return true;
-      } else {
-        const { error } = response.data;
-        console.error(error);
-        showNotification("error", languageState.texts.Errors.SomeWrong);
+        console.log(parsedSchedule);
+        const response = await saveSchedule(getUserName(), parsedSchedule);
+        if (response.status === 200) {
+          showNotification(
+            "success",
+            languageState.texts.Messages.SaveSuccessful
+          );
+          setSettingsState({
+            type: "set-generals",
+            schedule,
+          });
+          setLoading(false);
+          return true;
+        } else {
+          const { error } = response.data;
+          console.error(error);
+          showNotification("error", languageState.texts.Errors.SomeWrong);
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
       }
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
     }
     setLoading(false);
     return false;
@@ -194,17 +222,43 @@ const Generals = () => {
   }, []);
 
   const goToEdit = async () => {
-    /* if (getValues("menu") && getValues("menu").length) {
-      const schedule = {};
-      const value = await onSubmit({
-        schedule,
-      });
-      if (value) navigate("/menu/edit/");
-    } else {
-      setMenuNameHelperText(languageState.texts.Errors.NameRequired);
-      const menuInput = document.getElementById("menu");
-      if (menuInput !== null) document.getElementById("menu").focus();
-    } */
+    if (userLogged()) {
+      setLoading(true);
+      try {
+        const parsedSchedule = {};
+        Object.keys(schedule).forEach((item) => {
+          const { type, startTime, endTime } = schedule[item];
+          parsedSchedule[item] = {
+            type,
+            startTime: dayjs(startTime).valueOf(),
+            endTime: dayjs(endTime).valueOf(),
+          };
+        });
+        const response = await saveSchedule(getUserName(), parsedSchedule);
+        if (response.status === 200) {
+          showNotification(
+            "success",
+            languageState.texts.Messages.SaveSuccessful
+          );
+          setSettingsState({
+            type: "set-generals",
+            schedule,
+          });
+          setLoading(false);
+          navigate("/menu/edit/");
+          return true;
+        } else {
+          const { error } = response.data;
+          console.error(error);
+          showNotification("error", languageState.texts.Errors.SomeWrong);
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
+      }
+    }
+    setLoading(false);
+    return false;
   };
 
   const getDaysHeight = useCallback(() => {
