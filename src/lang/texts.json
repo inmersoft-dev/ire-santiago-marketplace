@@ -759,7 +759,8 @@
       "Login": "Sign In",
       "Register": "Sign Up",
       "Edit": "Edit catalog",
-      "Insert": "New Product"
+      "Insert": "New Product",
+      "ApplyTemplate": "Apply"
     },
     "NotFound": {
       "Title": "404 Not Found",
@@ -1811,7 +1812,8 @@
       "Register": "Registrar",
       "Insert": "Nuevo Producto",
       "Edit": "Editar catálogo",
-      "Login": "Iniciar sesión"
+      "Login": "Iniciar sesión",
+      "ApplyTemplate": "Aplicar"
     },
     "NotFound": {
       "Title": "404 No encontrado",

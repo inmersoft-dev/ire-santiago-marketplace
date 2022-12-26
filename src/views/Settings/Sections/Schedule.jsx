@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer, useCallback } from "react";
 
 // @emotion
 import { css } from "@emotion/css";
@@ -11,6 +11,7 @@ import SitoContainer from "sito-container";
 // @mui/material
 import {
   useTheme,
+  useMediaQuery,
   Box,
   Select,
   Button,
@@ -47,6 +48,7 @@ import dayjs from "dayjs";
 
 const Generals = () => {
   const theme = useTheme();
+  const biggerThanMD = useMediaQuery("(min-width:900px)");
   const navigate = useNavigate();
 
   const { languageState } = useLanguage();
@@ -66,13 +68,64 @@ const Generals = () => {
   const [activeDay, setActiveDay] = useState(
     languageState.texts.Settings.Inputs.Schedule.Days[0].id || ""
   );
-  const [everyday, setEveryday] = useState(false);
-  const [scheduleType, setScheduleType] = useState(2);
-  const [startDate, setStartDate] = useState(dayjs());
-  const handleStartDate = (e) => {};
 
-  const [endDate, setEndDate] = useState(dayjs());
-  const handleEndDate = (e) => {};
+  const startDate = dayjs();
+  const endDate = dayjs();
+
+  const createScheduleObject = useCallback(() => {
+    const newDaysState = {};
+    languageState.texts.Settings.Inputs.Schedule.Days.forEach((item) => {
+      newDaysState[item.id] = {
+        startTime: startDate,
+        endDate: endDate,
+        type: 2,
+      };
+    });
+    return newDaysState;
+  }, [languageState]);
+
+  const daysReducer = (daysState, action) => {
+    const { type } = action;
+    switch (type) {
+      case "change-everyday": {
+        const { newValue } = action;
+        return { ...daysState, everyday: newValue };
+      }
+      case "set": {
+        const { newSchedule } = action;
+        return newSchedule;
+      }
+      case "change-schedule-type": {
+        const { activeDay, scheduleType } = action;
+        const newDaysState = { ...daysState };
+        if (daysState[activeDay]) newDaysState[activeDay].type = scheduleType;
+        else newDaysState[activeDay] = { type: scheduleType };
+        return newDaysState;
+      }
+      case "change-start-time": {
+        const { activeDay, newStartTime } = action;
+        const newDaysState = { ...daysState };
+        if (daysState[activeDay])
+          newDaysState[activeDay].startTime = newStartTime;
+        else newDaysState[activeDay] = { startTime: newStartTime };
+        return newDaysState;
+      }
+      case "change-end-time": {
+        const { activeDay, newEndTime } = action;
+        const newDaysState = { ...daysState };
+        if (daysState[activeDay]) newDaysState[activeDay].endTime = newEndTime;
+        else newDaysState[activeDay] = { endTime: newEndTime };
+        return newDaysState;
+      }
+      default:
+        return createScheduleObject();
+    }
+  };
+
+  const [schedule, setSchedule] = useReducer(
+    daysReducer,
+    createScheduleObject()
+  );
 
   const fetch = async () => {
     if (userLogged()) {
@@ -83,11 +136,12 @@ const Generals = () => {
         const data = await response.data;
         if (data) {
           if (data.schedule) {
+            setSchedule({ type: "set", newSchedule: data.schedule });
+            setSettingsState({
+              type: "set-schedule",
+              schedule: data.schedule,
+            });
           }
-          setSettingsState({
-            type: "set-schedule",
-            schedule: data.schedule,
-          });
         }
       } catch (err) {
         console.error(err);
@@ -104,9 +158,8 @@ const Generals = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await saveSchedule(getUserName());
+      const response = await saveSchedule(getUserName(), schedule);
       if (response.status === 200) {
-        const schedule = {};
         showNotification(
           "success",
           languageState.texts.Messages.SaveSuccessful
@@ -131,18 +184,12 @@ const Generals = () => {
   };
 
   const init = () => {
-    const schedule = settingsState.schedule;
+    setSchedule({ type: "set", newSchedule: settingsState.schedule });
     setLoading(false);
   };
 
   useEffect(() => {
-    if (
-      !settingsState.photo ||
-      !settingsState.preview ||
-      !settingsState.business ||
-      !settingsState.menu
-    )
-      retry();
+    if (!settingsState.schedule) retry();
     else init();
   }, []);
 
@@ -160,6 +207,16 @@ const Generals = () => {
     } */
   };
 
+  const getDaysHeight = useCallback(() => {
+    if (biggerThanMD) {
+      if (!schedule.everyday) return "34.39px";
+      else return 0;
+    } else {
+      if (!schedule.everyday) return "79.39px";
+      else return 0;
+    }
+  }, [biggerThanMD, schedule]);
+
   return (
     <form
       onSubmit={onSubmit}
@@ -169,6 +226,7 @@ const Generals = () => {
         visible={loading}
         sx={{
           position: "absolute",
+          borderRadius: 0,
           zIndex: loading ? 99 : -1,
         }}
       />
@@ -182,29 +240,39 @@ const Generals = () => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={everyday}
-                  onChange={() => setEveryday(!everyday)}
+                  checked={schedule.everyday}
+                  onChange={(e) =>
+                    setSchedule({
+                      type: "change-everyday",
+                      newValue: e.target.checked,
+                    })
+                  }
                 />
               }
               label={languageState.texts.Settings.Inputs.Schedule.Everyday}
             />
-            <SitoContainer
+            <Box
               sx={{
-                margin: "10px 0",
                 gap: "10px",
+                display: "flex",
+                margin: "10px 0",
+                flexWrap: "wrap",
+                overflowY: "hidden",
+                transition: "height 400ms ease",
+                height: getDaysHeight(),
               }}
             >
               {languageState.texts.Settings.Inputs.Schedule.Days.map((item) => (
                 <Button
                   key={item.id}
-                  disabled={everyday}
+                  disabled={schedule.everyday}
                   onClick={() => setActiveDay(item.id)}
                   variant={item.id === activeDay ? "contained" : "outlined"}
                 >
                   {item.id}
                 </Button>
               ))}
-            </SitoContainer>
+            </Box>
             <FormControl fullWidth sx={{ marginTop: "10px" }}>
               <InputLabel id="schedule-type">
                 {
@@ -216,13 +284,19 @@ const Generals = () => {
               </InputLabel>
               <Select
                 id="schedule-type"
-                value={scheduleType}
+                value={schedule[activeDay] ? schedule[activeDay].type : 0}
                 label={`${
                   languageState.texts.Settings.Inputs.Schedule.Days.find(
                     (item) => item.id === activeDay
                   ).id
                 }} ${languageState.texts.Settings.Inputs.Schedule.SelectType}`}
-                onChange={(e) => setScheduleType(Number(e.target.value))}
+                onChange={(e) =>
+                  setSchedule({
+                    type: "change-schedule-type",
+                    activeDay,
+                    scheduleType: Number(e.target.value),
+                  })
+                }
               >
                 {languageState.texts.Settings.Inputs.Schedule.Types.map(
                   (item, i) => (
@@ -246,16 +320,38 @@ const Generals = () => {
               }}
             >
               <TimePicker
-                value={startDate}
-                onChange={handleStartDate}
-                disabled={scheduleType !== 2}
+                value={
+                  schedule[activeDay]
+                    ? schedule[activeDay].startTime
+                    : startDate
+                }
+                onChange={(newValue) =>
+                  setSchedule({
+                    type: "change-start-time",
+                    activeDay,
+                    newStartTime: newValue,
+                  })
+                }
+                disabled={
+                  schedule[activeDay] ? schedule[activeDay].type !== 2 : true
+                }
                 renderInput={(params) => <TextField {...params} />}
                 label={languageState.texts.Settings.Inputs.Schedule.Start}
               />
               <TimePicker
-                value={endDate}
-                onChange={handleEndDate}
-                disabled={scheduleType !== 2}
+                value={
+                  schedule[activeDay] ? schedule[activeDay].endTime : endDate
+                }
+                onChange={(newValue) =>
+                  setSchedule({
+                    type: "change-end-time",
+                    activeDay,
+                    newEndTime: newValue,
+                  })
+                }
+                disabled={
+                  schedule[activeDay] ? schedule[activeDay].type !== 2 : true
+                }
                 renderInput={(params) => <TextField {...params} />}
                 label={languageState.texts.Settings.Inputs.Schedule.End}
               />
@@ -266,16 +362,21 @@ const Generals = () => {
             justifyContent="flex-end"
             sx={{ width: "100%", marginTop: "20px" }}
           >
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ marginRight: "10px" }}
-            >
-              {languageState.texts.Buttons.Save}
-            </Button>
-            <Button type="button" variant="outlined" onClick={goToEdit}>
-              {languageState.texts.Buttons.Edit}
-            </Button>
+            {/* <Button variant="contained">
+              {languageState.texts.Buttons.ApplyTemplate}
+            </Button> */}
+            <Box sx={{ display: "flex" }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ marginRight: "10px" }}
+              >
+                {languageState.texts.Buttons.Save}
+              </Button>
+              <Button type="button" variant="outlined" onClick={goToEdit}>
+                {languageState.texts.Buttons.Edit}
+              </Button>
+            </Box>
           </SitoContainer>
         </>
       ) : (
