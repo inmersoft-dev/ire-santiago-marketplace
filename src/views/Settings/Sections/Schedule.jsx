@@ -12,10 +12,14 @@ import SitoContainer from "sito-container";
 import {
   useTheme,
   Box,
+  Select,
   Button,
   Checkbox,
+  MenuItem,
   TextField,
+  InputLabel,
   Typography,
+  FormControl,
   FormControlLabel,
 } from "@mui/material";
 
@@ -59,7 +63,11 @@ const Generals = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [fullTime, setFullTime] = useState(false);
+  const [activeDay, setActiveDay] = useState(
+    languageState.texts.Settings.Inputs.Schedule.Days[0].id || ""
+  );
+  const [everyday, setEveryday] = useState(false);
+  const [scheduleType, setScheduleType] = useState(2);
   const [startDate, setStartDate] = useState(dayjs());
   const handleStartDate = (e) => {};
 
@@ -92,11 +100,13 @@ const Generals = () => {
 
   const retry = () => fetch();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
     try {
       const response = await saveSchedule(getUserName());
       if (response.status === 200) {
+        const schedule = {};
         showNotification(
           "success",
           languageState.texts.Messages.SaveSuccessful
@@ -121,10 +131,7 @@ const Generals = () => {
   };
 
   const init = () => {
-    setPhoto(settingsState.photo);
-    setPreview(settingsState.preview);
-    setTypes(settingsState.business);
-    setOldName(settingsState.menu);
+    const schedule = settingsState.schedule;
     setLoading(false);
   };
 
@@ -140,7 +147,7 @@ const Generals = () => {
   }, []);
 
   const goToEdit = async () => {
-    if (getValues("menu") && getValues("menu").length) {
+    /* if (getValues("menu") && getValues("menu").length) {
       const schedule = {};
       const value = await onSubmit({
         schedule,
@@ -150,12 +157,12 @@ const Generals = () => {
       setMenuNameHelperText(languageState.texts.Errors.NameRequired);
       const menuInput = document.getElementById("menu");
       if (menuInput !== null) document.getElementById("menu").focus();
-    }
+    } */
   };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onSubmit}
       className={css({ width: "100%", position: "relative" })}
     >
       <Loading
@@ -175,15 +182,60 @@ const Generals = () => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={fullTime}
-                  onChange={() => setFullTime(!fullTime)}
+                  checked={everyday}
+                  onChange={() => setEveryday(!everyday)}
                 />
               }
-              label={languageState.texts.Settings.Inputs.Schedule.FullTime}
+              label={languageState.texts.Settings.Inputs.Schedule.Everyday}
             />
             <SitoContainer
               sx={{
-                marginTop: "10px",
+                margin: "10px 0",
+                gap: "10px",
+              }}
+            >
+              {languageState.texts.Settings.Inputs.Schedule.Days.map((item) => (
+                <Button
+                  key={item.id}
+                  disabled={everyday}
+                  onClick={() => setActiveDay(item.id)}
+                  variant={item.id === activeDay ? "contained" : "outlined"}
+                >
+                  {item.id}
+                </Button>
+              ))}
+            </SitoContainer>
+            <FormControl fullWidth sx={{ marginTop: "10px" }}>
+              <InputLabel id="schedule-type">
+                {
+                  languageState.texts.Settings.Inputs.Schedule.Days.find(
+                    (item) => item.id === activeDay
+                  ).id
+                }{" "}
+                {languageState.texts.Settings.Inputs.Schedule.SelectType}
+              </InputLabel>
+              <Select
+                id="schedule-type"
+                value={scheduleType}
+                label={`${
+                  languageState.texts.Settings.Inputs.Schedule.Days.find(
+                    (item) => item.id === activeDay
+                  ).id
+                }} ${languageState.texts.Settings.Inputs.Schedule.SelectType}`}
+                onChange={(e) => setScheduleType(Number(e.target.value))}
+              >
+                {languageState.texts.Settings.Inputs.Schedule.Types.map(
+                  (item, i) => (
+                    <MenuItem value={i} key={item}>
+                      {item}
+                    </MenuItem>
+                  )
+                )}
+              </Select>
+            </FormControl>
+            <SitoContainer
+              sx={{
+                marginTop: "20px",
                 gap: "10px",
                 svg: {
                   color: theme.palette.secondary.main,
@@ -196,12 +248,14 @@ const Generals = () => {
               <TimePicker
                 value={startDate}
                 onChange={handleStartDate}
+                disabled={scheduleType !== 2}
                 renderInput={(params) => <TextField {...params} />}
                 label={languageState.texts.Settings.Inputs.Schedule.Start}
               />
               <TimePicker
                 value={endDate}
                 onChange={handleEndDate}
+                disabled={scheduleType !== 2}
                 renderInput={(params) => <TextField {...params} />}
                 label={languageState.texts.Settings.Inputs.Schedule.End}
               />

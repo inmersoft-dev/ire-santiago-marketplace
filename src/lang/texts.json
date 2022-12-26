@@ -950,7 +950,39 @@
           "Placeholder": "Some description"
         },
         "Schedule": {
-          "FullTime": "Full-Time",
+          "Days": [
+            {
+              "id": "Sun",
+              "name": "Sunday"
+            },
+            {
+              "id": "Mon",
+              "name": "Monday"
+            },
+            {
+              "id": "Tue",
+              "name": "Tuesday"
+            },
+            {
+              "id": "Wed",
+              "name": "Wednesday"
+            },
+            {
+              "id": "Thu",
+              "name": "Thursday"
+            },
+            {
+              "id": "Fri",
+              "name": "Friday"
+            },
+            {
+              "id": "Sat",
+              "name": "Saturday"
+            }
+          ],
+          "SelectType": "Schedule Type",
+          "Types": ["Full Time", "Holiday", "Schedule"],
+          "Everyday": "Everyday",
           "Start": "Start",
           "End": "Close",
           "Title": "Schedule"
@@ -1970,7 +2002,39 @@
           "Placeholder": "Alguna descripción"
         },
         "Schedule": {
-          "FullTime": "24 horas",
+          "Days": [
+            {
+              "id": "Dom",
+              "name": "Domingo"
+            },
+            {
+              "id": "Lun",
+              "name": "Lunes"
+            },
+            {
+              "id": "Mar",
+              "name": "martes"
+            },
+            {
+              "id": "Mie",
+              "name": "Miércoles"
+            },
+            {
+              "id": "Jue",
+              "name": "Jueves"
+            },
+            {
+              "id": "Vie",
+              "name": "Viernes"
+            },
+            {
+              "id": "Sab",
+              "name": "Sábado"
+            }
+          ],
+          "SelectType": "Tipo de horario",
+          "Types": ["24 horas", "Feriado", "Horario"],
+          "Everyday": "Everyday",
           "Start": "Abre",
           "End": "Cierra",
           "Title": "Horario"

@@ -62,7 +62,6 @@ import { saveProfile } from "../../../services/profile";
 import noProduct from "../../../assets/images/no-product.webp";
 
 import config from "../../../config";
-import dayjs from "dayjs";
 
 const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
 
@@ -90,13 +89,6 @@ const Generals = () => {
 
   const [types, setTypes] = useState([]);
   const handleTypes = (event, newValue) => setTypes(newValue);
-
-  const [fullTime, setFullTime] = useState(false);
-  const [startDate, setStartDate] = useState(dayjs());
-  const handleStartDate = (e) => {};
-
-  const [endDate, setEndDate] = useState(dayjs());
-  const handleEndDate = (e) => {};
 
   const { control, handleSubmit, reset, getValues, watch } = useForm({
     defaultValues: {
@@ -472,46 +464,6 @@ const Generals = () => {
               )}
             />
           </SitoContainer>
-          {/* Schedule */}
-          <Box sx={{ marginTop: "10px" }}>
-            <Typography>
-              {languageState.texts.Settings.Inputs.Schedule.Title}
-            </Typography>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={fullTime}
-                  onChange={() => setFullTime(!fullTime)}
-                />
-              }
-              label={languageState.texts.Settings.Inputs.Schedule.FullTime}
-            />
-            <SitoContainer
-              sx={{
-                marginTop: "10px",
-                gap: "10px",
-                svg: {
-                  color: theme.palette.secondary.main,
-                },
-                div: {
-                  flex: 1,
-                },
-              }}
-            >
-              <TimePicker
-                value={startDate}
-                onChange={handleStartDate}
-                renderInput={(params) => <TextField {...params} />}
-                label={languageState.texts.Settings.Inputs.Schedule.Start}
-              />
-              <TimePicker
-                value={endDate}
-                onChange={handleEndDate}
-                renderInput={(params) => <TextField {...params} />}
-                label={languageState.texts.Settings.Inputs.Schedule.End}
-              />
-            </SitoContainer>
-          </Box>
 
           {/* Buttons */}
           <SitoContainer
