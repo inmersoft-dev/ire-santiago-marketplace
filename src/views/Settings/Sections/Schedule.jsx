@@ -144,7 +144,6 @@ const Generals = () => {
             const parsedSchedule = {};
             Object.keys(data.schedule).forEach((item) => {
               const { type, startTime, endTime } = data.schedule[item];
-              console.log(item, new Date(startTime), startTime);
               parsedSchedule[item] = {
                 type,
                 startTime: dayjs(startTime),
@@ -177,14 +176,12 @@ const Generals = () => {
         const parsedSchedule = {};
         Object.keys(schedule).forEach((item) => {
           const { type, startTime, endTime } = schedule[item];
-          console.log(item, new Date(startTime.valueOf()));
           parsedSchedule[item] = {
             type,
             startTime: dayjs(startTime).valueOf(),
             endTime: dayjs(endTime).valueOf(),
           };
         });
-        console.log(parsedSchedule);
         const response = await saveSchedule(getUserName(), parsedSchedule);
         if (response.status === 200) {
           showNotification(
@@ -312,6 +309,7 @@ const Generals = () => {
                 margin: "10px 0",
                 flexWrap: "wrap",
                 overflowY: "hidden",
+                alignItems: "flex-start",
                 transition: "height 400ms ease",
                 height: getDaysHeight(),
               }}

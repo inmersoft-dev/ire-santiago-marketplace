@@ -127,7 +127,6 @@ const Map = () => {
           zIndex: loading ? 99 : -1,
         }}
       />
-      {console.log(error, lat, lng)}
       {!error ? (
         <Box sx={{ width: "100%", height: "100%" }}>
           {lat !== 0 && lng !== 0 ? (

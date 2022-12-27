@@ -2035,7 +2035,7 @@
             }
           ],
           "SelectType": "Tipo de horario",
-          "Types": ["24 horas", "Feriado", "Horario"],
+          "Types": ["24 horas", "No se trabaja", "Horario"],
           "Everyday": "Everyday",
           "Start": "Abre",
           "End": "Cierra",

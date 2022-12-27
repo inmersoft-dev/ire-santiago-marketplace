@@ -102,7 +102,6 @@ const FabButtons = (props) => {
           {isAdminState ? (
             <InViewComponent delay="0.3s">
               <motion.div className={active ? "appear" : "hidden"}>
-                {console.log("hola")}
                 <RegisterNewUser />
               </motion.div>
             </InViewComponent>
