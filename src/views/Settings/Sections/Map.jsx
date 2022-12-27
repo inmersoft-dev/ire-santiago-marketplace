@@ -140,26 +140,10 @@ const Map = () => {
               point={{ lat, lng }}
               onChange={onChangeMap}
               onChangeLat={(e) => {
-                if (
-                  (e.target &&
-                    e.target.value &&
-                    e.target.value.match(
-                      /^-?(?:[1-9]\d{0,2}(?:,\d{3})*|0)(?:\.\d+)?$/
-                    )) ||
-                  String(e).match(/^-?(?:[1-9]\d{0,2}(?:,\d{3})*|0)(?:\.\d+)?$/)
-                )
-                  setLat(e && e.target ? Number(e.target.value) : e);
+                setLat(e && e.target ? Number(e.target.value) : e);
               }}
               onChangeLng={(e) => {
-                if (
-                  (e.target &&
-                    e.target.value &&
-                    e.target.value.match(
-                      /^-?(?:[1-9]\d{0,2}(?:,\d{3})*|0)(?:\.\d+)?$/
-                    )) ||
-                  String(e).match(/^-?(?:[1-9]\d{0,2}(?:,\d{3})*|0)(?:\.\d+)?$/)
-                )
-                  setLng(e && e.target ? Number(e.target.value) : e);
+                setLng(e && e.target ? Number(e.target.value) : e);
               }}
             />
           ) : null}
