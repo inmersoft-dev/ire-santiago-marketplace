@@ -268,6 +268,32 @@ const Generals = () => {
     }
   }, [biggerThanMD, schedule]);
 
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const a = document.body.children;
+      if (a.length === 3) {
+        const paper = a.item(2);
+        paper.classList.add(
+          css({ span: { color: theme.palette.secondary.main } })
+        );
+      }
+    }, 100);
+  }, [open]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const a = document.body.children;
+      if (a.length === 3) {
+        const paper = a.item(2);
+        paper.classList.add(
+          css({ span: { color: theme.palette.secondary.main } })
+        );
+      }
+    }, 500);
+  }, [open]);
+
   return (
     <form
       onSubmit={onSubmit}
@@ -372,6 +398,7 @@ const Generals = () => {
               }}
             >
               <TimePicker
+                onOpen={() => setOpen(!open)}
                 value={
                   schedule[activeDay]
                     ? schedule[activeDay].startTime
@@ -391,6 +418,7 @@ const Generals = () => {
                 label={languageState.texts.Settings.Inputs.Schedule.Start}
               />
               <TimePicker
+                onOpen={() => setOpen(!open)}
                 value={
                   schedule[activeDay] ? schedule[activeDay].endTime : endDate
                 }
