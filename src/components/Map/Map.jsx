@@ -240,7 +240,7 @@ const Map = (props) => {
         transition: "transform 500ms ease",
       }}
     >
-      {!noInputs && (lng || lat) && (
+      {!noInputs && (
         <SitoContainer ignoreDefault className="row">
           <SitoContainer alignItems="center" sx={{ marginBottom: "20px" }}>
             <TextField
