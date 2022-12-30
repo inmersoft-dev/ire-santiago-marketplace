@@ -137,7 +137,7 @@ const Generals = () => {
       setLoading(true);
       setError(false);
       try {
-        const response = await fetchMenu(getUserName());
+        const response = await fetchMenu(getUserName(), ["schedule"]);
         const data = await response.data;
         if (data) {
           if (data.schedule) {

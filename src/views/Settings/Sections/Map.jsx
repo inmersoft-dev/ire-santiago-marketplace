@@ -69,7 +69,7 @@ const Map = () => {
       setLoading(true);
       setError(false);
       try {
-        const response = await fetchMenu(getUserName());
+        const response = await fetchMenu(getUserName(), ["location"]);
         const data = await response.data;
         if (data && data.location) {
           setLng(data.location.longitude);

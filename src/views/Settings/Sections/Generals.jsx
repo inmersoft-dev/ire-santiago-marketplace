@@ -100,7 +100,12 @@ const Generals = () => {
       setLoading(true);
       setError(false);
       try {
-        const response = await fetchMenu(getUserName());
+        const response = await fetchMenu(getUserName(), [
+          "photo",
+          "business",
+          "menu",
+          "phone",
+        ]);
         const data = await response.data;
         if (data) {
           if (data.photo) {

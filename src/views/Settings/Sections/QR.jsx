@@ -57,7 +57,7 @@ const QR = () => {
       setLoading(true);
       setError(false);
       try {
-        const response = await fetchMenu(getUserName());
+        const response = await fetchMenu(getUserName(), ["photo", "menu"]);
         const data = await response.data;
         if (data) {
           setMenu(data.menu);

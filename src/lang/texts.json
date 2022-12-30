@@ -798,7 +798,7 @@
       "Title": "Sign Up"
     },
     "Settings": {
-      "ImageSuggestion": "It is recommended that the logo be a square image",
+      "ImageSuggestion": "Recommended the logo be a square image",
       "Tabs": ["Generals", "Schedule", "Social", "Map", "Security", "QR"],
       "PasswordTitle": "Change password",
       "Qr": "Catalog QR code",

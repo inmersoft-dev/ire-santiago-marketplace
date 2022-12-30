@@ -174,7 +174,11 @@ const Socials = () => {
     if (userLogged()) {
       setLoading(true);
       try {
-        const response = await fetchMenu(getUserName());
+        const response = await fetchMenu(getUserName(), [
+          "menu",
+          "socialMedia",
+          "description",
+        ]);
         const data = await response.data;
         if (data) {
           setMenu(data.menu);
