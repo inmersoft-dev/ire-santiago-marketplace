@@ -1,3 +1,8 @@
+// utils
+import { createCookie, getCookie } from "./auth";
+
+import config from "../config";
+
 export const spaceToDashes = (string) =>
   string.replace(/\s+/g, "-").toLowerCase();
 
@@ -69,4 +74,19 @@ export const getIndexOfByAttribute = (array, attribute, value) => {
   for (let i = 0; i < array.length; i += 1)
     if (array[i][attribute] === value) return i;
   return -1;
+};
+
+export const getUserLanguage = () => {
+  if (getCookie(config.language)) return getCookie(config.language);
+  else {
+    let userLang = navigator.language || navigator.userLanguage;
+    if (userLang.indexOf("en") < 0 && userLang.indexOf("es") < 0)
+      userLang = "en-US";
+    userLang = userLang.split("-")[0];
+    if (userLang) {
+      createCookie(config.language, 730, userLang);
+      return userLang;
+    }
+  }
+  return "en";
 };

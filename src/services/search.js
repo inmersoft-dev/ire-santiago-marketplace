@@ -9,14 +9,14 @@ import { getCookie } from "../utils/auth";
 /**
  *
  * @param {string} text
+ * @param {string[]} models
  * @param {string} attribute
- * @param {string} models
  * @returns
  */
-export const search = async (text, models) => {
+export const search = async (text, models, attribute = "") => {
   const response = await axios.post(
     `${config.apiUrl}search`,
-    { text, models },
+    { text, models, attribute },
     {
       headers: {
         ...getAuth,

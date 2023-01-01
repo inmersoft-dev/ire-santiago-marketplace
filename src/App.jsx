@@ -27,7 +27,8 @@ import Edit from "./views/Menu/Edit";
 import Settings from "./views/Settings/Settings";
 import NotFound from "./views/NotFound/NotFound";
 
-// functions
+// utils
+import { getUserLanguage } from "./utils/functions";
 import { userLogged, logoutUser } from "./utils/auth";
 
 // components
@@ -55,11 +56,7 @@ const App = () => {
 
   useEffect(() => {
     try {
-      let userLang = navigator.language || navigator.userLanguage;
-      if (userLang.indexOf("en") < 0 && userLang.indexOf("es") < 0)
-        userLang = "en-US";
-      if (userLang)
-        setLanguageState({ type: "set", lang: userLang.split("-")[0] });
+      setLanguageState({ type: "set", lang: getUserLanguage() });
     } catch (err) {
       console.error(err);
     }
