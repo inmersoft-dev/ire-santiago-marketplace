@@ -3,14 +3,12 @@
 // @ts-check
 
 import axios from "axios";
-// @ts-ignore
-import { getAuth } from "auth/auth";
 
-// cookies
+// some-javascript-utils
+import { getUserLanguage, getCookie } from "some-javascript-utils/browser";
+
 // @ts-ignore
-// utils
-import { getCookie } from "utils/auth";
-import { getUserLanguage } from "../../utils/functions";
+import { getAuth } from "../../auth/auth";
 
 import config from "../../config";
 

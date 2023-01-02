@@ -15,6 +15,9 @@ import {
   OutlinedInput,
 } from "@mui/material";
 
+// sito components
+import { useNotification } from "sito-mui-notification";
+
 // @mui/icons-material
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
@@ -40,7 +43,6 @@ import { fetchAll } from "../../services/menu.js";
 import { useMode } from "../../context/ModeProvider";
 import { useHistory } from "../../context/HistoryProvider";
 import { useLanguage } from "../../context/LanguageProvider";
-import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { parserAccents } from "../../utils/parser";

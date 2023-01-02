@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 // sito components
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // own components
 import AppBar from "../../components/AppBar/AppBar";
@@ -30,7 +31,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
-import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { userLogged } from "../../utils/auth";

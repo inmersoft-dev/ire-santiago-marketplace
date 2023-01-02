@@ -10,6 +10,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 // sito components
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // own components
 import Error from "../../components/Error/Error";
@@ -34,7 +35,6 @@ import {
 // contexts
 import { useHistory } from "../../context/HistoryProvider";
 import { useLanguage } from "../../context/LanguageProvider";
-import { useNotification } from "../../context/NotificationProvider";
 
 // components
 import OrderModal from "../../components/OrderModal/OrderModal";

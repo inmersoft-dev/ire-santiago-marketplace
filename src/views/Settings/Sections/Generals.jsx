@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { useState, useEffect, useCallback, useReducer } from "react";
 
+// some-javascript-utils
+import { getUserLanguage } from "some-javascript-utils/browser";
+
 // @emotion
 import { css } from "@emotion/css";
 
@@ -12,6 +15,7 @@ import { IKContext, IKUpload } from "imagekitio-react";
 // sito components
 import SitoImage from "sito-image";
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // @mui/material
 import {
@@ -39,7 +43,6 @@ import Loading from "../../../components/Loading/Loading";
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
 import { useSettings } from "../../../context/SettingsProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 // utils
 import {
@@ -48,7 +51,6 @@ import {
   findFirstUpperLetter,
   userLogged,
 } from "../../../utils/auth";
-import { getUserLanguage } from "../../../utils/functions";
 
 // services
 import { search } from "../../../services/search";
@@ -108,12 +110,12 @@ const Generals = () => {
       const response = await search(
         currentType,
         ["placeTypes"],
-        getUserLanguage()
+        getUserLanguage(config.language)
       );
       const { list } = await response;
       const parsedPlaceTypes = list.map((item) => ({
         id: item.data.id,
-        name: item.data[getUserLanguage()],
+        name: item.data[getUserLanguage(config.language)],
       }));
 
       setPlaceTypes({ type: "add", array: parsedPlaceTypes });
@@ -276,7 +278,7 @@ const Generals = () => {
               languageState.texts.Messages.SaveSuccessful
             );
             const parsedTypes = [];
-            const fetchTypes = await placeTypeList(0,1,-1);
+            const fetchTypes = await placeTypeList(0, 1, -1);
             setSettingsState({
               type: "set-generals",
               menu: menu,

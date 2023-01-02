@@ -3,8 +3,8 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 
-// cookies
-import { getCookie } from "../utils/auth";
+// some-javascript-utils
+import { getCookie } from "some-javascript-utils/browser";
 
 /**
  *

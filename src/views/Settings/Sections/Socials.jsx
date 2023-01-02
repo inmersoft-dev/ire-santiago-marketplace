@@ -5,6 +5,7 @@ import { useState, useCallback, useEffect, useReducer } from "react";
 
 // sito components
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // @emotion
 import { css } from "@emotion/css";
@@ -40,7 +41,6 @@ import Loading from "../../../components/Loading/Loading";
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
 import { useSettings } from "../../../context/SettingsProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 // services
 import { fetchMenu } from "../../../services/menu.js";

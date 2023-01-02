@@ -4,8 +4,8 @@ import config from "../config";
 
 import md5 from "md5";
 
-// functions
-import { getCookie } from "../utils/auth";
+// some-javascript-utils
+import { getCookie } from "some-javascript-utils/browser";
 
 /**
  * @param {string} user - the user name

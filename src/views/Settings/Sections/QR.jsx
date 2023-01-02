@@ -2,6 +2,9 @@
 import { QRCode } from "react-qrcode-logo";
 import { useState, useEffect } from "react";
 
+// sito components
+import { useNotification } from "sito-mui-notification";
+
 // @mui/material
 import {
   Box,
@@ -21,7 +24,6 @@ import Loading from "../../../components/Loading/Loading";
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
 import { useSettings } from "../../../context/SettingsProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 // utils
 import { getUserName, userLogged } from "../../../utils/auth";

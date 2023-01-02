@@ -6,6 +6,7 @@ import { css } from "@emotion/css";
 
 // sito components
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // @mui/icons-material
 import Visibility from "@mui/icons-material/Visibility";
@@ -28,7 +29,6 @@ import Loading from "../../../components/Loading/Loading";
 
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 // services
 import { changePassword } from "../../../services/profile";

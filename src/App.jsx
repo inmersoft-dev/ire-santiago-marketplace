@@ -2,11 +2,12 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// some-javascript-utils
+import { getUserLanguage } from "some-javascript-utils/browser";
+
 // sito components
 import SitoContainer from "sito-container";
-
-// own components
-import Notification from "./components/Notification/Notification";
+import NotificationContext from "sito-mui-notification";
 
 // @mui
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -28,7 +29,6 @@ import Settings from "./views/Settings/Settings";
 import NotFound from "./views/NotFound/NotFound";
 
 // utils
-import { getUserLanguage } from "./utils/functions";
 import { userLogged, logoutUser } from "./utils/auth";
 
 // components
@@ -43,6 +43,8 @@ import { SettingsProvider } from "./context/SettingsProvider";
 import { validateBasicKey } from "./services/auth";
 import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 
+import config from "./config";
+
 const App = () => {
   const biggerThanMD = useMediaQuery("(min-width:900px)");
 
@@ -56,7 +58,7 @@ const App = () => {
 
   useEffect(() => {
     try {
-      setLanguageState({ type: "set", lang: getUserLanguage() });
+      setLanguageState({ type: "set", lang: getUserLanguage(config.language) });
     } catch (err) {
       console.error(err);
     }
@@ -96,38 +98,45 @@ const App = () => {
         justifyContent="center"
       >
         <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
-          <Notification />
           <CssBaseline />
-          <BrowserRouter basename={process.env.PUBLIC_URL}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route exact path="/auth/" element={<Login />} />
-              <Route exact path="/auth/register-user" element={<Register />} />
-              <Route exact path="/auth/logout" element={<Logout />} />
-              <Route
-                exact
-                path="/settings/"
-                element={
-                  <SettingsProvider>
-                    <Settings />
-                  </SettingsProvider>
-                }
-              />
-              <Route exact path="/menu/*" element={<Watch />} />
-              <Route exact path="/menu/edit" element={<Edit />} />
-              <Route
-                exact
-                path="/cookie-policy"
-                element={<MUIPrinter text={languageState.texts.CookiePolicy} />}
-              />
-              <Route
-                exact
-                path="/terms-conditions"
-                element={<MUIPrinter text={languageState.texts.Terms} />}
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+          <NotificationContext>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route exact path="/auth/" element={<Login />} />
+                <Route
+                  exact
+                  path="/auth/register-user"
+                  element={<Register />}
+                />
+                <Route exact path="/auth/logout" element={<Logout />} />
+                <Route
+                  exact
+                  path="/settings/"
+                  element={
+                    <SettingsProvider>
+                      <Settings />
+                    </SettingsProvider>
+                  }
+                />
+                <Route exact path="/menu/*" element={<Watch />} />
+                <Route exact path="/menu/edit" element={<Edit />} />
+                <Route
+                  exact
+                  path="/cookie-policy"
+                  element={
+                    <MUIPrinter text={languageState.texts.CookiePolicy} />
+                  }
+                />
+                <Route
+                  exact
+                  path="/terms-conditions"
+                  element={<MUIPrinter text={languageState.texts.Terms} />}
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </NotificationContext>
         </ThemeProvider>
       </SitoContainer>
     </LocalizationProvider>

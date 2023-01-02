@@ -4,6 +4,9 @@ import { useState, useEffect, useCallback } from "react";
 // @mui components
 import { Box } from "@mui/material";
 
+// sito components
+import { useNotification } from "sito-mui-notification";
+
 // components
 import AMap from "../../../components/Map/Map";
 import Error from "../../../components/Error/Error";
@@ -19,7 +22,6 @@ import { getUserName, userLogged } from "../../../utils/auth";
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
 import { useSettings } from "../../../context/SettingsProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 const Map = () => {
   const { languageState } = useLanguage();

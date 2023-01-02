@@ -11438,6 +11438,22 @@ sito-image@0.2.20:
     react-scripts "5.0.1"
     react-shimmer "^3.2.0"
 
+sito-mui-error-component@^0.3.1, sito-mui-error-component@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/sito-mui-error-component/-/sito-mui-error-component-0.3.7.tgz#a995bde106104d7f1be4cc599608fe6463d6cd29"
+  integrity sha512-GqCM2j2TMWVogMh4SZK1PIad+LhaTV7AswaYyJbdresUxJgua5iIk5sFD4QyEd9Gn3rZUrhGDz+ev7pPxjDzNw==
+  dependencies:
+    react-error-boundary "^3.1.4"
+    some-javascript-utils "^0.2.1"
+
+sito-mui-notification@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/sito-mui-notification/-/sito-mui-notification-0.3.1.tgz#abd2c68df42d8666ac18e4eb689a282a44128a7c"
+  integrity sha512-Y+jRnDlv2tMAOvEVD0R1prf6Jv1ys6LSGi7ZFfXytJ0oUiYKlnhdkG7Lz7zou+hT4gPTFXCUtUiiTNFgyKuNvQ==
+  dependencies:
+    react-cool-onclickoutside "^1.7.0"
+    sito-mui-error-component "^0.3.1"
+
 slash@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
@@ -11487,6 +11503,11 @@ socks@^2.3.3, socks@^2.6.2:
   dependencies:
     ip "^2.0.0"
     smart-buffer "^4.2.0"
+
+some-javascript-utils@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/some-javascript-utils/-/some-javascript-utils-0.2.1.tgz#7d6a4ba2ba5a8b18936a58b0cb30f707211198d3"
+  integrity sha512-1Nf0fL8bUyKO4vy6ITnf1Dsumae3fSIkMOYVB4r43VCgY0EdpkcwlpQyjf/kLlrAsz9b4bR+njy/JLVGTnh1Rw==
 
 source-list-map@^2.0.0, source-list-map@^2.0.1:
   version "2.0.1"
