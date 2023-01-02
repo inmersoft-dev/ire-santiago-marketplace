@@ -44,6 +44,7 @@ import { validateBasicKey } from "./services/auth";
 import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 
 import config from "./config";
+import ErrorBoundary from "sito-mui-error-component";
 
 const App = () => {
   const biggerThanMD = useMediaQuery("(min-width:900px)");
@@ -102,12 +103,31 @@ const App = () => {
           <NotificationContext>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route exact path="/auth/" element={<Login />} />
+                <Route
+                  path="/"
+                  element={
+                    <ErrorBoundary>
+                      <Home />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  exact
+                  path="/auth/"
+                  element={
+                    <ErrorBoundary>
+                      <Login />
+                    </ErrorBoundary>
+                  }
+                />
                 <Route
                   exact
                   path="/auth/register-user"
-                  element={<Register />}
+                  element={
+                    <ErrorBoundary>
+                      <Register />
+                    </ErrorBoundary>
+                  }
                 />
                 <Route exact path="/auth/logout" element={<Logout />} />
                 <Route
@@ -119,19 +139,33 @@ const App = () => {
                     </SettingsProvider>
                   }
                 />
-                <Route exact path="/menu/*" element={<Watch />} />
+                <Route
+                  exact
+                  path="/menu/*"
+                  element={
+                    <ErrorBoundary>
+                      <Watch />
+                    </ErrorBoundary>
+                  }
+                />
                 <Route exact path="/menu/edit" element={<Edit />} />
                 <Route
                   exact
                   path="/cookie-policy"
                   element={
-                    <MUIPrinter text={languageState.texts.CookiePolicy} />
+                    <ErrorBoundary>
+                      <MUIPrinter text={languageState.texts.CookiePolicy} />
+                    </ErrorBoundary>
                   }
                 />
                 <Route
                   exact
                   path="/terms-conditions"
-                  element={<MUIPrinter text={languageState.texts.Terms} />}
+                  element={
+                    <ErrorBoundary>
+                      <MUIPrinter text={languageState.texts.Terms} />
+                    </ErrorBoundary>
+                  }
                 />
                 <Route path="*" element={<NotFound />} />
               </Routes>

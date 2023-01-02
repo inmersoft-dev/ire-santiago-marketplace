@@ -4,9 +4,6 @@ import ReactDOM from "react-dom/client";
 import "@fontsource/roboto";
 import "@fontsource/poppins";
 
-// sito components
-import ErrorBoundary from "sito-mui-error-component";
-
 // styles
 import "./index.css";
 
@@ -25,9 +22,7 @@ root.render(
   <LanguageProvider>
     <ModeProvider>
       <HistoryProvider>
-        <ErrorBoundary>
-          <App />
-        </ErrorBoundary>
+        <App />
       </HistoryProvider>
     </ModeProvider>
   </LanguageProvider>
