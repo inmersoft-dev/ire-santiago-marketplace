@@ -100,6 +100,12 @@ const Generals = () => {
         const { newSchedule } = action;
         return newSchedule;
       }
+      case "copy-previous": {
+        const { activeDay, copyFrom } = action;
+        const newDaysState = { ...daysState };
+        newDaysState[activeDay] = { ...newDaysState[copyFrom] };
+        return newDaysState;
+      }
       case "change-schedule-type": {
         const { activeDay, scheduleType } = action;
         const newDaysState = { ...daysState };
@@ -294,6 +300,49 @@ const Generals = () => {
     }, 500);
   }, [open]);
 
+  const [copyState, setCopyState] = useState(false);
+  const [cloning, setCloning] = useState([]);
+
+  const dayButtonVariant = useCallback(
+    (id) => {
+      if (!copyState) return id === activeDay ? "contained" : "outlined";
+      else if (cloning.indexOf(id) >= 0) return "contained";
+      else return "outlined";
+    },
+    [activeDay, cloning, copyState]
+  );
+
+  useEffect(() => {
+    if (copyState) {
+      showNotification(
+        "info",
+        languageState.texts.Information.CreateScheduleTemplate
+      );
+      setCloning([activeDay]);
+    } else setCloning([]);
+  }, [copyState]);
+
+  const dayAction = useCallback(
+    (e) => {
+      const { id } = e.target;
+      const parsedId = id.split("-")[1] || 1;
+      if (copyState) {
+        setSchedule({
+          type: "copy-previous",
+          activeDay: parsedId,
+          copyFrom: activeDay,
+        });
+        const index = cloning.indexOf(parsedId);
+        if (index >= 0) {
+          cloning.splice(index, 1);
+          setCloning([...cloning]);
+        } else setCloning([...cloning, parsedId]);
+      }
+      setActiveDay(parsedId);
+    },
+    [copyState, cloning]
+  );
+
   return (
     <form
       onSubmit={onSubmit}
@@ -343,11 +392,12 @@ const Generals = () => {
               {languageState.texts.Settings.Inputs.Schedule.Days.map((item) => (
                 <Button
                   key={item.id}
+                  id={`day-${item.id}`}
                   disabled={schedule.everyday}
-                  onClick={() => setActiveDay(item.id)}
-                  variant={item.id === activeDay ? "contained" : "outlined"}
+                  onClick={dayAction}
+                  variant={dayButtonVariant(item.id)}
                 >
-                  {item.id}
+                  {item.tag}
                 </Button>
               ))}
             </Box>
@@ -356,7 +406,7 @@ const Generals = () => {
                 {
                   languageState.texts.Settings.Inputs.Schedule.Days.find(
                     (item) => item.id === activeDay
-                  ).id
+                  ).tag
                 }{" "}
                 {languageState.texts.Settings.Inputs.Schedule.SelectType}
               </InputLabel>
@@ -439,12 +489,17 @@ const Generals = () => {
           </Box>
           {/* Buttons */}
           <SitoContainer
-            justifyContent="flex-end"
+            justifyContent="space-between"
             sx={{ width: "100%", marginTop: "20px" }}
           >
-            {/* <Button variant="contained">
-              {languageState.texts.Buttons.ApplyTemplate}
-            </Button> */}
+            <Button
+              variant="contained"
+              onClick={() => setCopyState(!copyState)}
+            >
+              {!copyState
+                ? languageState.texts.Buttons.ApplyTemplate
+                : languageState.texts.Buttons.EndTemplate}
+            </Button>
             <Box sx={{ display: "flex" }}>
               <Button
                 type="submit"

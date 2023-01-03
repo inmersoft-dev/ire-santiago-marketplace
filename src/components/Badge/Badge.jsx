@@ -1,15 +1,18 @@
 import PropTypes from "prop-types";
 
 // @mui/material
-import { Box, Tooltip } from "@mui/material";
+import { Box, Tooltip, useTheme } from "@mui/material";
 
 // @mui/icons-material
 
-import ErrorIcon from "@mui/icons-material/Error";
-import WarningIcon from "@mui/icons-material/Warning";
+import CancelIcon from "@mui/icons-material/Cancel";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 
+// styles
+import "./styles.css";
+
 const Badge = (props) => {
+  const theme = useTheme();
   const { type, text } = props;
 
   return (
@@ -18,21 +21,31 @@ const Badge = (props) => {
         position: "absolute",
         top: 0,
         right: 0,
+        background: theme.palette.secondary.main,
+        borderRadius: "100%",
+        height: "18px",
+        width: "16px",
       }}
     >
       {type === "info" ? (
         <Tooltip title={text}>
-          <NewReleasesIcon color={type} />
+          <NewReleasesIcon
+            sx={{ marginLeft: "-4px", marginTop: "-3px" }}
+            color={type}
+          />
         </Tooltip>
       ) : null}
       {type === "warning" ? (
         <Tooltip title={text}>
-          <WarningIcon color={type} />
+          <NewReleasesIcon
+            sx={{ marginLeft: "-4px", marginTop: "-3px" }}
+            color={type}
+          />
         </Tooltip>
       ) : null}
       {type === "error" ? (
         <Tooltip title={text}>
-          <ErrorIcon color={type} />
+          <CancelIcon color={type} />
         </Tooltip>
       ) : null}
     </Box>
@@ -40,7 +53,7 @@ const Badge = (props) => {
 };
 
 Badge.defaultProps = {
-  type: "error",
+  type: "warning",
   text: "text",
 };
 

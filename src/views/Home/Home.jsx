@@ -172,12 +172,21 @@ const Home = () => {
     return `${returnHeight}px`;
   }, [biggerThanMD, showSearch, showFilters, showHistory]);
 
+  const [page, setPage] = useState(1);
+
   const fetch = async () => {
     setLoading(1);
     setError(false);
     try {
-      const response = await fetchAll();
+      const response = await fetchAll("visits", page, page * 20, [
+        "user",
+        "menu",
+        "photo",
+        "state",
+        "description",
+      ]);
       const data = await response.data;
+      console.log(data);
       if (data && data.users) {
         const arrayData = Object.values(data.users);
         setList(arrayData.filter((item) => item.photo));

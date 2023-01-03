@@ -767,12 +767,16 @@
       "Register": "Sign Up",
       "Edit": "Edit catalog",
       "Insert": "New Product",
-      "ApplyTemplate": "Apply"
+      "ApplyTemplate": "Create Template",
+      "EndTemplate": "End Template"
     },
     "NotFound": {
       "Title": "404 Not Found",
       "Description": "The page you are looking for cannot be found or has been removed",
       "Link": "Go back"
+    },
+    "Information": {
+      "CreateScheduleTemplate": "Select the days to apply the same schedule"
     },
     "Errors": {
       "NotConnected": "No connected to the server",
@@ -870,31 +874,38 @@
         "Schedule": {
           "Days": [
             {
-              "id": "Sun",
+              "id": "0",
+              "tag": "Sun",
               "name": "Sunday"
             },
             {
-              "id": "Mon",
+              "id": "1",
+              "tag": "Mon",
               "name": "Monday"
             },
             {
-              "id": "Tue",
+              "id": "2",
+              "tag": "Tue",
               "name": "Tuesday"
             },
             {
-              "id": "Wed",
+              "id": "3",
+              "tag": "Wed",
               "name": "Wednesday"
             },
             {
-              "id": "Thu",
+              "id": "4",
+              "tag": "Thu",
               "name": "Thursday"
             },
             {
-              "id": "Fri",
+              "id": "5",
+              "tag": "Fri",
               "name": "Friday"
             },
             {
-              "id": "Sat",
+              "id": "6",
+              "tag": "Sat",
               "name": "Saturday"
             }
           ],
@@ -1737,12 +1748,16 @@
       "Insert": "Nuevo Producto",
       "Edit": "Editar catálogo",
       "Login": "Iniciar sesión",
-      "ApplyTemplate": "Aplicar"
+      "ApplyTemplate": "Crear Plantilla",
+      "EndTemplate": "Cerrar Plantilla"
     },
     "NotFound": {
       "Title": "404 No encontrado",
       "Description": "La página que buscas no se encuentra o ha sido eliminada",
       "Link": "Retornar al inicio"
+    },
+    "Information": {
+      "CreateScheduleTemplate": "Selecciona los días para aplicar el mismo horario"
     },
     "Errors": {
       "NotConnected": "No tienes conexión con el servidor",
@@ -1840,31 +1855,38 @@
         "Schedule": {
           "Days": [
             {
-              "id": "Dom",
+              "id": "0",
+              "tag": "Dom",
               "name": "Domingo"
             },
             {
-              "id": "Lun",
+              "id": "1",
+              "tag": "Lun",
               "name": "Lunes"
             },
             {
-              "id": "Mar",
+              "id": "2",
+              "tag": "Mar",
               "name": "martes"
             },
             {
-              "id": "Mie",
+              "id": "3",
+              "tag": "Mie",
               "name": "Miércoles"
             },
             {
-              "id": "Jue",
+              "id": "4",
+              "tag": "Jue",
               "name": "Jueves"
             },
             {
-              "id": "Vie",
+              "id": "5",
+              "tag": "Vie",
               "name": "Viernes"
             },
             {
-              "id": "Sab",
+              "id": "6",
+              "tag": "Sab",
               "name": "Sábado"
             }
           ],

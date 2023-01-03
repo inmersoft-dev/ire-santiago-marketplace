@@ -31,6 +31,7 @@ import {
   sendVisitCookie,
   sendDescriptionCookie,
 } from "../../services/analytics";
+import { placeTypeList } from "../../services/placeTypes/get";
 
 // contexts
 import { useHistory } from "../../context/HistoryProvider";
@@ -196,7 +197,14 @@ const Watch = () => {
         setMenu(data.menu);
         setDescription(data.description);
         setPhone(data.phone);
-        setBusiness(data.business);
+        if (data.business) {
+          const query = {};
+          data.business.forEach((item) => (query[item] = item));
+          const responsePlaceTypes = await placeTypeList(0, 1, -1, "id", query);
+          const { list } = responsePlaceTypes;
+          if (list) setBusiness(list);
+        }
+
         setSocialMedia(data.socialMedia);
         if (data.location) setGeoLocation(data.location);
         setProductTypes({

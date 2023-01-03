@@ -72,7 +72,7 @@ const LinkCard = (props) => {
                 borderRadius: biggerThanMD ? "1rem 1rem 0 0" : "100%",
               }}
             />
-            <Badge />
+            {/* <Badge /> */}
 
             {item.name && item.menu && item.name !== item.menu ? (
               <Box
