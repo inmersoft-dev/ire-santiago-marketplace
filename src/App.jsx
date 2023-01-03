@@ -7,6 +7,7 @@ import { getUserLanguage } from "some-javascript-utils/browser";
 
 // sito components
 import SitoContainer from "sito-container";
+import ErrorBoundary from "sito-mui-error-component";
 import NotificationContext from "sito-mui-notification";
 
 // @mui
@@ -44,7 +45,6 @@ import { validateBasicKey } from "./services/auth";
 import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 
 import config from "./config";
-import ErrorBoundary from "sito-mui-error-component";
 
 const App = () => {
   const biggerThanMD = useMediaQuery("(min-width:900px)");
@@ -129,7 +129,15 @@ const App = () => {
                     </ErrorBoundary>
                   }
                 />
-                <Route exact path="/auth/logout" element={<Logout />} />
+                <Route
+                  exact
+                  path="/auth/logout"
+                  element={
+                    <ErrorBoundary>
+                      <Logout />
+                    </ErrorBoundary>
+                  }
+                />
                 <Route
                   exact
                   path="/settings/"
@@ -148,7 +156,15 @@ const App = () => {
                     </ErrorBoundary>
                   }
                 />
-                <Route exact path="/menu/edit" element={<Edit />} />
+                <Route
+                  exact
+                  path="/menu/edit"
+                  element={
+                    <ErrorBoundary>
+                      <Edit />
+                    </ErrorBoundary>
+                  }
+                />
                 <Route
                   exact
                   path="/cookie-policy"
@@ -167,7 +183,14 @@ const App = () => {
                     </ErrorBoundary>
                   }
                 />
-                <Route path="*" element={<NotFound />} />
+                <Route
+                  path="*"
+                  element={
+                    <ErrorBoundary>
+                      <NotFound />
+                    </ErrorBoundary>
+                  }
+                />
               </Routes>
             </BrowserRouter>
           </NotificationContext>
