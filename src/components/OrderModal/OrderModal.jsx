@@ -235,7 +235,6 @@ const OrderModal = (props) => {
           background: theme.palette.background.paper,
         }}
       >
-        {console.log("pinga phone", phone)}
         <a
           href={`https://wa.me/${phone.replace(
             /\s/g,

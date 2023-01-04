@@ -184,6 +184,7 @@ const Watch = () => {
   const [photo, setPhoto] = useState("");
   const [description, setDescription] = useState("");
   const [geolocation, setGeoLocation] = useState({});
+  const [schedule, setSchedule] = useState({});
 
   const fetch = async () => {
     setLoading(1);
@@ -205,6 +206,7 @@ const Watch = () => {
           if (list) setBusiness(list);
         }
 
+        if (data.schedule) setSchedule(data.schedule);
         setSocialMedia(data.socialMedia);
         if (data.location) setGeoLocation(data.location);
         setProductTypes({
@@ -387,6 +389,7 @@ const Watch = () => {
       ) : (
         <>
           <WatchAppBar productTypes={productTypes} hasProducts={hasProducts} />
+
           <MainContent
             menu={menu}
             phone={phone}
@@ -395,6 +398,7 @@ const Watch = () => {
             socialMedia={socialMedia}
             description={description}
             geolocation={geolocation}
+            schedule={schedule}
           />
           {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}

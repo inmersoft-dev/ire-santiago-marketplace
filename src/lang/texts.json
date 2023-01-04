@@ -758,6 +758,7 @@
       "ToSettings": "Settings",
       "ToLogout": "Sign out",
       "ToTop": "Go top",
+      "Schedule": "Schedule",
       "RegisterNewUser": "Sign up new user"
     },
     "Buttons": {
@@ -1739,6 +1740,7 @@
       "ToSettings": "Ajustes",
       "ToLogout": "Cerrar sesión",
       "ToTop": "Ir arriba",
+      "Schedule": "Horario",
       "RegisterNewUser": "Registrar nuevo usuario"
     },
     "Buttons": {

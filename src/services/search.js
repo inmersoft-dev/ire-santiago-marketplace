@@ -4,19 +4,27 @@ import { getAuth } from "../auth/auth";
 import config from "../config";
 
 // some-javascript-utils
-import { getCookie } from "some-javascript-utils/browser";
+import { getCookie, getUserLanguage } from "some-javascript-utils/browser";
 
 /**
  *
  * @param {string} text
  * @param {string[]} models
  * @param {string} attribute
+ * @param {number} page
+ * @param {number} count
  * @returns
  */
-export const search = async (text, models, attribute = "") => {
+export const search = async (
+  text,
+  models,
+  attribute = "",
+  page = 1,
+  count = 10
+) => {
   const response = await axios.post(
     `${config.apiUrl}search`,
-    { text, models, attribute },
+    { text, models, attribute, page, count, lang: getUserLanguage() },
     {
       headers: {
         ...getAuth,

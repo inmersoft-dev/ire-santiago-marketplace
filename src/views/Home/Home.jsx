@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback, useReducer } from "react";
+import { useState, useEffect, useCallback, useReducer, useRef } from "react";
 import { useLocation } from "react-router-dom";
+
+// framer-motion
+import { useInView } from "framer-motion";
 
 // @mui components
 import {
@@ -59,6 +62,9 @@ const Home = () => {
   const biggerThanMD = useMediaQuery("(min-width:900px)");
   const location = useLocation();
 
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+
   const { languageState } = useLanguage();
   const { modeState, setModeState } = useMode();
 
@@ -80,11 +86,29 @@ const Home = () => {
       message,
     });
 
-  const [loading, setLoading] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(false);
 
-  const [, setAllData] = useState([]);
-  const [list, setList] = useState([]);
+  const [allData, setAllData] = useState([]);
+
+  const listReducer = (listState, action) => {
+    const { type } = action;
+    switch (type) {
+      case "add": {
+        const { newUsers } = action;
+        return [
+          ...listState,
+          ...newUsers.filter(
+            (item) => !listState.find((jtem) => item.user === jtem.user)
+          ),
+        ];
+      }
+      default:
+        return [];
+    }
+  };
+  const [list, setList] = useReducer(listReducer, []);
 
   const searchResultReducer = (searchResultState, action) => {
     const { type } = action;
@@ -174,11 +198,10 @@ const Home = () => {
 
   const [page, setPage] = useState(1);
 
-  const fetch = async () => {
-    setLoading(1);
+  const fetch = async (currentPage) => {
     setError(false);
     try {
-      const response = await fetchAll("visits", page, page * 20, [
+      const response = await fetchAll("visits", currentPage, 3, [
         "user",
         "menu",
         "photo",
@@ -186,54 +209,73 @@ const Home = () => {
         "description",
       ]);
       const data = await response.data;
-      console.log(data);
       if (data && data.users) {
-        const arrayData = Object.values(data.users);
-        setList(arrayData.filter((item) => item.photo));
-        setAllData(Object.keys(data.users));
+        const { users, totalPages } = data;
+        setHasMore(currentPage < totalPages);
+        const arrayData = Object.values(users);
+        setList({
+          type: "add",
+          newUsers: arrayData.filter((item) => item.photo),
+        });
+        setAllData([...allData, Object.keys(users)]);
       }
-      setLoading(0);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
       setError(true);
-      setLoading(-1);
+      setHasMore(false);
     }
   };
 
-  const retry = () => fetch();
-
   useEffect(() => {
-    retry();
-  }, []);
+    if (isInView) setPage(page + 1);
+  }, [isInView]);
 
   const [toSearch, setToSearch] = useState("");
 
   const clearInput = () => setToSearch("");
 
-  const filter = useCallback(async () => {
-    setLoading(1);
-    setError(false);
-    try {
-      const response = await search(toSearch, {
-        searchingProducts,
-        searchingCategories,
-        searchingMenus,
-      });
-      const data = await response.list;
-      setSearchResult({ type: "set", newArray: data });
-      setLoading(0);
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
-      setError(true);
-      setLoading(-1);
-    }
-  }, [toSearch, historyState]);
+  const filter = useCallback(
+    async (currentPage) => {
+      setLoading(true);
+      setError(false);
+      try {
+        const response = await search(
+          toSearch,
+          {
+            searchingProducts,
+            searchingCategories,
+            searchingMenus,
+          },
+          "",
+          currentPage,
+          currentPage * 10
+        );
+        const { list, totalPages } = await response;
+        setHasMore(currentPage < totalPages);
+        setSearchResult({ type: "set", newArray: list });
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
+        setError(true);
+        setLoading(false);
+      }
+    },
+    [toSearch, historyState]
+  );
 
   useEffect(() => {
-    if (toSearch.length) filter();
+    if (toSearch.length) {
+      filter(0);
+      setPage(0);
+    }
   }, [toSearch, searchingProducts, searchingCategories, searchingMenus]);
+
+  useEffect(() => {
+    if (toSearch.length) filter(page);
+    else fetch(page);
+  }, [page]);
 
   const handleToSearch = (e) => setToSearch(e.target.value);
 
@@ -540,10 +582,11 @@ const Home = () => {
             />
           </Box>
         </Box>
-        {error && loading === -1 && <Error onRetry={retry} />}
-        {list.length === 0 && !loading && (
+        {error && loading === -1 && <Error onRetry={() => fetch()} />}
+        {list.length === 0 && !loading && !hasMore && (
           <Empty text={languageState.texts.Errors.NoMenu} />
         )}
+
         <Box
           position="relative"
           sx={{
@@ -553,15 +596,15 @@ const Home = () => {
           }}
         >
           <Loading
-            visible={loading === 1}
+            visible={loading}
             sx={{
               height: "100px",
               background: "none",
               position: "absolute",
-              zIndex: loading === 1 ? 10 : -1,
+              zIndex: loading ? 10 : -1,
             }}
           />
-          {!error && list.length > 0 && loading === 0 && (
+          {!error && list.length > 0 && !loading && (
             <Box
               sx={{
                 ...responsiveGrid,
@@ -641,6 +684,16 @@ const Home = () => {
               )}
             </Box>
           )}
+          <div ref={ref}>
+            <Loading
+              visible={hasMore}
+              sx={{
+                height: "100px",
+                background: "none",
+                position: "inherit",
+              }}
+            />
+          </div>
         </Box>
       </Box>
     </Box>

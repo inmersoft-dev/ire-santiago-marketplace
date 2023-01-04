@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import PropTypes from "prop-types";
 
 // @mui/material
@@ -15,11 +17,13 @@ import {
 import MapIcon from "@mui/icons-material/Map";
 import EditIcon from "@mui/icons-material/Edit";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 
 // sito-components
 import SitoImage from "sito-image";
 
 // components
+import Schedule from "../../../components/Schedule/Schedule";
 import InViewComponent from "../../../components/InViewComponent/InViewComponent";
 import BusinessCategories from "../../../components/BusinessCategories/BusinessCategories";
 
@@ -55,12 +59,15 @@ const MainContent = (props) => {
     onAction,
     description,
     geolocation,
+    schedule,
     socialMedia,
   } = props;
 
   const { languageState } = useLanguage();
 
   const clickedMap = () => sendHowToGoCookie();
+
+  const [showSchedule, setShowSchedule] = useState(false);
 
   return (
     <Box sx={mainContent}>
@@ -148,6 +155,18 @@ const MainContent = (props) => {
             </Tooltip>
           </InViewComponent>
         ) : null}
+        {schedule ? (
+          <InViewComponent delay={`${parseI(0.1, socialMedia.length + 1)}s`}>
+            <Tooltip title={languageState.texts.Tooltips.Schedule}>
+              <IconButton
+                color="primary"
+                onClick={() => setShowSchedule(!showSchedule)}
+              >
+                <AccessAlarmIcon />
+              </IconButton>
+            </Tooltip>
+          </InViewComponent>
+        ) : null}
       </Box>
       {editing ? (
         <Box sx={{ marginTop: "20px" }}>
@@ -156,6 +175,16 @@ const MainContent = (props) => {
           </Button>
         </Box>
       ) : null}
+      <Box
+        sx={{
+          height: showSchedule ? "100.39px" : 0,
+          width: "100%",
+          overflow: "hidden",
+          transition: "all 200ms ease",
+        }}
+      >
+        <Schedule schedule={schedule} />
+      </Box>
     </Box>
   );
 };
@@ -179,6 +208,7 @@ MainContent.propTypes = {
     lat: PropTypes.number,
     lng: PropTypes.number,
   }).isRequired,
+  schedule: PropTypes.object.isRequired,
   editing: PropTypes.bool,
   onAction: PropTypes.func.isRequired,
 };

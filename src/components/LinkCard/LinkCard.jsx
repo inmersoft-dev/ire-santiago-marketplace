@@ -23,11 +23,11 @@ import {
   productImageBox,
   productPaper,
 } from "../../assets/styles/styles";
-import Badge from "../Badge/Badge";
+/* import Badge from "../Badge/Badge"; */
 
 const LinkCard = (props) => {
   const { item, link, onClick, sx } = props;
-  console.log(item);
+
   const theme = useTheme();
   const biggerThanMD = useMediaQuery("(min-width:900px)");
 
