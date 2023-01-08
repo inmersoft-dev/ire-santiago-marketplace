@@ -1,6 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
-
+const Dotenv = require("dotenv-webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -90,8 +90,34 @@ module.exports = {
       manifest: "./public/manifest.json",
       logo192: "./public/logo192.png",
     }),
-    new webpack.ProvidePlugin({
-      process: "process/browser",
+    new Dotenv({
+      path: "./.env", // Path to .env file (this is the default)
+      safe: true, // load .env.example (defaults to "false" which does not use dotenv-safe)
     }),
+    new webpack.EnvironmentPlugin([
+      "REACT_APP_URL",
+      "REACT_APP_API_URL",
+      "REACT_APP_LANGUAGE",
+      "REACT_APP_BASIC_KEY",
+      "REACT_APP_ACCEPT_COOKIE",
+      "REACT_APP_DECLINE_COOKIE",
+      "REACT_APP_VISIT_COOKIE",
+      "REACT_APP_DESCRIPTION_COOKIE",
+      "REACT_APP_VIEW_COOKIE",
+      "REACT_APP_HOW_TO_GO",
+      "REACT_APP_ORDER_COOKIE",
+      "REACT_APP_MAPBOX_API",
+      "REACT_APP_IMAGEKIT_URL",
+      "REACT_APP_IMAGEKIT_PUBLIC_KEY",
+      "REACT_APP_IMAGEKIT_AUTH_URL",
+      "REACT_APP_IMAGEKIT_DELETE_URL",
+      "REACT_APP_FIREBASE_API_KEY",
+      "REACT_APP_FIREBASE_AUTH_DOMAIN",
+      "REACT_APP_FIREBASE_PROJECT_ID",
+      "REACT_APP_FIREBASE_STORAGE_BUCKET",
+      "REACT_APP_FIREBASE_MESSAGING_SENDER_ID",
+      "REACT_APP_FIREBASE_APP_ID",
+      "REACT_APP_FIREBASE_MEASUREMENT_ID",
+    ]),
   ],
 };

@@ -2,7 +2,6 @@
   "name": "marketplace-ire-a-santiago",
   "version": "1.14.3",
   "private": false,
-  
   "homepage": "https://digitalmenu-bb1a1.web.app/",
   "dependencies": {
     "@emotion/css": "^11.9.0",
@@ -33,7 +32,8 @@
     "sito-image": "^0.13.2",
     "sito-mui-error-component": "^0.3.9",
     "sito-mui-notification": "^0.3.1",
-    "some-javascript-utils": "^0.2.1"
+    "some-javascript-utils": "^0.2.1",
+    "webpack": "^5.75.0"
   },
   "scripts": {
     "start": "env-cmd -f .env react-app-rewired start",
@@ -56,6 +56,11 @@
       "react-app/jest"
     ]
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -76,16 +81,17 @@
     "babel-plugin-import": "^1.13.6",
     "css-loader": "^6.7.3",
     "customize-cra": "^1.0.0",
+    "dotenv": "^16.0.3",
+    "dotenv-webpack": "^8.0.1",
     "file-loader": "^6.2.0",
     "firebase-tools": "^11.20.0",
     "html-webpack-plugin": "^5.5.0",
     "process": "^0.11.10",
     "react-app-rewired": "^2.2.1",
+    "react-error-overlay": "6.0.9",
     "sass-loader": "^13.2.0",
     "serve": "^14.1.2",
     "style-loader": "^3.3.1",
-    "webp-loader": "^0.6.0",
-    "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   }
