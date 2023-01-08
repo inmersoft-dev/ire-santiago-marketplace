@@ -1,9 +1,9 @@
 // @mui/material
-import { useTheme, Box, Typography, IconButton } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Box, Typography, IconButton } from "@mui/material";
 
 // @mui/icons-material
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
+import { DarkMode, LightMode } from "@mui/icons-material";
 
 // components
 import BackButton from "../BackButton/BackButton";
@@ -52,7 +52,7 @@ const AppBar = () => {
         color="inherit"
         onClick={toggleMode}
       >
-        {modeState.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+        {modeState.mode === "light" ? <DarkMode /> : <LightMode />}
       </IconButton>
     </Box>
   );

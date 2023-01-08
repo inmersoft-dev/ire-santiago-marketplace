@@ -10,8 +10,8 @@ import PropTypes from "prop-types";
 import { useNotification } from "sito-mui-notification";
 
 // @mui/material
+import { useTheme } from "@mui/material/styles";
 import {
-  useTheme,
   useMediaQuery,
   Box,
   Button,
@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 
 // @mui/icons-material
-import CloseIcon from "@mui/icons-material/Close";
+import { Close } from "@mui/icons-material";
 
 // components
 import Map from "../Map/Map";
@@ -249,7 +249,7 @@ const OrderModal = (props) => {
           color="error"
           onClick={onShowOff}
         >
-          <CloseIcon />
+          <Close />
         </IconButton>
         <Box
           sx={{

@@ -1,12 +1,11 @@
 import PropTypes from "prop-types";
 
 // @mui/material
-import { Box, Tooltip, useTheme } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 // @mui/icons-material
-
-import CancelIcon from "@mui/icons-material/Cancel";
-import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import { Cancel, NewReleases } from "@mui/icons-material";
 
 // styles
 import "./styles.css";
@@ -29,7 +28,7 @@ const Badge = (props) => {
     >
       {type === "info" ? (
         <Tooltip title={text}>
-          <NewReleasesIcon
+          <NewReleases
             sx={{ marginLeft: "-4px", marginTop: "-3px" }}
             color={type}
           />
@@ -37,7 +36,7 @@ const Badge = (props) => {
       ) : null}
       {type === "warning" ? (
         <Tooltip title={text}>
-          <NewReleasesIcon
+          <NewReleases
             sx={{ marginLeft: "-4px", marginTop: "-3px" }}
             color={type}
           />
@@ -45,7 +44,7 @@ const Badge = (props) => {
       ) : null}
       {type === "error" ? (
         <Tooltip title={text}>
-          <CancelIcon color={type} />
+          <Cancel color={type} />
         </Tooltip>
       ) : null}
     </Box>

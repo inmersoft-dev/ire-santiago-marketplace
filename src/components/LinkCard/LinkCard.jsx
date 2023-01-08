@@ -6,7 +6,8 @@ import PropTypes from "prop-types";
 import { css } from "@emotion/css";
 
 // @mui/material
-import { useMediaQuery, useTheme, Paper, Box, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery, Paper, Box, Typography } from "@mui/material";
 
 // sito components
 import SitoImage from "sito-image";

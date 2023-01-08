@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // some-javascript-utils
@@ -11,28 +11,22 @@ import ErrorBoundary from "sito-mui-error-component";
 import NotificationContext from "sito-mui-notification";
 
 // @mui
+
+import { useMediaQuery, CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useMediaQuery, ThemeProvider, CssBaseline } from "@mui/material";
+
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 // themes
 import dark from "./assets/theme/dark";
 import light from "./assets/theme/light";
 
-// views
-import Home from "./views/Home/Home";
-import Login from "./views/Auth/Login";
-import Logout from "./views/Auth/Logout";
-import Register from "./views/Auth/Register";
-import Watch from "./views/Menu/Watch";
-import Edit from "./views/Menu/Edit";
-import Settings from "./views/Settings/Settings";
-import NotFound from "./views/NotFound/NotFound";
-
 // utils
 import { userLogged, logoutUser } from "./utils/auth";
 
 // components
+import BigLoading from "./components/Loading/BigLoading";
 import MUIPrinter from "./components/MUIPrinter/MUIPrinter";
 
 // contexts
@@ -45,6 +39,16 @@ import { validateBasicKey } from "./services/auth";
 import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 
 import config from "./config";
+
+// views
+const Home = lazy(() => import("./views/Home/Home"));
+const Login = lazy(() => import("./views/Auth/Login"));
+const Logout = lazy(() => import("./views/Auth/Logout"));
+const Register = lazy(() => import("./views/Auth/Register"));
+const Watch = lazy(() => import("./views/Menu/Watch"));
+const Edit = lazy(() => import("./views/Menu/Edit"));
+const Settings = lazy(() => import("./views/Settings/Settings"));
+const NotFound = lazy(() => import("./views/NotFound/NotFound"));
 
 const App = () => {
   const biggerThanMD = useMediaQuery("(min-width:900px)");
@@ -102,96 +106,98 @@ const App = () => {
           <CssBaseline />
           <NotificationContext>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <ErrorBoundary>
-                      <Home />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route
-                  exact
-                  path="/auth/"
-                  element={
-                    <ErrorBoundary>
-                      <Login />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route
-                  exact
-                  path="/auth/register-user"
-                  element={
-                    <ErrorBoundary>
-                      <Register />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route
-                  exact
-                  path="/auth/logout"
-                  element={
-                    <ErrorBoundary>
-                      <Logout />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route
-                  exact
-                  path="/settings/"
-                  element={
-                    <SettingsProvider>
-                      <Settings />
-                    </SettingsProvider>
-                  }
-                />
-                <Route
-                  exact
-                  path="/menu/*"
-                  element={
-                    <ErrorBoundary>
-                      <Watch />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route
-                  exact
-                  path="/menu/edit"
-                  element={
-                    <ErrorBoundary>
-                      <Edit />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route
-                  exact
-                  path="/cookie-policy"
-                  element={
-                    <ErrorBoundary>
-                      <MUIPrinter text={languageState.texts.CookiePolicy} />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route
-                  exact
-                  path="/terms-conditions"
-                  element={
-                    <ErrorBoundary>
-                      <MUIPrinter text={languageState.texts.Terms} />
-                    </ErrorBoundary>
-                  }
-                />
-                <Route
-                  path="*"
-                  element={
-                    <ErrorBoundary>
-                      <NotFound />
-                    </ErrorBoundary>
-                  }
-                />
-              </Routes>
+              <Suspense fallback={<BigLoading />}>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <ErrorBoundary>
+                        <Home />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/auth/"
+                    element={
+                      <ErrorBoundary>
+                        <Login />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/auth/register-user"
+                    element={
+                      <ErrorBoundary>
+                        <Register />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/auth/logout"
+                    element={
+                      <ErrorBoundary>
+                        <Logout />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/settings/"
+                    element={
+                      <SettingsProvider>
+                        <Settings />
+                      </SettingsProvider>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/menu/*"
+                    element={
+                      <ErrorBoundary>
+                        <Watch />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/menu/edit"
+                    element={
+                      <ErrorBoundary>
+                        <Edit />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/cookie-policy"
+                    element={
+                      <ErrorBoundary>
+                        <MUIPrinter text={languageState.texts.CookiePolicy} />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/terms-conditions"
+                    element={
+                      <ErrorBoundary>
+                        <MUIPrinter text={languageState.texts.Terms} />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    path="*"
+                    element={
+                      <ErrorBoundary>
+                        <NotFound />
+                      </ErrorBoundary>
+                    }
+                  />
+                </Routes>
+              </Suspense>
             </BrowserRouter>
           </NotificationContext>
         </ThemeProvider>

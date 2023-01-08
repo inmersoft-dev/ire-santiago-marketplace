@@ -10,8 +10,8 @@ import SitoContainer from "sito-container";
 import { useNotification } from "sito-mui-notification";
 
 // @mui/material
+import { useTheme } from "@mui/material/styles";
 import {
-  useTheme,
   useMediaQuery,
   Box,
   Select,

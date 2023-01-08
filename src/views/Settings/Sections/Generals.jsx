@@ -15,11 +15,11 @@ import { IKContext, IKUpload } from "imagekitio-react";
 // sito components
 import SitoImage from "sito-image";
 import SitoContainer from "sito-container";
-import { useNotification } from "sito-mui-notification";
+import { useNotification } from "sito-mui-notification/";
 
 // @mui/material
+import { useTheme } from "@mui/material/styles";
 import {
-  useTheme,
   Box,
   Button,
   TextField,
@@ -34,7 +34,7 @@ import {
 } from "@mui/material";
 
 // @mui/icons-material
-import WhatsApp from "@mui/icons-material/WhatsApp";
+import { WhatsApp } from "@mui/icons-material";
 
 // own components
 import Error from "../../../components/Error/Error";

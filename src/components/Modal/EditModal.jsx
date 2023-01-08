@@ -16,11 +16,12 @@ import { useNotification } from "sito-mui-notification";
 import Loading from "../Loading/Loading";
 
 // @mui icons
-import CloseIcon from "@mui/icons-material/Close";
+import {Close} from "@mui/icons-material";
 
-// @mui components
+// @mui/material
+import { useTheme } from "@mui/material/styles";
 import {
-  useTheme,
+  
   Box,
   Button,
   IconButton,
@@ -202,7 +203,7 @@ const Modal = (props) => {
           alignItems="center"
         >
           <IconButton color="error" disabled={loadingPhoto} onClick={onShowOff}>
-            <CloseIcon />
+            <Close />
           </IconButton>
         </SitoContainer>
         <SitoContainer

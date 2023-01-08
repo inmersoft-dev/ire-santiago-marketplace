@@ -36,16 +36,17 @@
     "some-javascript-utils": "^0.2.1"
   },
   "scripts": {
-    "start": "env-cmd -f .env react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "env-cmd -f .env react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "firebase-deploy": "firebase deploy",
     "init": "firebase init",
     "login": "firebase login",
-    "logout": "firebase logout"
+    "logout": "firebase logout",
+    "serve": "serve -S build"
   },
   "eslintConfig": {
     "extends": [
@@ -64,5 +65,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.13.6",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.2.1",
+    "serve": "^14.1.2"
   }
 }

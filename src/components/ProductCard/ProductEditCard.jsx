@@ -2,9 +2,9 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 // @mui/material
+import { useTheme } from "@mui/material/styles";
 import {
   useMediaQuery,
-  useTheme,
   Paper,
   Box,
   Typography,
@@ -15,9 +15,7 @@ import {
 import SitoImage from "sito-image";
 
 // @mui/icons-material
-import DeleteIcon from "@mui/icons-material/Delete";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Delete, Visibility, VisibilityOff } from "@mui/icons-material";
 
 // styles
 import {
@@ -71,7 +69,7 @@ const ProductEditCard = (props) => {
           {item.visibility ? <Visibility /> : <VisibilityOff />}
         </IconButton>
         <IconButton color="error" onClick={() => deleteProduct(item.index)}>
-          <DeleteIcon />
+          <Delete />
         </IconButton>
       </Box>
       <Box sx={mainBox} onClick={() => onClick(item)}>

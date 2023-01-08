@@ -6,10 +6,10 @@ import { useLocation } from "react-router-dom";
 import { useInView } from "framer-motion";
 
 // @mui components
+import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Chip,
-  useTheme,
   useMediaQuery,
   Typography,
   IconButton,
@@ -22,13 +22,15 @@ import {
 import { useNotification } from "sito-mui-notification";
 
 // @mui/icons-material
-import CloseIcon from "@mui/icons-material/Close";
-import SearchIcon from "@mui/icons-material/Search";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import {
+  Close,
+  Search,
+  FilterAlt,
+  DarkMode,
+  LightMode,
+  AccessTime,
+  FilterAltOff,
+} from "@mui/icons-material";
 
 // own components
 import Error from "../../components/Error/Error";
@@ -425,11 +427,7 @@ const Home = () => {
                           edge="start"
                           size="small"
                         >
-                          {!showFilters ? (
-                            <FilterAltIcon />
-                          ) : (
-                            <FilterAltOffIcon />
-                          )}
+                          {!showFilters ? <FilterAlt /> : <FilterAltOff />}
                         </IconButton>
                       ) : null}
                     </InputAdornment>
@@ -448,7 +446,7 @@ const Home = () => {
                           onMouseDown={preventDefault}
                           edge="end"
                         >
-                          <CloseIcon fontSize="small" />
+                          <Close fontSize="small" />
                         </IconButton>
                       ) : null}
                     </InputAdornment>
@@ -458,14 +456,10 @@ const Home = () => {
             ) : null}
             <Box display="flex" alignItems="center">
               <IconButton color="inherit" onClick={toggleSearchInput}>
-                <SearchIcon />
+                <Search />
               </IconButton>
               <IconButton color="inherit" onClick={toggleMode}>
-                {modeState.mode === "light" ? (
-                  <DarkModeIcon />
-                ) : (
-                  <LightModeIcon />
-                )}
+                {modeState.mode === "light" ? <DarkMode /> : <LightMode />}
               </IconButton>
             </Box>
           </Box>
@@ -499,11 +493,7 @@ const Home = () => {
                         edge="start"
                         size="small"
                       >
-                        {!showFilters ? (
-                          <FilterAltIcon />
-                        ) : (
-                          <FilterAltOffIcon />
-                        )}
+                        {!showFilters ? <FilterAlt /> : <FilterAltOff />}
                       </IconButton>
                     ) : null}
                   </InputAdornment>
@@ -518,7 +508,7 @@ const Home = () => {
                         onMouseDown={preventDefault}
                         edge="end"
                       >
-                        <CloseIcon fontSize="small" />
+                        <Close fontSize="small" />
                       </IconButton>
                     ) : null}
                   </InputAdornment>
@@ -542,7 +532,7 @@ const Home = () => {
                   key={i}
                   label={item}
                   onClick={() => setToSearch(item)}
-                  icon={<AccessTimeIcon fontSize="small" />}
+                  icon={<AccessTime fontSize="small" />}
                 />
               ))}
             </Box>

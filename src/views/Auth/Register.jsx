@@ -11,9 +11,9 @@ import { useNotification } from "sito-mui-notification";
 import AppBar from "../../components/AppBar/AppBar";
 import Loading from "../../components/Loading/Loading";
 
-// @mui
+// @mui/material
+import { useTheme } from "@mui/material/styles";
 import {
-  useTheme,
   FormControl,
   Button,
   IconButton,
@@ -25,9 +25,8 @@ import {
   Paper,
 } from "@mui/material";
 
-// @mui icons
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+// @mui/icons-material
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";

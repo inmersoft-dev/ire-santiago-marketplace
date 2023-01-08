@@ -1,17 +1,11 @@
 import PropTypes from "prop-types";
 
 // @mui/material
-import {
-  useMediaQuery,
-  useTheme,
-  Paper,
-  Box,
-  Typography,
-  Button,
-} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery, Paper, Box, Typography, Button } from "@mui/material";
 
 // @mui/icons-material
-import AddIcon from "@mui/icons-material/Add";
+import { Add } from "@mui/icons-material";
 
 // sito components
 import SitoImage from "sito-image";
@@ -91,7 +85,7 @@ const ProductCard = (props) => {
           bottom: "10px",
         }}
       >
-        <AddIcon />
+        <Add />
       </Button>
     </Paper>
   );

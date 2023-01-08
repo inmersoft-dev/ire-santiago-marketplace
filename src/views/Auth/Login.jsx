@@ -14,8 +14,8 @@ import AppBar from "../../components/AppBar/AppBar";
 import Loading from "../../components/Loading/Loading";
 
 // @mui components
+import { useTheme } from "@mui/material/styles";
 import {
-  useTheme,
   FormControlLabel,
   FormControl,
   Button,
@@ -30,8 +30,7 @@ import {
 } from "@mui/material";
 
 // @mui/icons-material
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";

@@ -5,19 +5,18 @@ import useOnclickOutside from "react-cool-onclickoutside";
 import PropTypes from "prop-types";
 
 // sito components
-import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
+import SitoContainer from "sito-container";
 
 // @mui/icons-material
-import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/AddCircle";
+import { Close, Add } from "@mui/icons-material";
 
 // image
 import noProduct from "../../assets/images/no-product.webp";
 
 // @mui/material
+import { useTheme } from "@mui/material/styles";
 import {
-  useTheme,
   Box,
   Typography,
   IconButton,
@@ -109,7 +108,7 @@ const Modal = (props) => {
           alignItems="center"
         >
           <IconButton color="error" onClick={onShowOff}>
-            <CloseIcon />
+            <Close />
           </IconButton>
         </SitoContainer>
         <SitoContainer
@@ -206,7 +205,7 @@ const Modal = (props) => {
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        <AddIcon />
+                        <Add />
                       </IconButton>
                     </InputAdornment>
                   }

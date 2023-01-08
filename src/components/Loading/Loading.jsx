@@ -3,8 +3,9 @@ import { useEffect } from "react";
 // prop-types
 import PropTypes from "prop-types";
 
-// @mui components
-import { Box, CircularProgress, useTheme } from "@mui/material";
+// @mui/material
+import { useTheme } from "@mui/material/styles";
+import { Box, CircularProgress } from "@mui/material";
 
 const Loading = (props) => {
   const theme = useTheme();
