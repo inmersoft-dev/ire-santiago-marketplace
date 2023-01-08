@@ -3,6 +3,8 @@ const webpack = require("webpack");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
+require("dotenv").config({ path: "./.env" });
+
 module.exports = {
   entry: "./src/index.js",
   output: {

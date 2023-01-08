@@ -26,6 +26,8 @@ const {
   REACT_APP_MAPBOX_API,
 } = process.env;
 
+console.log(process.env);
+
 const config = {
   url: REACT_APP_URL,
   imagekitUrl: REACT_APP_IMAGEKIT_URL,

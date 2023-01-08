@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // some-javascript-utils
 import { createCookie, getCookie } from "some-javascript-utils/browser";

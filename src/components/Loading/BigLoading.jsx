@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 /* eslint-disable react/jsx-no-undef */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // prop-types
 import PropTypes from "prop-types";
 
