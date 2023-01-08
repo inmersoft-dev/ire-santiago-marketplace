@@ -135,7 +135,7 @@ const MainContent = (props) => {
             >
               <MUILink href={item.url} rel="noopener" target="_blank">
                 <IconButton color="primary">
-                  {socialMediaIcons[item.icon]}
+                  {socialMediaIcons(item.icon, {})}
                 </IconButton>
               </MUILink>
             </Tooltip>
