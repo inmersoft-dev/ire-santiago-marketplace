@@ -37,7 +37,7 @@ const InViewComponent = (props) => {
 
 InViewComponent.defaultProps = {
   id: "",
-  children: <></>,
+  children: <div></div>,
   delay: "0.3s",
   className: "",
   flexOrder: 0,

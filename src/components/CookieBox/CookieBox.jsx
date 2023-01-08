@@ -13,7 +13,7 @@ import { Paper, Box, Typography, Button, Link } from "@mui/material";
 import CookieIcon from "@mui/icons-material/Cookie";
 
 // framer-motion
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
@@ -71,7 +71,7 @@ const CookieBox = (props) => {
             ...sx,
           }}
         >
-          <motion.div
+          <m.div
             initial="hidden"
             variants={container}
             whileInView="visible"
@@ -105,7 +105,7 @@ const CookieBox = (props) => {
                 {languageState.texts.CookieBox.Decline}
               </Button>
             </Box>
-          </motion.div>
+          </m.div>
         </Paper>
       ) : null}
     </Box>

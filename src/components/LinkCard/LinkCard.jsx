@@ -12,8 +12,8 @@ import { useMediaQuery, Paper, Box, Typography } from "@mui/material";
 // sito components
 import SitoImage from "sito-image";
 
-// image
-import noProduct from "../../assets/images/no-product.webp";
+// imag
+import noProduct from "../../assets/images/no-product.jpg";
 
 // styles
 import {

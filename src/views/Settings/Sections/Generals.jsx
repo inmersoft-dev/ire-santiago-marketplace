@@ -59,7 +59,7 @@ import { removeImage } from "../../../services/photo";
 import { saveProfile } from "../../../services/profile";
 
 // images
-import noProduct from "../../../assets/images/no-product.webp";
+import noProduct from "../../../assets/images/no-product.jpg";
 
 import config from "../../../config";
 import { placeTypeList } from "../../../services/placeTypes/get";

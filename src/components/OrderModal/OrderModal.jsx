@@ -52,7 +52,7 @@ import { saveOrder } from "../../services/menu";
 import { sendOrderCookie } from "../../services/analytics";
 
 // images
-import noProduct from "../../assets/images/no-product.webp";
+import noProduct from "../../assets/images/no-product.jpg";
 
 const OrderModal = (props) => {
   const theme = useTheme();

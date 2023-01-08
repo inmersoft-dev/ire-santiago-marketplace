@@ -37,7 +37,7 @@ import { sendHowToGoCookie } from "../../../services/analytics";
 import { parseI } from "../../../utils/parser";
 
 // images
-import noProduct from "../../../assets/images/no-product.webp";
+import noProduct from "../../../assets/images/no-product.jpg";
 
 // styles
 import {

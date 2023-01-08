@@ -43,7 +43,7 @@ import MapIcon from "@mui/icons-material/Map";
 import { useLanguage } from "../../context/LanguageProvider";
 
 // images
-import pointImage from "../../assets/images/point.webp";
+import pointImage from "../../assets/images/point.png";
 import config from "../../config";
 
 const Map = (props) => {

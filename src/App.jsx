@@ -10,8 +10,10 @@ import SitoContainer from "sito-container";
 import ErrorBoundary from "sito-mui-error-component";
 import NotificationContext from "sito-mui-notification";
 
-// @mui
+// framer-motion
+import { LazyMotion, domAnimation } from "framer-motion";
 
+// @mui
 import { useMediaQuery, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -96,126 +98,118 @@ const App = () => {
   }, []);
 
   return (
-    <Suspense
-      fallback={
-        <>
-          <BigLoading visible />
-        </>
-      }
-    >
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <SitoContainer
-          sx={{ minHeight: "100vh" }}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
-            <CssBaseline />
-            <NotificationContext>
-              <BrowserRouter basename={process.env.PUBLIC_URL}>
-                <Suspense
-                  fallback={
-                    <>
-                      <BigLoading visible />
-                    </>
-                  }
-                >
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={
-                        <ErrorBoundary>
-                          <Home />
-                        </ErrorBoundary>
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/auth/"
-                      element={
-                        <ErrorBoundary>
-                          <Login />
-                        </ErrorBoundary>
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/auth/register-user"
-                      element={
-                        <ErrorBoundary>
-                          <Register />
-                        </ErrorBoundary>
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/auth/logout"
-                      element={
-                        <ErrorBoundary>
-                          <Logout />
-                        </ErrorBoundary>
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/settings/"
-                      element={
-                        <SettingsProvider>
-                          <Settings />
-                        </SettingsProvider>
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/menu/*"
-                      element={
-                        <ErrorBoundary>
-                          <Watch />
-                        </ErrorBoundary>
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/menu/edit"
-                      element={
-                        <ErrorBoundary>
-                          <Edit />
-                        </ErrorBoundary>
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/cookie-policy"
-                      element={
-                        <ErrorBoundary>
-                          <MUIPrinter text={languageState.texts.CookiePolicy} />
-                        </ErrorBoundary>
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/terms-conditions"
-                      element={
-                        <ErrorBoundary>
-                          <MUIPrinter text={languageState.texts.Terms} />
-                        </ErrorBoundary>
-                      }
-                    />
-                    <Route
-                      path="*"
-                      element={
-                        <ErrorBoundary>
-                          <NotFound />
-                        </ErrorBoundary>
-                      }
-                    />
-                  </Routes>
-                </Suspense>
-              </BrowserRouter>
-            </NotificationContext>
-          </ThemeProvider>
-        </SitoContainer>
-      </LocalizationProvider>
+    <Suspense fallback={<BigLoading visible />}>
+      <LazyMotion features={domAnimation}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <SitoContainer
+            sx={{ minHeight: "100vh" }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
+              <CssBaseline />
+              <NotificationContext>
+                <BrowserRouter basename={process.env.PUBLIC_URL}>
+                  <Suspense fallback={<BigLoading visible />}>
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={
+                          <ErrorBoundary>
+                            <Home />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        exact
+                        path="/auth/"
+                        element={
+                          <ErrorBoundary>
+                            <Login />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        exact
+                        path="/auth/register-user"
+                        element={
+                          <ErrorBoundary>
+                            <Register />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        exact
+                        path="/auth/logout"
+                        element={
+                          <ErrorBoundary>
+                            <Logout />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        exact
+                        path="/settings/"
+                        element={
+                          <SettingsProvider>
+                            <Settings />
+                          </SettingsProvider>
+                        }
+                      />
+                      <Route
+                        exact
+                        path="/menu/*"
+                        element={
+                          <ErrorBoundary>
+                            <Watch />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        exact
+                        path="/menu/edit"
+                        element={
+                          <ErrorBoundary>
+                            <Edit />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        exact
+                        path="/cookie-policy"
+                        element={
+                          <ErrorBoundary>
+                            <MUIPrinter
+                              text={languageState.texts.CookiePolicy}
+                            />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        exact
+                        path="/terms-conditions"
+                        element={
+                          <ErrorBoundary>
+                            <MUIPrinter text={languageState.texts.Terms} />
+                          </ErrorBoundary>
+                        }
+                      />
+                      <Route
+                        path="*"
+                        element={
+                          <ErrorBoundary>
+                            <NotFound />
+                          </ErrorBoundary>
+                        }
+                      />
+                    </Routes>
+                  </Suspense>
+                </BrowserRouter>
+              </NotificationContext>
+            </ThemeProvider>
+          </SitoContainer>
+        </LocalizationProvider>
+      </LazyMotion>
     </Suspense>
   );
 };

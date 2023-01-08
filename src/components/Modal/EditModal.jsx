@@ -30,7 +30,7 @@ import {
 } from "@mui/material";
 
 // image
-import noProduct from "../../assets/images/no-product.webp";
+import noProduct from "../../assets/images/no-product.jpg";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";

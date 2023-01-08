@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { css } from "@emotion/css";
 
 // framer-motion
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 // @mui/material
 import { Box, Button } from "@mui/material";
@@ -75,7 +75,7 @@ const FabButtons = (props) => {
       }}
     >
       {active ? (
-        <motion.div
+        <m.div
           onClick={() => setActive(false)}
           variants={container}
           initial="hidden"
@@ -88,34 +88,34 @@ const FabButtons = (props) => {
           })}
         >
           <InViewComponent delay={isAdmin() ? "0.7s" : "0.5s"}>
-            <motion.div className={active ? "appear" : "hidden"}>
+            <m.div className={active ? "appear" : "hidden"}>
               <ToTop show={active} />
-            </motion.div>
+            </m.div>
           </InViewComponent>
           {userLogged() ? (
             <InViewComponent delay={!isAdmin() ? "0.3s" : "0.5s"}>
-              <motion.div className={active ? "appear" : "hidden"}>
+              <m.div className={active ? "appear" : "hidden"}>
                 <ToLogout />
-              </motion.div>
+              </m.div>
             </InViewComponent>
           ) : null}
           {isAdminState ? (
             <InViewComponent delay="0.3s">
-              <motion.div className={active ? "appear" : "hidden"}>
+              <m.div className={active ? "appear" : "hidden"}>
                 <RegisterNewUser />
-              </motion.div>
+              </m.div>
             </InViewComponent>
           ) : null}
           {location !== "settings" ? (
             <InViewComponent delay="0.1s">
-              <motion.div className={active ? "appear" : "hidden"}>
+              <m.div className={active ? "appear" : "hidden"}>
                 <ToLogin />
-              </motion.div>
+              </m.div>
             </InViewComponent>
           ) : null}
-        </motion.div>
+        </m.div>
       ) : null}
-      <motion.div variants={ulItem} viewport={{ once: true }}>
+      <m.div variants={ulItem} viewport={{ once: true }}>
         <Button
           variant="contained"
           onClick={() => setActive(!active)}
@@ -127,7 +127,7 @@ const FabButtons = (props) => {
         >
           <MoreHorizIcon />
         </Button>
-      </motion.div>
+      </m.div>
     </Box>
   );
 };

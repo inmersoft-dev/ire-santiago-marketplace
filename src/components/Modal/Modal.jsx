@@ -12,7 +12,7 @@ import SitoContainer from "sito-container";
 import { Close, Add } from "@mui/icons-material";
 
 // image
-import noProduct from "../../assets/images/no-product.webp";
+import noProduct from "../../assets/images/no-product.jpg";
 
 // @mui/material
 import { useTheme } from "@mui/material/styles";

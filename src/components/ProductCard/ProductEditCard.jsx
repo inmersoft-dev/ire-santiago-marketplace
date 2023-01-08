@@ -28,7 +28,7 @@ import {
 } from "../../assets/styles/styles";
 
 // images
-import noProduct from "../../assets/images/no-product.webp";
+import noProduct from "../../assets/images/no-product.jpg";
 
 const ProductEditCard = (props) => {
   const theme = useTheme();
