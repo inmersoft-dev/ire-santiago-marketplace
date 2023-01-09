@@ -5,6 +5,8 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 require("dotenv").config({ path: "./.env" });
 
+console.log(process.env);
+
 module.exports = {
   entry: "./src/index.js",
   output: {
@@ -94,7 +96,6 @@ module.exports = {
     }),
     new Dotenv({
       path: "./.env", // Path to .env file (this is the default)
-      safe: true, // load .env.example (defaults to "false" which does not use dotenv-safe)
     }),
     new webpack.EnvironmentPlugin([
       "REACT_APP_URL",

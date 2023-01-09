@@ -41,6 +41,7 @@ import { validateBasicKey } from "./services/auth";
 import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 
 import config from "./config";
+import { SearchProvider } from "./context/SearchProvider";
 
 // views
 const Home = lazy(() => import("./views/Home/Home"));
@@ -116,7 +117,9 @@ const App = () => {
                         path="/"
                         element={
                           <ErrorBoundary>
-                            <Home />
+                            <SearchProvider>
+                              <Home />
+                            </SearchProvider>
                           </ErrorBoundary>
                         }
                       />
@@ -161,7 +164,9 @@ const App = () => {
                         path="/menu/*"
                         element={
                           <ErrorBoundary>
-                            <Watch />
+                            <SearchProvider>
+                              <Watch />
+                            </SearchProvider>
                           </ErrorBoundary>
                         }
                       />
@@ -170,7 +175,9 @@ const App = () => {
                         path="/menu/edit"
                         element={
                           <ErrorBoundary>
-                            <Edit />
+                            <SearchProvider>
+                              <Edit />
+                            </SearchProvider>
                           </ErrorBoundary>
                         }
                       />
@@ -179,9 +186,11 @@ const App = () => {
                         path="/cookie-policy"
                         element={
                           <ErrorBoundary>
-                            <MUIPrinter
-                              text={languageState.texts.CookiePolicy}
-                            />
+                            <SearchProvider>
+                              <MUIPrinter
+                                text={languageState.texts.CookiePolicy}
+                              />
+                            </SearchProvider>
                           </ErrorBoundary>
                         }
                       />
@@ -190,7 +199,9 @@ const App = () => {
                         path="/terms-conditions"
                         element={
                           <ErrorBoundary>
-                            <MUIPrinter text={languageState.texts.Terms} />
+                            <SearchProvider>
+                              <MUIPrinter text={languageState.texts.Terms} />
+                            </SearchProvider>
                           </ErrorBoundary>
                         }
                       />
